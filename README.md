@@ -4,7 +4,7 @@ Personal portfolio site for Ching-Wei (William) Kang.
 
 Live source captured from:
 
-- https://william-kang-site.vercel.app/
+- https://williamkang.com/
 
 ## Run Locally
 
