@@ -4,7 +4,7 @@ Personal portfolio site for William Kang, also known as Ching-Wei Kang.
 
 Official site: [William Kang (Ching-Wei Kang) portfolio](https://williamkang.com/)
 Focused identity page: [About William Kang / Ching-Wei Kang](https://williamkang.com/about-william-kang.html)
-Resume page: [William Kang (Ching-Wei Kang) resume](https://williamkang.com/resume.html)
+Resume page: [William Kang (Ching-Wei Kang) resume](https://williamkang.com/william-kang-resume.html)
 
 Live source captured from:
 
