@@ -483,6 +483,25 @@ nav a:focus-visible, .btn:focus-visible {
 }
 
 main { width: min(1080px, 92vw); margin: 3rem auto 4rem; display: grid; gap: 1.6rem; padding-inline: 0.24rem; position: relative; z-index: 2; }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  color: color-mix(in srgb, var(--muted) 82%, white 18%);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+.breadcrumb a {
+  color: color-mix(in srgb, var(--accent) 72%, white 28%);
+  text-decoration: none;
+  font-weight: 700;
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 main > section { isolation: isolate; border-radius: 14px; overflow: hidden; scroll-margin-top: 92px; position: relative; }
 main > section:first-child { margin-top: 0.25rem; padding-top: 0.06rem; }
 main > section:last-child { margin-bottom: 0.15rem; padding-bottom: 0.1rem; border-bottom: 0; }
