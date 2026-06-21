@@ -1,6 +1,9 @@
-# Ching-Wei Kang Portfolio
+# William Kang (Ching-Wei Kang) Portfolio
 
-Personal portfolio site for Ching-Wei (William) Kang.
+Personal portfolio site for William Kang, also known as Ching-Wei Kang.
+
+Official site: [William Kang (Ching-Wei Kang) portfolio](https://williamkang.com/)
+Focused identity page: [About William Kang / Ching-Wei Kang](https://williamkang.com/about-william-kang.html)
 
 Live source captured from:
 

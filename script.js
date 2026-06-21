@@ -198,9 +198,9 @@
   const translations = {
     en: {
       heroEyebrow: 'Portfolio',
-      heroName: 'Ching-Wei Kang',
+      heroName: 'William Kang (Ching-Wei Kang)',
       heroRole: 'Software Engineer',
-      heroLead: 'UW-Madison CS + Data Science student building AI products, backend systems, and developer tooling. I turn prototypes into product-grade demos across full-stack apps, automation pipelines, and computer vision workflows.',
+      heroLead: 'UW-Madison CS + Data Science student building AI products, backend systems, and developer tooling. I publish work as William Kang and Ching-Wei Kang across GitHub, LinkedIn, Devpost, and open-source contributions.',
       heroSignal1: 'Now Shipping: Badminton AI Tracking',
       heroSignal2: 'Focus: AI Engineering + Systems',
       heroSignal3: 'Open to 2026 SWE/AI Internships',
@@ -260,7 +260,7 @@
     },
     zh: {
       heroEyebrow: '个人作品集',
-      heroName: '康景威',
+      heroName: 'William Kang / 康景威',
       heroRole: '软件工程师',
       heroLead: '我就读于威斯康星大学麦迪逊分校，主修计算机科学与数据科学，主要方向是 AI 产品、后端系统与开发者工具。我擅长把原型快速推进到可展示、可使用的工程化成果。',
       heroSignal1: '当前重点：羽毛球 AI 追踪系统',
