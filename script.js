@@ -197,6 +197,18 @@
 
   const translations = {
     en: {
+      navAbout: 'About',
+      navExperience: 'Experience',
+      navWork: 'Work',
+      navProjects: 'Projects',
+      navProjectProfile: 'Project Profile',
+      navCertificates: 'Certificates',
+      navResume: 'Resume',
+      navContact: 'Contact',
+      navChingWei: 'Ching-Wei Kang',
+      topGithub: 'GitHub',
+      topLinkedIn: 'LinkedIn',
+      topDevpost: 'Devpost',
       heroEyebrow: 'Portfolio',
       heroName: 'William Kang (Ching-Wei Kang)',
       heroRole: 'Software Engineer',
@@ -286,6 +298,18 @@
       meetingBtn: 'Schedule Meeting'
     },
     zh: {
+      navAbout: '关于',
+      navExperience: '技术方向',
+      navWork: '工作经历',
+      navProjects: '项目',
+      navProjectProfile: '项目档案',
+      navCertificates: '证书',
+      navResume: '简历',
+      navContact: '联系',
+      navChingWei: '康景为主页',
+      topGithub: '代码主页',
+      topLinkedIn: '领英主页',
+      topDevpost: '项目作品',
       heroEyebrow: '个人作品集',
       heroName: 'William Kang / 康景威',
       heroRole: '软件工程师',
