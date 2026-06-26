@@ -236,6 +236,30 @@
       exp2Desc: 'Built Python data ingestion pipelines (BeautifulSoup/Requests/Pandas) and processed 50,000+ records.',
       exp3Title: 'Open-Source Tooling',
       exp3Desc: 'Shipping practical AI and developer tools while contributing reviewed PRs across GitHub Docs, Docker CLI, NVIDIA, Microsoft, Stellar tooling, and data infrastructure projects.',
+      openSourceTitle: 'Open Source PRs',
+      openSourceStatTotal: '48 total merged PRs',
+      openSourceStatExternal: '38 external merged PRs',
+      openSourceStatEcosystems: '5 recognizable OSS ecosystems',
+      openSourceStatRepos: '85 public repos',
+      openSourceStatReview: 'Real maintainer review + CI',
+      ossMicrosoft: 'Microsoft APM - CLI docs',
+      ossDocker: 'Docker CLI - developer tooling',
+      ossFacebook: 'Facebook DotSlash - release digest verification',
+      ossNvidia: 'NVIDIA NemoClaw - agent docs',
+      ossGithubDocs: 'GitHub Docs - documentation workflow',
+      ossFreshData: 'FreshData - missing-value parsing',
+      ossStellarWallet: 'Stellar Wallet - signing tutorial',
+      ossOpenOperator: 'OpenOperator - planner parsing',
+      ossChainScope: 'Chain Scope #61',
+      ossVouch: 'Vouch #131',
+      ossRepomix: 'Repomix #1649',
+      ossGoAuth: 'Go Auth #17',
+      ossWeftmap: 'Weftmap #77',
+      ossVrpIr: 'VRP IR #45',
+      ossDexpace: 'Dexpace SDK #72',
+      ossAlumnium: 'Alumnium #395',
+      openSourceMore: 'Show More PRs',
+      openSourceLess: 'Show Fewer PRs',
       workTitle: 'Work Experience',
       workNotePrefix: '5 roles across data, research, and operations (Jun 2024 - Aug 2025). Source:',
       workNoteLink: 'LinkedIn',
@@ -301,6 +325,30 @@
       exp2Desc: '使用 BeautifulSoup、Requests 与 Pandas 构建 Python 数据采集流程，累计处理超过 50,000 条记录。',
       exp3Title: '开源工具与工程产品化',
       exp3Desc: '持续打造实用型 AI 与开发者工具，并在 GitHub Docs、Docker CLI、NVIDIA、Microsoft、Stellar 工具和数据基础设施项目中提交通过 review 的 PR。',
+      openSourceTitle: '开源 PR',
+      openSourceStatTotal: '48 个已合并 PR',
+      openSourceStatExternal: '38 个外部仓库已合并 PR',
+      openSourceStatEcosystems: '5 个高识别度开源生态',
+      openSourceStatRepos: '85 个公开仓库',
+      openSourceStatReview: '真实维护者 Review + CI 验证',
+      ossMicrosoft: 'Microsoft APM - CLI 文档',
+      ossDocker: 'Docker CLI - 开发者工具',
+      ossFacebook: 'Facebook DotSlash - 发布摘要校验',
+      ossNvidia: 'NVIDIA NemoClaw - Agent 文档',
+      ossGithubDocs: 'GitHub Docs - 文档工作流',
+      ossFreshData: 'FreshData - 缺失值解析',
+      ossStellarWallet: 'Stellar Wallet - 签名教程',
+      ossOpenOperator: 'OpenOperator - 规划器解析',
+      ossChainScope: 'Chain Scope #61',
+      ossVouch: 'Vouch #131',
+      ossRepomix: 'Repomix #1649',
+      ossGoAuth: 'Go Auth #17',
+      ossWeftmap: 'Weftmap #77',
+      ossVrpIr: 'VRP IR #45',
+      ossDexpace: 'Dexpace SDK #72',
+      ossAlumnium: 'Alumnium #395',
+      openSourceMore: '展开更多 PR',
+      openSourceLess: '收起 PR',
       workTitle: '工作经历',
       workNotePrefix: '共 5 段数据、研究与运营相关经历（2024 年 6 月 - 2025 年 8 月）。来源：',
       workNoteLink: 'LinkedIn',
@@ -345,6 +393,7 @@
     toggle.setAttribute('aria-pressed', isZh ? 'true' : 'false');
     toggle.setAttribute('aria-label', isZh ? 'Switch to English' : 'Switch to Chinese');
     toggle.textContent = isZh ? 'EN' : '中文';
+    window.dispatchEvent(new CustomEvent('portfolio:language-change', { detail: { lang } }));
   }
 
   applyLanguage(initialLang);
@@ -579,12 +628,27 @@
   const extra = document.querySelector('[data-open-source-extra]');
   if (!button || !extra) return;
 
+  function labels() {
+    return document.documentElement.lang === 'zh-CN'
+      ? { more: '展开更多 PR', less: '收起 PR' }
+      : { more: 'Show More PRs', less: 'Show Fewer PRs' };
+  }
+
+  function updateButton() {
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    const currentLabels = labels();
+    button.textContent = isExpanded ? currentLabels.less : currentLabels.more;
+  }
+
   button.addEventListener('click', () => {
     const isExpanded = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
     extra.hidden = isExpanded;
-    button.textContent = isExpanded ? 'Show More PRs' : 'Show Fewer PRs';
+    updateButton();
   });
+
+  window.addEventListener('portfolio:language-change', updateButton);
+  updateButton();
 })();
 
 (function setupProjectShowMore() {
