@@ -1643,35 +1643,45 @@ body[data-theme="light"] .open-source-chip.big-company:focus-visible {
 .certificate-grid {
   margin-top: 1rem;
   display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(3, 1fr);
+  gap: 0.72rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .certificate-card {
   border: 1px solid var(--line);
-  border-radius: 1rem;
-  padding: 1rem;
+  border-radius: 0.85rem;
+  padding: 0.78rem;
   background:
     radial-gradient(130% 160% at 110% 110%, rgba(79, 224, 178, 0.1), transparent 58%),
     radial-gradient(95% 140% at -10% -8%, rgba(142, 167, 255, 0.14), transparent 54%),
     rgba(255,255,255,0.04);
-  min-height: 100%;
+  min-height: 190px;
   display: flex;
   flex-direction: column;
 }
 .certificate-card h3 {
-  margin: 0.2rem 0 0;
-  font-size: 1.02rem;
+  margin: 0.16rem 0 0;
+  font-size: 0.94rem;
+  line-height: 1.28;
 }
 .certificate-card p {
-  margin-top: 0.55rem;
-  line-height: 1.6;
+  margin-top: 0.42rem;
+  line-height: 1.46;
+  font-size: 0.88rem;
 }
 .certificate-meta {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   color: color-mix(in srgb, var(--muted) 75%, white 25%);
+}
+.certificate-card .project-links {
+  padding-top: 0.42rem;
+}
+.certificate-card .project-links a {
+  min-height: 31px;
+  padding: 0.32rem 0.62rem;
+  font-size: 0.78rem;
 }
 
 .ability-grid {
@@ -2005,11 +2015,13 @@ section[data-scroll-reveal].is-visible {
     padding: 0.44rem 0.62rem;
     font-size: 0.8rem;
   }
+
+  .certificate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 940px) {
   .grid-2 { grid-template-columns: 1fr; }
-  .focus-grid, .ability-grid, .certificate-grid { grid-template-columns: 1fr; }
+  .focus-grid, .ability-grid { grid-template-columns: 1fr; }
   .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.78rem; }
   .project-flip-card { min-height: 292px; }
   .recruiter-snapshot li { flex-direction: column; }
@@ -2057,6 +2069,8 @@ section[data-scroll-reveal].is-visible {
   }
   .project-grid { grid-template-columns: 1fr; }
   .project-flip-card { min-height: 312px; }
+  .certificate-grid { grid-template-columns: 1fr; }
+  .certificate-card { min-height: 0; }
   #work,
   #projects {
     padding-top: 0.95rem;

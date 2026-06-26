@@ -668,7 +668,7 @@
   if (!grid || !btn) return;
 
   const cards = Array.from(grid.querySelectorAll('[data-certificate-card]'));
-  const pageSize = 3;
+  const pageSize = 6;
   const total = cards.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   let currentPage = 0;
