@@ -574,6 +574,19 @@
   });
 })();
 
+(function setupOpenSourceMore() {
+  const button = document.querySelector('[data-open-source-more]');
+  const extra = document.querySelector('[data-open-source-extra]');
+  if (!button || !extra) return;
+
+  button.addEventListener('click', () => {
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+    extra.hidden = isExpanded;
+    button.textContent = isExpanded ? 'Show More PRs' : 'Show Fewer PRs';
+  });
+})();
+
 (function setupProjectShowMore() {
   const grid = document.querySelector('[data-project-grid]');
   const btn = document.querySelector('[data-project-more]');
