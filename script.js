@@ -468,7 +468,7 @@
       work6Desc: '开展北美亚洲美食市场研究，结合 Python 与 Excel 输出数据驱动洞察。',
       openSourceTitle: '开源 PR',
       openSourceNote: '已核验的 merged PR，覆盖 GitHub、Docker、Microsoft、NVIDIA、Meta 工具链与开发者基础设施等成熟开源项目。每个链接都指向确定合并的 pull request。',
-      openSourceMerged: '已核验 merged PR',
+      openSourceMerged: '57 个已核验 merged PR',
       openSourceActive: '不放 pending 链接',
       openSourceWorkflow: '真实 maintainer 评审 + CI 流程',
       openSourceMore: '查看更多 PR',
