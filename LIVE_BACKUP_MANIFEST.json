@@ -1,0 +1,297 @@
+{
+  "source": "https://williamkang.com/",
+  "captured_at": "2026-08-03T03:43:51.586338+00:00",
+  "files": [
+    {
+      "url": "https://williamkang.com/about-william-kang.html",
+      "path": "about-william-kang.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 11301,
+      "sha256": "5c313666cea5a4843da9c4ec18c8101b7cf3f73e94a0473a747fca3a16757fc6",
+      "etag": "\"91ea886d612926b2aca0cda6835bc063\"",
+      "last_modified": "Mon, 03 Aug 2026 03:35:43 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/Ching-Wei-Kang-Resume-Chinese.pdf",
+      "path": "assets/Ching-Wei-Kang-Resume-Chinese.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "size": 392897,
+      "sha256": "fa1e07b8943696b5ce51844c78ba4c2b61917dff411bed1161e838d7af861be9",
+      "etag": "\"6aad3c0428ee07e06acde18e149cbb30\"",
+      "last_modified": "Mon, 03 Aug 2026 03:35:44 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/Ching-Wei-Kang-Resume-English.pdf",
+      "path": "assets/Ching-Wei-Kang-Resume-English.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "size": 158497,
+      "sha256": "abcc825399be1c77ddaac75568aa0f54bc459365b64276b3903b4bf19a4a5a32",
+      "etag": "\"b836ed1b4143c5c3680046749ddb5950\"",
+      "last_modified": "Thu, 30 Jul 2026 20:38:51 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/Ching-Wei-Kang-Resume.pdf",
+      "path": "assets/Ching-Wei-Kang-Resume.pdf",
+      "status": 200,
+      "content_type": "application/pdf",
+      "size": 181745,
+      "sha256": "cdff721894a877fcd991ec62b38821e45be3b96ae2c042b6607608426ee481be",
+      "etag": "\"388abf8532290c859aa7920be59ee08c\"",
+      "last_modified": "Thu, 30 Jul 2026 20:21:42 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/William_Kang-9c2f39ca-aa59-4956-8969-b7e0fa9d303a.png",
+      "path": "assets/William_Kang-9c2f39ca-aa59-4956-8969-b7e0fa9d303a.png",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 67939,
+      "sha256": "6d46c26bbe3b246f9238f0b3ce9d673ab2abbcba1f2d9cfded2b4352eda07ba2",
+      "etag": "\"37b9fc1b8ed44f1c0235b438a1f2221c\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm",
+      "path": "assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm",
+      "status": 200,
+      "content_type": "video/webm",
+      "size": 3843578,
+      "sha256": "c849b10c2f3371218fd5e21b83b9cf44af4a702618007caf4bcb80133d108b0b",
+      "etag": "\"ef8e8558017827804756cf72e3a985f4\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1",
+      "path": "assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm",
+      "status": 200,
+      "content_type": "video/webm",
+      "size": 3843578,
+      "sha256": "c849b10c2f3371218fd5e21b83b9cf44af4a702618007caf4bcb80133d108b0b",
+      "etag": "\"ef8e8558017827804756cf72e3a985f4\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/gemini-intro/entry-black-poster.png",
+      "path": "assets/gemini-intro/entry-black-poster.png",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 4351,
+      "sha256": "7cf9212fbceceb6fdfe92c4910d6de279bb61e6b56d0c4ad4ff1364caa22b8f9",
+      "etag": "\"cf5e47369b6af302a7139aeec4dfc9fb\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:09 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/taiwan-dot-personal-bg.svg",
+      "path": "assets/taiwan-dot-personal-bg.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "size": 3259,
+      "sha256": "6e79bb2cbbc6588e1faef90b6afed29aba85f1edceaa33a922c72ac22d79ed92",
+      "etag": "\"63de0ec4f3e74a507db8303d1f6f5b9b\"",
+      "last_modified": "Mon, 03 Aug 2026 03:26:04 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/taiwan-dot-personal-bg.svg?v=taiwan-clipped-dots-1",
+      "path": "assets/taiwan-dot-personal-bg.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "size": 3259,
+      "sha256": "6e79bb2cbbc6588e1faef90b6afed29aba85f1edceaa33a922c72ac22d79ed92",
+      "etag": "\"63de0ec4f3e74a507db8303d1f6f5b9b\"",
+      "last_modified": "Mon, 03 Aug 2026 03:26:04 GMT"
+    },
+    {
+      "url": "https://williamkang.com/assets/wisconsin_logo_transparent_only_W_white-dc13339c-e36a-4f86-85ca-242fa3512993.png",
+      "path": "assets/wisconsin_logo_transparent_only_W_white-dc13339c-e36a-4f86-85ca-242fa3512993.png",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 93625,
+      "sha256": "e84eb8c4d5bad8382bc362cf1e14ed8a6d42a098eea37f7902b0f0a47ced784a",
+      "etag": "\"8dc3caf0af92ca73f4ab8554291e1997\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/ching-wei-kang.html",
+      "path": "ching-wei-kang.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 14795,
+      "sha256": "43739e39f82a9184122e74a2421a2ddd22bbb790278472a1d3b14075c734e680",
+      "etag": "\"e928b5684bee08b99cdf550f64d8c875\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:02 GMT"
+    },
+    {
+      "url": "https://williamkang.com/",
+      "path": "index.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 60612,
+      "sha256": "c6413e473fdfc88ecb01b8e4baef185281ad1e12b063dc5fde38fb6382648f66",
+      "etag": "\"3811658d1753980d95cd1ad5e2331ad9\"",
+      "last_modified": "Sun, 26 Jul 2026 18:48:06 GMT"
+    },
+    {
+      "url": "https://williamkang.com/index.html",
+      "path": "index.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 60612,
+      "sha256": "c6413e473fdfc88ecb01b8e4baef185281ad1e12b063dc5fde38fb6382648f66",
+      "etag": "\"3811658d1753980d95cd1ad5e2331ad9\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:04 GMT"
+    },
+    {
+      "url": "https://williamkang.com/open-source-contributions.html",
+      "path": "open-source-contributions.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 27420,
+      "sha256": "44fc914f5ceff433cd46b47ac420ff72081976af7faa2f12b095fbb9828e0e89",
+      "etag": "\"54fd937d4e2141e8dbd8105217623c94\"",
+      "last_modified": "Mon, 03 Aug 2026 01:46:55 GMT"
+    },
+    {
+      "url": "https://williamkang.com/resume-chinese.html",
+      "path": "resume-chinese.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 1669,
+      "sha256": "5407bf4d9889a760071ee3bb0a0f8132f50a473d698b3869e3c248637605405b",
+      "etag": "\"a14618051e5be3b1ea8bd4075e052f37\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:08 GMT"
+    },
+    {
+      "url": "https://williamkang.com/resume-english.html",
+      "path": "resume-english.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 1707,
+      "sha256": "c52f5d977cfd9c5edc5b60a7da447ded64d281089cd4a8aa8ba189a36b54c4f9",
+      "etag": "\"0bcf7e66f8b99d4002eb11f4593ae710\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/resume.html",
+      "path": "resume.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 710,
+      "sha256": "c354e47d63c9fb67202bccc84a6b33f7bd0e70b8df0f735c1399feecdbfdda31",
+      "etag": "\"a4898070f28b81fd5147f82cbb49659d\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:11 GMT"
+    },
+    {
+      "url": "https://williamkang.com/robots.txt",
+      "path": "robots.txt",
+      "status": 200,
+      "content_type": "text/plain",
+      "size": 399,
+      "sha256": "e71401a725e701c0c265be4aaf1bff6935dadde8e0a941ba9f38689dbc6f6c11",
+      "etag": "\"5193d4b440a463191fc2e7f133c6e56b\"",
+      "last_modified": "Wed, 29 Jul 2026 09:42:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/script.js",
+      "path": "script.js",
+      "status": 200,
+      "content_type": "application/javascript",
+      "size": 70086,
+      "sha256": "f19b4aa5da9ad99092088dfdec912863cefe347c3ea8cbd5a84405394a244a5f",
+      "etag": "\"cedc2a64770e198813fe6e9bf1b6583f\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/script.js?v=profile-map-radius-tight-1",
+      "path": "script.js",
+      "status": 200,
+      "content_type": "application/javascript",
+      "size": 70086,
+      "sha256": "f19b4aa5da9ad99092088dfdec912863cefe347c3ea8cbd5a84405394a244a5f",
+      "etag": "\"cedc2a64770e198813fe6e9bf1b6583f\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/sitemap.xml",
+      "path": "sitemap.xml",
+      "status": 200,
+      "content_type": "application/xml",
+      "size": 670,
+      "sha256": "bad5e2112203b7242107b007eeb4fd1ff6b69b5d2e4283dc2e9e68174f1c0443",
+      "etag": "\"3d4dc55f69a901fbaa6f3bedc165974d\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:16 GMT"
+    },
+    {
+      "url": "https://williamkang.com/styles.css",
+      "path": "styles.css",
+      "status": 200,
+      "content_type": "text/css",
+      "size": 107668,
+      "sha256": "6cbf0700f89ec34d3e49b6351e8ba34323166ebbd1076a34f118b3a415ad145e",
+      "etag": "\"5e68b01acc47f02f6590630e9c18a98c\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/styles.css?v=open-source-index-1",
+      "path": "styles.css",
+      "status": 200,
+      "content_type": "text/css",
+      "size": 107668,
+      "sha256": "6cbf0700f89ec34d3e49b6351e8ba34323166ebbd1076a34f118b3a415ad145e",
+      "etag": "\"5e68b01acc47f02f6590630e9c18a98c\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/styles.css?v=profile-map-radius-tight-1",
+      "path": "styles.css",
+      "status": 200,
+      "content_type": "text/css",
+      "size": 107668,
+      "sha256": "6cbf0700f89ec34d3e49b6351e8ba34323166ebbd1076a34f118b3a415ad145e",
+      "etag": "\"5e68b01acc47f02f6590630e9c18a98c\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/styles.css?v=signal-field-1",
+      "path": "styles.css",
+      "status": 200,
+      "content_type": "text/css",
+      "size": 107668,
+      "sha256": "6cbf0700f89ec34d3e49b6351e8ba34323166ebbd1076a34f118b3a415ad145e",
+      "etag": "\"5e68b01acc47f02f6590630e9c18a98c\"",
+      "last_modified": "Wed, 29 Jul 2026 06:40:10 GMT"
+    },
+    {
+      "url": "https://williamkang.com/william-kang-projects.html",
+      "path": "william-kang-projects.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 454,
+      "sha256": "d58c3bcaf8375695384e9b381adb4adbc5e9c4f089a752f4f5a696b960297bd4",
+      "etag": "\"42c3ed34e0c6a7dd2ba333db44d56289\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:20 GMT"
+    },
+    {
+      "url": "https://williamkang.com/william-kang-resume.html",
+      "path": "william-kang-resume.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 542,
+      "sha256": "5a64339912e777f28ac292647f59660abc80139619c56fdf20ed27cefb126ca7",
+      "etag": "\"9006583f1bc96efa6e4a939adbbaf5bb\"",
+      "last_modified": "Mon, 03 Aug 2026 03:36:22 GMT"
+    },
+    {
+      "url": "https://williamkang.com/william-kang.html",
+      "path": "william-kang.html",
+      "status": 200,
+      "content_type": "text/html",
+      "size": 14550,
+      "sha256": "b23b489134a66aa069f5981059ee05d8722bcc4e420f20a6d399a82c6d2c7190",
+      "etag": "\"a95a17f5118239d347552376548d5e4f\"",
+      "last_modified": "Wed, 29 Jul 2026 21:29:36 GMT"
+    }
+  ],
+  "failures": []
+}
