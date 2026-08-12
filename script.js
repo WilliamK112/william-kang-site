@@ -704,7 +704,7 @@
     const averageYearMilliseconds = 365.2425 * 24 * 60 * 60 * 1000;
     if (Number.isFinite(baseline) && !Number.isNaN(baselineDate.getTime())) {
       const currentExperience = baseline + (elapsedMilliseconds / averageYearMilliseconds);
-      experience.textContent = (Math.floor(currentExperience * 10) / 10).toFixed(1);
+      experience.textContent = `${(Math.floor(currentExperience * 10) / 10).toFixed(1)}+`;
     }
   }
 })();
