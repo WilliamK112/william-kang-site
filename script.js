@@ -1831,16 +1831,19 @@
 }
 .award-card.spatial-card::after {
   display: block;
-  inset: auto -42px -52px auto;
-  width: 130px;
+  inset: auto -18px -26px auto;
+  width: 150px;
   height: 130px;
-  border: 1px solid color-mix(in srgb, var(--accent-2) 24%, transparent);
-  border-radius: 50%;
-  background: none;
-  box-shadow:
-    0 0 0 18px color-mix(in srgb, var(--accent-2) 5%, transparent),
-    0 0 0 36px color-mix(in srgb, var(--accent) 3%, transparent);
-  opacity: 1;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(135deg, transparent 0 58%, color-mix(in srgb, var(--accent) 15%, transparent) 58.5%, transparent 59%),
+    linear-gradient(135deg, transparent 0 71%, color-mix(in srgb, var(--accent-2) 9%, transparent) 71.5%, transparent 72%),
+    radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--accent-2) 13%, transparent), transparent 68%);
+  -webkit-mask-image: linear-gradient(135deg, transparent 4%, #000 46%, #000 100%);
+  mask-image: linear-gradient(135deg, transparent 4%, #000 46%, #000 100%);
+  opacity: 0.82;
+  box-shadow: none;
   z-index: 0;
 }
 .spatial-card.is-spatial-active {
