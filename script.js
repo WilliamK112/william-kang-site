@@ -449,7 +449,6 @@
       originMapDesc: '台湾成长背景，美国工程训练，全球产品视角。',
       educationTitle: '教育背景',
       educationDesc: '在 <span class="keyword-highlight">乔治·华盛顿大学</span>（2023–2024）学习 <span class="keyword-highlight">数据科学</span>，随后于 2025–2027 年转入 <span class="keyword-highlight">威斯康星大学麦迪逊分校</span>，攻读 <span class="keyword-highlight">计算机科学与数据科学双学位</span>。<span class="keyword-highlight">GPA：3.91</span>。<span class="keyword-highlight">预计 2027 年 5 月毕业</span>。',
-      statsProjects: '重点项目',
       statsExperience: '经验年限',
       workTitle: '工作经历',
       work1Title: '全栈工程实习生 · Global AI（Global API Inc.）',
@@ -696,13 +695,7 @@
 })();
 
 (function setupDynamicPortfolioStats() {
-  const projectCount = document.querySelector('[data-dynamic-project-count]');
   const experience = document.querySelector('[data-dynamic-experience]');
-
-  if (projectCount) {
-    const projects = document.querySelectorAll('[data-project-grid] .project-card').length;
-    projectCount.textContent = new Intl.NumberFormat(document.documentElement.lang).format(projects);
-  }
 
   if (experience) {
     const baseline = Number.parseFloat(experience.getAttribute('data-experience-base'));
@@ -1523,7 +1516,7 @@
     : null;
 
   const cards = Array.from(grid.querySelectorAll('[data-certificate-card]'));
-  const pageSize = 3;
+  const pageSize = window.matchMedia('(max-width: 940px)').matches ? 3 : 4;
   const total = cards.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   let currentPage = 0;

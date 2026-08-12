@@ -2404,6 +2404,15 @@ body[data-theme="light"] .keyword-highlight {
   gap: 0.85rem;
   align-content: start;
 }
+.about-summary-card {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+}
+.about-experience-stat {
+  margin-top: auto;
+  padding-top: 1rem;
+}
 .stats { display: grid; gap: 0.8rem; align-content: start; }
 .stats > div {
   border: 1px solid var(--line);
