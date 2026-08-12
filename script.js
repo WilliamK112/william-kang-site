@@ -1856,13 +1856,14 @@
     '.section-3d-subpanel',
     '#about #certificates',
     '.card:not(.education-card)',
+    '.uw-logo-showcase',
     '.stats > div',
     '.certificate-card',
     '.ability-grid article'
   ].join(',')));
   if (!candidates.length) return;
 
-  document.querySelectorAll('.portrait-frame.spatial-card, .uw-logo-showcase.spatial-card')
+  document.querySelectorAll('.portrait-frame.spatial-card')
     .forEach((card) => {
       card.classList.remove('spatial-card', 'is-spatial-active');
       card.style.removeProperty('--tilt-x');
