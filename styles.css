@@ -3959,6 +3959,14 @@ section[data-scroll-reveal].is-visible {
 @media (max-width: 940px) {
   .grid-2 { grid-template-columns: 1fr; }
   .project-grid, .focus-grid, .ability-grid, .certificate-grid { grid-template-columns: 1fr; }
+  .about-summary-card {
+    align-self: auto;
+    display: block;
+  }
+  .about-experience-stat {
+    margin-top: 1rem;
+    padding-top: 0;
+  }
   .recruiter-snapshot li { flex-direction: column; }
   .recruiter-snapshot strong { text-align: left; }
   .stats > div { min-height: auto; }
