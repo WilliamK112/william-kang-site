@@ -768,7 +768,7 @@ nav a:focus-visible, .btn:focus-visible {
   border-radius: 8px;
 }
 
-main { width: min(1080px, 92vw); margin: 3rem auto 4rem; display: grid; gap: 1.6rem; padding-inline: 0.24rem; position: relative; z-index: 2; }
+main { width: min(980px, 80vw); margin: 3rem auto 4rem; display: grid; gap: 1.6rem; padding-inline: 0.24rem; position: relative; z-index: 2; }
 main > section { isolation: isolate; border-radius: 14px; overflow: hidden; scroll-margin-top: 92px; position: relative; }
 main > section:first-child { margin-top: 0.25rem; padding-top: 0.06rem; }
 main > section:last-child { margin-bottom: 0.15rem; padding-bottom: 0.1rem; border-bottom: 0; }
@@ -3641,7 +3641,7 @@ body[data-theme="light"] #about #certificates.spatial-card.is-spatial-active {
 footer {
   position: relative;
   z-index: 2;
-  width: min(1080px, 92vw);
+  width: min(980px, 80vw);
   margin: 1.25rem auto 2rem;
   padding: 0;
   border: 0;
@@ -3883,6 +3883,11 @@ section[data-scroll-reveal].is-visible {
 }
 
 @media (max-width: 1120px) {
+  main,
+  footer {
+    width: min(1080px, 92vw);
+  }
+
   .topbar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
