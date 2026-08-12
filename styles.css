@@ -2490,7 +2490,7 @@ body[data-theme="light"] .keyword-highlight {
 }
 .github-live-stats {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.7rem;
 }
 .github-live-stats > div {
@@ -2563,7 +2563,7 @@ body[data-theme="light"] .github-live-heading > a {
 }
 @media (max-width: 900px) {
   .github-live-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 620px) {

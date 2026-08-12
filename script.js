@@ -478,7 +478,6 @@
       githubLiveEyebrow: 'GITHUB 实时数据',
       githubLiveTitle: '公开工程动态',
       githubProfileLink: '查看 GitHub 主页',
-      githubPublicRepos: '公开仓库',
       githubOriginalRepos: '原创仓库',
       githubMergedPrs: '已合并 PR',
       githubExternalMergedPrs: '外部仓库已合并 PR',
