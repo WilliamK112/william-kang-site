@@ -15,17 +15,31 @@ Live source captured from:
 
 ## Run Locally
 
-Serve the directory with any static web server:
+Node.js 20 or newer is recommended. Start the local server with:
 
 ```sh
-python3 -m http.server 8000
+npm run dev
 ```
 
-Then open http://localhost:8000.
+Then open <http://localhost:8000>. The local server includes the GitHub stats API.
+
+## Live GitHub data
+
+The homepage loads public activity from `/api/github-stats`, a dependency-free
+Vercel Function. The response is cached at the CDN for 15 minutes and can serve
+stale data while GitHub is temporarily unavailable. Static last-known values
+remain in the HTML as a visual and reliability fallback.
+
+Set `GITHUB_TOKEN` in the Vercel project for a higher GitHub API rate limit. The
+token is optional during local development and is never returned to the browser.
+No database is required for current public GitHub stats; persistent storage would
+only be needed for historical trends or site-owned data.
 
 ## Contents
 
 - `index.html` - portfolio markup
 - `styles.css` - responsive visual styles
 - `script.js` - theme, language, card flip, pagination, and contact interactions
+- `api/github-stats.js` - cached server-side GitHub activity endpoint
+- `scripts/dev-server.mjs` - dependency-free local static and API server
 - `assets/` - local resume and image assets

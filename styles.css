@@ -2412,6 +2412,153 @@ body[data-theme="light"] .keyword-highlight {
   background: rgba(255,255,255,0.05);
   min-height: 92px;
 }
+
+.github-live-panel {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: clamp(1rem, 2.4vw, 1.4rem);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(85% 145% at 100% 0%, rgba(79, 224, 178, 0.13), transparent 62%),
+    radial-gradient(75% 130% at 0% 100%, rgba(142, 167, 255, 0.12), transparent 66%),
+    rgba(255, 255, 255, 0.035);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.github-live-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.github-live-heading .eyebrow {
+  margin-bottom: 0.24rem;
+  font-size: 0.72rem;
+}
+.github-live-heading h3 {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.1;
+}
+.github-live-heading p:not(.eyebrow) {
+  max-width: 62ch;
+  margin: 0.38rem 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.github-live-heading > a {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0.48rem 0.78rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--line));
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.github-live-heading > a:hover,
+.github-live-heading > a:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 70%, white 30%);
+  background: rgba(255, 255, 255, 0.1);
+}
+.github-live-stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+.github-live-stats > div {
+  min-width: 0;
+  padding: 0.78rem;
+  border: 1px solid var(--line);
+  border-radius: 0.82rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+.github-live-stats strong,
+.github-live-stats span {
+  display: block;
+}
+.github-live-stats strong {
+  color: var(--accent);
+  font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.github-live-stats span {
+  margin-top: 0.38rem;
+  color: color-mix(in srgb, var(--muted) 74%, white 26%);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+.github-live-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.github-live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #f2c96d;
+  box-shadow: 0 0 0 0 rgba(242, 201, 109, 0.34);
+  animation: githubLivePulse 1.7s ease-out infinite;
+}
+.github-live-panel[data-state="ready"] .github-live-dot {
+  background: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 58%, transparent);
+  animation: none;
+}
+.github-live-panel[data-state="partial"] .github-live-dot,
+.github-live-panel[data-state="fallback"] .github-live-dot {
+  background: #f2c96d;
+  animation: none;
+}
+body[data-theme="light"] .github-live-panel {
+  border-color: rgba(184, 134, 11, 0.24);
+  background:
+    radial-gradient(85% 145% at 100% 0%, rgba(236, 182, 54, 0.12), transparent 62%),
+    radial-gradient(75% 130% at 0% 100%, rgba(168, 118, 16, 0.08), transparent 66%),
+    rgba(255, 255, 255, 0.78);
+}
+body[data-theme="light"] .github-live-stats > div,
+body[data-theme="light"] .github-live-heading > a {
+  background: rgba(255, 255, 255, 0.62);
+}
+@keyframes githubLivePulse {
+  0% { box-shadow: 0 0 0 0 rgba(242, 201, 109, 0.34); }
+  72%, 100% { box-shadow: 0 0 0 0.58rem rgba(242, 201, 109, 0); }
+}
+@media (max-width: 900px) {
+  .github-live-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 620px) {
+  .github-live-heading {
+    display: grid;
+  }
+  .github-live-heading > a {
+    justify-self: start;
+  }
+  .github-live-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 .big { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1.15; letter-spacing: 0.01em; }
 .label {
   margin: 0.1rem 0 0;

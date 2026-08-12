@@ -60,8 +60,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700&family=Prata&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=profile-map-radius-tight-1">
-    <script defer src="script.js?v=profile-map-radius-tight-1"></script>
+    <link rel="stylesheet" href="styles.css?v=github-live-1">
+    <script defer src="script.js?v=github-live-1"></script>
 </head>
 <body>
     <div class="noise" aria-hidden="true"></div>
@@ -252,8 +252,29 @@
 
         <section id="projects">
             <h2 data-i18n="projectsTitle">Projects</h2>
+            <div class="github-live-panel" data-github-live data-state="loading" aria-live="polite">
+                <div class="github-live-heading">
+                    <div>
+                        <p class="eyebrow" data-i18n="githubLiveEyebrow">LIVE FROM GITHUB</p>
+                        <h3 data-i18n="githubLiveTitle">Public engineering activity</h3>
+                        <p data-i18n="githubLiveDescription">Fresh public data, cached for 15 minutes so the page stays fast and reliable.</p>
+                    </div>
+                    <a href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer" data-i18n="githubProfileLink">View GitHub profile</a>
+                </div>
+                <div class="github-live-stats">
+                    <div><strong data-github-stat="publicRepositories">94</strong><span data-i18n="githubPublicRepos">Public repos</span></div>
+                    <div><strong data-github-stat="originalRepositories">26</strong><span data-i18n="githubOriginalRepos">Original repos</span></div>
+                    <div><strong data-github-stat="mergedPullRequests">96</strong><span data-i18n="githubMergedPrs">Merged PRs</span></div>
+                    <div><strong data-github-stat="externalMergedPullRequests">86</strong><span data-i18n="githubExternalMergedPrs">External merged PRs</span></div>
+                    <div><strong data-github-stat="totalStars">8</strong><span data-i18n="githubStars">Stars earned</span></div>
+                </div>
+                <p class="github-live-status">
+                    <span class="github-live-dot" aria-hidden="true"></span>
+                    <span data-github-updated data-i18n="githubLoading">Loading current GitHub data…</span>
+                </p>
+            </div>
             <div class="project-grid" data-project-grid>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip D&D Voice Adventure project card">
+                <article class="project-card project-flip-card" data-github-repo="dungeons-and-dragons-adventure-voice-version" data-flip-card aria-pressed="false" aria-label="Flip D&D Voice Adventure project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/dungeons-and-dragons-adventure-voice-version/main/public/Fantasy_Image_Animation_Request.gif?v=3dbf253-cropfix" alt="Preview GIF for D&D Voice Adventure project">
@@ -265,7 +286,7 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/dungeons-and-dragons-adventure-voice-version" target="_blank" rel="noopener noreferrer">D&amp;D Voice Adventure</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project1Tech">Gemini Live, multimodal voice interaction, dynamic visuals.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project1Impact">Delivered a production-style real-time storytelling demo with turn-based gameplay and live agent responses.</span></p>
-                            <p class="project-date" data-i18n="project1Date">Last updated: 2026-03-16 16:44 UTC</p>
+                            <p class="project-date" data-i18n="project1Date" data-github-pushed-at>Last updated: 2026-03-16 16:44 UTC</p>
                             <div class="project-links">
                                 <a href="https://dungeons-and-dragons-adventure-voic.vercel.app" target="_blank" rel="noopener noreferrer" data-i18n="projectTryOut">Try Out</a>
                                 <a href="https://github.com/WilliamK112/dungeons-and-dragons-adventure-voice-version" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
@@ -273,7 +294,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip TrustRent project card">
+                <article class="project-card project-flip-card" data-github-repo="Madhacks2025---TrustRent" data-flip-card aria-pressed="false" aria-label="Flip TrustRent project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/Madhacks2025---TrustRent/main/public/Trust2-removebg-preview.png" alt="Preview image for TrustRent project">
@@ -286,7 +307,7 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/Madhacks2025---TrustRent" target="_blank" rel="noopener noreferrer">TrustRent</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project2Tech">AI document analysis, workflow automation, renter tooling.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project2Impact">Turned lease review and inspection reporting into a faster, more usable rental workflow.</span></p>
-                            <p class="project-date" data-i18n="project2Date">Last updated: 2026-03-10 08:50 UTC</p>
+                            <p class="project-date" data-i18n="project2Date" data-github-pushed-at>Last updated: 2026-03-10 08:50 UTC</p>
                             <div class="project-links">
                                 <a href="https://madhacks2025-trustrent.vercel.app" target="_blank" rel="noopener noreferrer" data-i18n="projectTryOut">Try Out</a>
                                 <a href="https://github.com/WilliamK112/Madhacks2025---TrustRent" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
@@ -294,7 +315,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip TableUs project card">
+                <article class="project-card project-flip-card" data-github-repo="TableUs" data-flip-card aria-pressed="false" aria-label="Flip TableUs project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/TableUs/main/assets/branding/Logo_Reveal_Animation_Request.gif?v=tableus-logo-gif-1" alt="Preview GIF for TableUs project">
@@ -309,14 +330,14 @@
                             <h3><a href="https://github.com/WilliamK112/TableUs" target="_blank" rel="noopener noreferrer">TableUs</a></h3>
                             <p class="project-award-note"><strong data-i18n="projectAwardLabel">Recognition:</strong><span data-i18n="project3AwardNote">Award-winning group AI dining discovery project.</span></p>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project3Tech">Next.js, React, Python, FastAPI, Google Gemini, Google Maps.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project3Impact">Built an AI restaurant discovery product that turns group preferences, location, and natural-language input into explainable recommendations.</span></p>
-                            <p class="project-date" data-i18n="project3Date">Last updated: 2026-04-11</p>
+                            <p class="project-date" data-i18n="project3Date" data-github-pushed-at>Last updated: 2026-04-11</p>
                             <div class="project-links">
                                 <a href="https://github.com/WilliamK112/TableUs" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip multi-agent-openclaw project card">
+                <article class="project-card project-flip-card" data-github-repo="multi-agent-openclaw" data-flip-card aria-pressed="false" aria-label="Flip multi-agent-openclaw project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/multi-agent-openclaw/main/Demo%20pictures/Workflow%201.png" alt="Preview image for multi-agent-openclaw project">
@@ -328,7 +349,7 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/multi-agent-openclaw" target="_blank" rel="noopener noreferrer">multi-agent-openclaw</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project4Tech">multi-agent orchestration, desktop workflows, research tooling.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project4Impact">Enabled coordinated agent pipelines for practical research and writing tasks beyond single-prompt demos.</span></p>
-                            <p class="project-date" data-i18n="project4Date">Last updated: 2026-03-14 07:55 UTC</p>
+                            <p class="project-date" data-i18n="project4Date" data-github-pushed-at>Last updated: 2026-03-14 07:55 UTC</p>
                             <div class="project-links">
                                 <a href="https://multi-agent-openclaw-amber.vercel.app" target="_blank" rel="noopener noreferrer" data-i18n="projectTryOut">Try Out</a>
                                 <a href="https://github.com/WilliamK112/multi-agent-openclaw" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
@@ -336,7 +357,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="project-featured project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip badminton-matching-learning project card">
+                <article class="project-featured project-card project-flip-card" data-github-repo="badminton-machine-learning" data-flip-card aria-pressed="false" aria-label="Flip badminton-matching-learning project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/badminton-machine-learning/main/demo/gif/badminton_github_long.gif?v=loopfix-1" alt="Preview GIF for badminton-machine-learning project">
@@ -348,14 +369,14 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/badminton-machine-learning" target="_blank" rel="noopener noreferrer">badminton-machine-learning</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project5Tech">Python, computer vision, player tracking, pose overlays, shuttle recovery.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project5Impact">Produced stable 2-player badminton visualizations and demo-ready match analysis outputs with more impressive visual storytelling.</span></p>
-                            <p class="project-date" data-i18n="project5Date">Last updated: 2026-03-27</p>
+                            <p class="project-date" data-i18n="project5Date" data-github-pushed-at>Last updated: 2026-03-27</p>
                             <div class="project-links">
                                 <a href="https://github.com/WilliamK112/badminton-machine-learning" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="project-featured project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip mario-machine-learning project card">
+                <article class="project-featured project-card project-flip-card" data-github-repo="mario-machine-learning" data-flip-card aria-pressed="false" aria-label="Flip mario-machine-learning project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/mario-machine-learning/main/docs/mario_ppo_shortest_flag_run.gif" alt="Preview GIF for mario-machine-learning project showing the faster right-side flag clear run">
@@ -368,7 +389,7 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/mario-machine-learning" target="_blank" rel="noopener noreferrer">mario-machine-learning</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project6Tech">Python, reinforcement learning, DreamerV3, PPO, experiment diagnostics.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project6Impact">Benchmarked two RL approaches on Super Mario Bros 1-1, documented the full engineering journey, and shipped a PPO baseline that can clear the level with the stronger right-side run shown on the card.</span></p>
-                            <p class="project-date" data-i18n="project6Date">Last updated: 2026-04-27 08:33 UTC</p>
+                            <p class="project-date" data-i18n="project6Date" data-github-pushed-at>Last updated: 2026-04-27 08:33 UTC</p>
                             <div class="project-links">
                                 <a href="https://raw.githubusercontent.com/WilliamK112/mario-machine-learning/main/docs/mario_ppo_shortest_flag_run.mp4" target="_blank" rel="noopener noreferrer" data-i18n="project6BestRun">Best Run MP4</a>
                                 <a href="https://github.com/WilliamK112/mario-machine-learning" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
@@ -376,7 +397,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip bci-mvp project card">
+                <article class="project-card project-flip-card" data-github-repo="bci-mvp" data-flip-card aria-pressed="false" aria-label="Flip bci-mvp project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front bci-mvp-front-face">
                             <img class="bci-mvp-front-art" src="https://raw.githubusercontent.com/WilliamK112/bci-mvp/main/assets/readme_banner.svg" alt="Preview image for bci-mvp project">
@@ -389,14 +410,14 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/bci-mvp" target="_blank" rel="noopener noreferrer">bci-mvp</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project7Tech">Python, Streamlit, real-time signal pipelines, interactive visualization.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project7Impact">Built an end-to-end brain-computer-interface MVP to process, inspect, and present neural signals for applied ML prototyping.</span></p>
-                            <p class="project-date" data-i18n="project7Date">Last updated: 2026-04</p>
+                            <p class="project-date" data-i18n="project7Date" data-github-pushed-at>Last updated: 2026-04</p>
                             <div class="project-links">
                                 <a href="https://github.com/WilliamK112/bci-mvp" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip prompttrace project card">
+                <article class="project-card project-flip-card" data-github-repo="prompttrace" data-flip-card aria-pressed="false" aria-label="Flip prompttrace project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front">
                             <img src="https://raw.githubusercontent.com/WilliamK112/prompttrace/main/1.png" alt="Preview image for prompttrace project">
@@ -408,14 +429,14 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/prompttrace" target="_blank" rel="noopener noreferrer">prompttrace</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project8Tech">LLM tracing, latency logging, cost analytics.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project8Impact">Made experiments easier to debug and optimize with visibility into failures, latency, and spend.</span></p>
-                            <p class="project-date" data-i18n="project8Date">Last updated: 2026-03-16 15:33 UTC</p>
+                            <p class="project-date" data-i18n="project8Date" data-github-pushed-at>Last updated: 2026-03-16 15:33 UTC</p>
                             <div class="project-links">
                                 <a href="https://github.com/WilliamK112/prompttrace" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip llm-fit project card">
+                <article class="project-card project-flip-card" data-github-repo="llm-fit" data-flip-card aria-pressed="false" aria-label="Flip llm-fit project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front project-flip-placeholder llmfit-placeholder">
                             <div class="project-flip-overlay">
@@ -427,14 +448,14 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/llm-fit" target="_blank" rel="noopener noreferrer">llm-fit</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project9Tech">local LLM hardware fit estimation, command generation.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project9Impact">Helped users quickly translate device constraints into runnable model choices and commands.</span></p>
-                            <p class="project-date" data-i18n="project9Date">Last updated: 2026-03-18 04:22 UTC</p>
+                            <p class="project-date" data-i18n="project9Date" data-github-pushed-at>Last updated: 2026-03-18 04:22 UTC</p>
                             <div class="project-links">
                                 <a href="https://github.com/WilliamK112/llm-fit" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="project-card project-flip-card" data-flip-card aria-pressed="false" aria-label="Flip ClawWork-personal project card">
+                <article class="project-card project-flip-card" data-github-repo="ClawWork-personal" data-flip-card aria-pressed="false" aria-label="Flip ClawWork-personal project card">
                     <div class="project-flip-inner">
                         <div class="project-flip-face project-flip-front project-flip-placeholder clawwork-placeholder">
                             <div class="project-flip-overlay">
@@ -446,7 +467,7 @@
                         <div class="project-flip-face project-flip-back">
                             <h3><a href="https://github.com/WilliamK112/ClawWork-personal" target="_blank" rel="noopener noreferrer">ClawWork-personal</a></h3>
                             <p><strong class="impact" data-i18n="projectTechLabel">Tech:</strong><span data-i18n="project10Tech">benchmarking, economic tracking, operations dashboarding.</span><strong class="impact" data-i18n="projectImpactLabel">Impact:</strong><span data-i18n="project10Impact">Combined AI coworker workflows and paper-trading operations into one production-oriented interface.</span></p>
-                            <p class="project-date" data-i18n="project10Date">Last updated: 2026-03-19 10:10 UTC</p>
+                            <p class="project-date" data-i18n="project10Date" data-github-pushed-at>Last updated: 2026-03-19 10:10 UTC</p>
                             <div class="project-links">
                                 <a href="https://github.com/WilliamK112/ClawWork-personal" target="_blank" rel="noopener noreferrer" data-i18n="projectGitHub">GitHub</a>
                             </div>

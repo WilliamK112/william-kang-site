@@ -373,7 +373,11 @@
     themeDark: '🌙 Dark',
     themeAriaToDark: 'Switch to dark mode',
     themeAriaToLight: 'Switch to light mode',
-    projectGitHub: 'GitHub'
+    projectGitHub: 'GitHub',
+    githubUpdated: 'GitHub data updated {{date}}',
+    githubUpdatedPartial: 'Partial GitHub data updated {{date}}',
+    githubUnavailable: 'Live update unavailable · showing last-known values',
+    githubLastPushed: 'Last pushed on GitHub: {{date}}'
   });
 
   const translations = {
@@ -474,6 +478,20 @@
       openSourceWorkflow: '真实 maintainer 评审 + CI 流程',
       openSourceMore: '查看更多 PR',
       projectsTitle: '项目',
+      githubLiveEyebrow: 'GITHUB 实时数据',
+      githubLiveTitle: '公开工程动态',
+      githubLiveDescription: '公开数据每 15 分钟刷新一次，在保持页面快速稳定的同时及时反映最新活动。',
+      githubProfileLink: '查看 GitHub 主页',
+      githubPublicRepos: '公开仓库',
+      githubOriginalRepos: '原创仓库',
+      githubMergedPrs: '已合并 PR',
+      githubExternalMergedPrs: '外部仓库已合并 PR',
+      githubStars: '获得 Stars',
+      githubLoading: '正在读取最新 GitHub 数据…',
+      githubUpdated: 'GitHub 数据更新于 {{date}}',
+      githubUpdatedPartial: 'GitHub 部分数据更新于 {{date}}',
+      githubUnavailable: '实时更新暂不可用 · 当前显示最近已知数据',
+      githubLastPushed: 'GitHub 最后更新：{{date}}',
       projectTechLabel: '技术：',
       projectImpactLabel: '影响：',
       project1Tech: 'Gemini Live、多模态语音交互、动态视觉。',
@@ -677,6 +695,100 @@
     const next = document.documentElement.lang === 'zh-CN' ? 'en' : 'zh';
     applyLanguage(next);
   });
+})();
+
+(function setupGithubLiveActivity() {
+  const panel = document.querySelector('[data-github-live]');
+  if (!panel) return;
+
+  const status = panel.querySelector('[data-github-updated]');
+  const getText = () => window.__portfolioI18n && typeof window.__portfolioI18n.getText === 'function'
+    ? window.__portfolioI18n.getText
+    : null;
+  let latestData = null;
+  let requestFailed = false;
+
+  function currentLanguage() {
+    return document.documentElement.lang === 'zh-CN' ? 'zh-CN' : 'en-US';
+  }
+
+  function formatNumber(value) {
+    return new Intl.NumberFormat(currentLanguage()).format(value);
+  }
+
+  function formatDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat(currentLanguage(), {
+      dateStyle: 'medium',
+      timeZone: 'UTC',
+    }).format(date);
+  }
+
+  function translated(key, vars, fallback) {
+    const translate = getText();
+    return translate ? translate(key, vars) : fallback;
+  }
+
+  function render(data) {
+    if (!data) {
+      panel.dataset.state = requestFailed ? 'fallback' : 'loading';
+      if (status && requestFailed) {
+        status.textContent = translated(
+          'githubUnavailable',
+          null,
+          'Live update unavailable · showing last-known values',
+        );
+      }
+      return;
+    }
+
+    panel.querySelectorAll('[data-github-stat]').forEach((node) => {
+      const key = node.getAttribute('data-github-stat');
+      const value = key ? data[key] : null;
+      if (Number.isFinite(value)) node.textContent = formatNumber(value);
+    });
+
+    document.querySelectorAll('[data-github-repo]').forEach((card) => {
+      const repositoryName = card.getAttribute('data-github-repo');
+      const repository = repositoryName && data.repositories ? data.repositories[repositoryName] : null;
+      const dateNode = card.querySelector('[data-github-pushed-at]');
+      if (!repository || !repository.pushedAt || !dateNode) return;
+      const date = formatDate(repository.pushedAt);
+      dateNode.textContent = translated('githubLastPushed', { date }, `Last pushed on GitHub: ${date}`);
+    });
+
+    panel.dataset.state = data.partial ? 'partial' : 'ready';
+    if (status && data.generatedAt) {
+      const date = formatDate(data.generatedAt);
+      const key = data.partial ? 'githubUpdatedPartial' : 'githubUpdated';
+      const fallback = data.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
+      status.textContent = translated(key, { date }, fallback);
+    }
+  }
+
+  window.addEventListener('portfolio-language-changed', () => render(latestData));
+
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+  fetch('/api/github-stats', {
+    headers: { Accept: 'application/json' },
+    signal: controller.signal,
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(`GitHub stats request failed with ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      latestData = data;
+      render(latestData);
+    })
+    .catch(() => {
+      requestFailed = true;
+      render(null);
+    })
+    .finally(() => window.clearTimeout(timeout));
 })();
 // Minimal JS to integrate small accessibility tweaks.
 (function optimizeTabOrder() {
