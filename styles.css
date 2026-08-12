@@ -2413,6 +2413,9 @@ body[data-theme="light"] .keyword-highlight {
   margin-top: auto;
   padding-top: 1rem;
 }
+.about-experience-stat .big {
+  color: var(--accent);
+}
 .stats { display: grid; gap: 0.8rem; align-content: start; }
 .stats > div {
   border: 1px solid var(--line);
