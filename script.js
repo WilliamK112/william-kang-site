@@ -1800,6 +1800,9 @@
   transition: transform 260ms cubic-bezier(.2,.7,.2,1), border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
   will-change: transform;
 }
+.award-card.spatial-card {
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translate3d(0, var(--tilt-lift), 0);
+}
 .spatial-card::before,
 .spatial-card::after {
   content: "";
@@ -1825,6 +1828,20 @@
 }
 .spatial-card::after {
   display: none;
+}
+.award-card.spatial-card::after {
+  display: block;
+  inset: auto -42px -52px auto;
+  width: 130px;
+  height: 130px;
+  border: 1px solid color-mix(in srgb, var(--accent-2) 24%, transparent);
+  border-radius: 50%;
+  background: none;
+  box-shadow:
+    0 0 0 18px color-mix(in srgb, var(--accent-2) 5%, transparent),
+    0 0 0 36px color-mix(in srgb, var(--accent) 3%, transparent);
+  opacity: 1;
+  z-index: 0;
 }
 .spatial-card.is-spatial-active {
   --tilt-lift: -5px;
@@ -1853,6 +1870,17 @@
 }
 .github-live-stats > .spatial-card span {
   transform: translateZ(12px);
+}
+.award-card.spatial-card .award-card-top,
+.award-card.spatial-card .award-placement,
+.award-card.spatial-card .award-links {
+  transform: translateZ(14px);
+}
+.award-card.spatial-card .award-year {
+  transform: translateZ(20px);
+}
+.portrait-frame.spatial-card > .profile-flip-card {
+  transform: translateZ(12px);
 }`;
     document.head.appendChild(style);
   }
@@ -1864,19 +1892,13 @@
     '.card:not(.education-card)',
     '.uw-logo-showcase',
     '.github-live-stats > div',
+    '.award-card',
+    '.portrait-frame',
     '.stats > div',
     '.certificate-card',
     '.ability-grid article'
   ].join(',')));
   if (!candidates.length) return;
-
-  document.querySelectorAll('.portrait-frame.spatial-card')
-    .forEach((card) => {
-      card.classList.remove('spatial-card', 'is-spatial-active');
-      card.style.removeProperty('--tilt-x');
-      card.style.removeProperty('--tilt-y');
-      card.style.removeProperty('--glare-opacity');
-    });
 
   const maxTilt = 8;
   const resetDelayMs = 120;

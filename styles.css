@@ -3604,6 +3604,8 @@ body[data-theme="light"] .section-3d-board.spatial-card.is-spatial-active,
 body[data-theme="light"] .section-3d-subpanel.spatial-card.is-spatial-active,
 body[data-theme="light"] .section-3d-board .stats > div.spatial-card.is-spatial-active,
 body[data-theme="light"] .github-live-stats > div.spatial-card.is-spatial-active,
+body[data-theme="light"] .award-card.spatial-card.is-spatial-active,
+body[data-theme="light"] .portrait-frame.spatial-card.is-spatial-active,
 body[data-theme="light"] #about #certificates.spatial-card.is-spatial-active {
   border-color: rgba(184, 134, 11, 0.36);
   box-shadow:
