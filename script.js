@@ -695,6 +695,25 @@
   });
 })();
 
+(function setupDynamicPortfolioStats() {
+  const projectCount = document.querySelector('[data-dynamic-project-count]');
+  const experience = document.querySelector('[data-dynamic-experience]');
+
+  if (projectCount) {
+    const projects = document.querySelectorAll('[data-project-grid] .project-card').length;
+    projectCount.textContent = new Intl.NumberFormat(document.documentElement.lang).format(projects);
+  }
+
+  if (experience) {
+    const start = new Date(experience.getAttribute('data-experience-start'));
+    const elapsedMilliseconds = Date.now() - start.getTime();
+    const averageYearMilliseconds = 365.2425 * 24 * 60 * 60 * 1000;
+    if (!Number.isNaN(start.getTime()) && elapsedMilliseconds >= 0) {
+      experience.textContent = (elapsedMilliseconds / averageYearMilliseconds).toFixed(1);
+    }
+  }
+})();
+
 (function setupGithubLiveActivity() {
   const panel = document.querySelector('[data-github-live]');
   if (!panel) return;
@@ -720,6 +739,22 @@
     return new Intl.DateTimeFormat(currentLanguage(), {
       dateStyle: 'medium',
       timeZone: 'UTC',
+    }).format(date);
+  }
+
+  function formatTimestamp(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    return new Intl.DateTimeFormat(currentLanguage(), {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone,
+      timeZoneName: 'short',
     }).format(date);
   }
 
@@ -758,7 +793,7 @@
 
     panel.dataset.state = data.partial ? 'partial' : 'ready';
     if (status && data.generatedAt) {
-      const date = formatDate(data.generatedAt);
+      const date = formatTimestamp(data.generatedAt);
       const key = data.partial ? 'githubUpdatedPartial' : 'githubUpdated';
       const fallback = data.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
       status.textContent = translated(key, { date }, fallback);
