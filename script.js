@@ -705,11 +705,13 @@
   }
 
   if (experience) {
-    const start = new Date(experience.getAttribute('data-experience-start'));
-    const elapsedMilliseconds = Date.now() - start.getTime();
+    const baseline = Number.parseFloat(experience.getAttribute('data-experience-base'));
+    const baselineDate = new Date(experience.getAttribute('data-experience-base-date'));
+    const elapsedMilliseconds = Math.max(0, Date.now() - baselineDate.getTime());
     const averageYearMilliseconds = 365.2425 * 24 * 60 * 60 * 1000;
-    if (!Number.isNaN(start.getTime()) && elapsedMilliseconds >= 0) {
-      experience.textContent = (elapsedMilliseconds / averageYearMilliseconds).toFixed(1);
+    if (Number.isFinite(baseline) && !Number.isNaN(baselineDate.getTime())) {
+      const currentExperience = baseline + (elapsedMilliseconds / averageYearMilliseconds);
+      experience.textContent = (Math.floor(currentExperience * 10) / 10).toFixed(1);
     }
   }
 })();
