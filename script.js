@@ -376,6 +376,7 @@
     projectGitHub: 'GitHub',
     githubUpdated: 'GitHub data updated {{date}}',
     githubUpdatedPartial: 'Partial GitHub data updated {{date}}',
+    githubUpdatedAgo: '{{seconds}} seconds ago',
     githubUnavailable: 'Live update unavailable · showing last-known values',
     githubLastPushed: 'Last pushed on GitHub: {{date}}'
   });
@@ -488,6 +489,7 @@
       githubLoading: '正在读取最新 GitHub 数据…',
       githubUpdated: 'GitHub 数据更新于 {{date}}',
       githubUpdatedPartial: 'GitHub 部分数据更新于 {{date}}',
+      githubUpdatedAgo: '{{seconds}} 秒前',
       githubUnavailable: '实时更新暂不可用 · 当前显示最近已知数据',
       githubLastPushed: 'GitHub 最后更新：{{date}}',
       projectTechLabel: '技术：',
@@ -719,11 +721,13 @@
   if (!panel) return;
 
   const status = panel.querySelector('[data-github-updated]');
+  const refreshInterval = 15 * 60 * 1000;
   const getText = () => window.__portfolioI18n && typeof window.__portfolioI18n.getText === 'function'
     ? window.__portfolioI18n.getText
     : null;
   let latestData = null;
   let requestFailed = false;
+  let requestInFlight = false;
 
   function currentLanguage() {
     return document.documentElement.lang === 'zh-CN' ? 'zh-CN' : 'en-US';
@@ -763,16 +767,36 @@
     return translate ? translate(key, vars) : fallback;
   }
 
-  function render(data) {
-    if (!data) {
-      panel.dataset.state = requestFailed ? 'fallback' : 'loading';
-      if (status && requestFailed) {
+  function renderStatus() {
+    if (!status) return;
+    if (!latestData || !latestData.generatedAt) {
+      if (requestFailed) {
         status.textContent = translated(
           'githubUnavailable',
           null,
           'Live update unavailable · showing last-known values',
         );
       }
+      return;
+    }
+
+    const generatedAt = new Date(latestData.generatedAt);
+    const elapsedSeconds = Number.isNaN(generatedAt.getTime())
+      ? 0
+      : Math.max(0, Math.floor((Date.now() - generatedAt.getTime()) / 1000));
+    const date = formatTimestamp(latestData.generatedAt);
+    const key = latestData.partial ? 'githubUpdatedPartial' : 'githubUpdated';
+    const fallback = latestData.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
+    const updated = translated(key, { date }, fallback);
+    const seconds = formatNumber(elapsedSeconds);
+    const age = translated('githubUpdatedAgo', { seconds }, `${seconds} seconds ago`);
+    status.textContent = `${updated} · ${age}`;
+  }
+
+  function render(data) {
+    if (!data) {
+      panel.dataset.state = requestFailed ? 'fallback' : 'loading';
+      renderStatus();
       return;
     }
 
@@ -792,36 +816,43 @@
     });
 
     panel.dataset.state = data.partial ? 'partial' : 'ready';
-    if (status && data.generatedAt) {
-      const date = formatTimestamp(data.generatedAt);
-      const key = data.partial ? 'githubUpdatedPartial' : 'githubUpdated';
-      const fallback = data.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
-      status.textContent = translated(key, { date }, fallback);
-    }
+    renderStatus();
   }
 
   window.addEventListener('portfolio-language-changed', () => render(latestData));
 
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 8000);
+  function loadGithubData() {
+    if (requestInFlight) return;
+    requestInFlight = true;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
 
-  fetch('/api/github-stats', {
-    headers: { Accept: 'application/json' },
-    signal: controller.signal,
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error(`GitHub stats request failed with ${response.status}`);
-      return response.json();
+    fetch('/api/github-stats', {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
     })
-    .then((data) => {
-      latestData = data;
-      render(latestData);
-    })
-    .catch(() => {
-      requestFailed = true;
-      render(null);
-    })
-    .finally(() => window.clearTimeout(timeout));
+      .then((response) => {
+        if (!response.ok) throw new Error(`GitHub stats request failed with ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        latestData = data;
+        requestFailed = false;
+        render(latestData);
+      })
+      .catch(() => {
+        requestFailed = true;
+        if (!latestData) render(null);
+      })
+      .finally(() => {
+        requestInFlight = false;
+        window.clearTimeout(timeout);
+      });
+  }
+
+  loadGithubData();
+  window.setInterval(renderStatus, 1000);
+  window.setInterval(loadGithubData, refreshInterval);
 })();
 // Minimal JS to integrate small accessibility tweaks.
 (function optimizeTabOrder() {
