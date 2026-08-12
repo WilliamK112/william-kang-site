@@ -956,7 +956,6 @@
     '.timeline li',
     '.stats > div',
     '.pill-row span',
-    '.open-source-chip',
     '.certificate-card',
     '.contact-actions .btn',
     '.message-board',
