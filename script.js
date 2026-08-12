@@ -1842,10 +1842,16 @@
 .spatial-card .big {
   transform: translateZ(22px);
 }
+.github-live-stats > .spatial-card strong {
+  transform: translateZ(22px);
+}
 .spatial-card p,
 .spatial-card li,
 .spatial-card .label,
 .spatial-card .certificate-meta {
+  transform: translateZ(12px);
+}
+.github-live-stats > .spatial-card span {
   transform: translateZ(12px);
 }`;
     document.head.appendChild(style);
@@ -1857,6 +1863,7 @@
     '#about #certificates',
     '.card:not(.education-card)',
     '.uw-logo-showcase',
+    '.github-live-stats > div',
     '.stats > div',
     '.certificate-card',
     '.ability-grid article'
