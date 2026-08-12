@@ -376,7 +376,6 @@
     projectGitHub: 'GitHub',
     githubUpdated: 'GitHub data updated {{date}}',
     githubUpdatedPartial: 'Partial GitHub data updated {{date}}',
-    githubUpdatedAgo: '{{seconds}} seconds ago',
     githubUnavailable: 'Live update unavailable · showing last-known values',
     githubLastPushed: 'Last pushed on GitHub: {{date}}'
   });
@@ -489,7 +488,6 @@
       githubLoading: '正在读取最新 GitHub 数据…',
       githubUpdated: 'GitHub 数据更新于 {{date}}',
       githubUpdatedPartial: 'GitHub 部分数据更新于 {{date}}',
-      githubUpdatedAgo: '{{seconds}} 秒前',
       githubUnavailable: '实时更新暂不可用 · 当前显示最近已知数据',
       githubLastPushed: 'GitHub 最后更新：{{date}}',
       projectTechLabel: '技术：',
@@ -780,17 +778,10 @@
       return;
     }
 
-    const generatedAt = new Date(latestData.generatedAt);
-    const elapsedSeconds = Number.isNaN(generatedAt.getTime())
-      ? 0
-      : Math.max(0, Math.floor((Date.now() - generatedAt.getTime()) / 1000));
-    const date = formatTimestamp(latestData.generatedAt);
+    const date = formatTimestamp(new Date());
     const key = latestData.partial ? 'githubUpdatedPartial' : 'githubUpdated';
     const fallback = latestData.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
-    const updated = translated(key, { date }, fallback);
-    const seconds = formatNumber(elapsedSeconds);
-    const age = translated('githubUpdatedAgo', { seconds }, `${seconds} seconds ago`);
-    status.textContent = `${updated} · ${age}`;
+    status.textContent = translated(key, { date }, fallback);
   }
 
   function render(data) {
