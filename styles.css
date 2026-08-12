@@ -85,7 +85,7 @@ body::before {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 4;
   width: 280px;
   height: 280px;
   border-radius: 50%;
@@ -101,6 +101,12 @@ body::before {
 
 body.is-pointer-active .cursor-light {
   opacity: var(--signal-cursor-opacity);
+}
+
+body[data-theme="light"] .cursor-light {
+  background:
+    radial-gradient(circle, rgba(64, 116, 103, 0.14), rgba(184, 134, 11, 0.075) 42%, transparent 68%);
+  mix-blend-mode: multiply;
 }
 
 .skip-link {
@@ -3583,14 +3589,21 @@ body[data-theme="light"] .section-3d-subpanel.meeting-card:hover {
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
+body[data-theme="light"] #about .section-3d-subpanel,
+body[data-theme="light"] #about #certificates {
+  box-shadow:
+    0 12px 28px rgba(126, 95, 34, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+}
+
 body[data-theme="light"] .section-3d-board.spatial-card.is-spatial-active,
 body[data-theme="light"] .section-3d-subpanel.spatial-card.is-spatial-active,
 body[data-theme="light"] .section-3d-board .stats > div.spatial-card.is-spatial-active,
 body[data-theme="light"] #about #certificates.spatial-card.is-spatial-active {
   border-color: rgba(184, 134, 11, 0.36);
   box-shadow:
-    0 30px 74px rgba(126, 95, 34, 0.18),
-    0 18px 44px rgba(184, 134, 11, 0.11),
+    0 18px 44px rgba(126, 95, 34, 0.13),
+    0 8px 22px rgba(184, 134, 11, 0.07),
     inset 0 1px 0 rgba(255, 255, 255, 0.62);
 }
 .message-form input:focus-visible,

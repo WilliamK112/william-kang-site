@@ -1887,6 +1887,7 @@
 
     card.addEventListener('pointermove', (event) => {
       if (event.pointerType === 'touch') return;
+      if (event.target instanceof Element && event.target.closest('.spatial-card') !== card) return;
       window.clearTimeout(resetTimer);
 
       const rect = card.getBoundingClientRect();
@@ -1910,7 +1911,8 @@
       resetTimer = window.setTimeout(resetCard, resetDelayMs);
     }, { passive: true });
 
-    card.addEventListener('focusin', () => {
+    card.addEventListener('focusin', (event) => {
+      if (event.target instanceof Element && event.target.closest('.spatial-card') !== card) return;
       card.classList.add('is-spatial-active');
       card.style.setProperty('--tilt-x', '-2deg');
       card.style.setProperty('--tilt-y', '2deg');
