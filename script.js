@@ -373,7 +373,11 @@
     themeDark: '🌙 Dark',
     themeAriaToDark: 'Switch to dark mode',
     themeAriaToLight: 'Switch to light mode',
-    projectGitHub: 'GitHub'
+    projectGitHub: 'GitHub',
+    githubUpdated: 'GitHub updated · {{date}}',
+    githubUpdatedPartial: 'GitHub partial update · {{date}}',
+    githubUnavailable: 'Live update unavailable · showing last-known values',
+    githubLastPushed: 'Last pushed on GitHub: {{date}}'
   });
 
   const translations = {
@@ -445,11 +449,8 @@
       originMapDesc: '台湾成长背景，美国工程训练，全球产品视角。',
       educationTitle: '教育背景',
       educationDesc: '在 <span class="keyword-highlight">乔治·华盛顿大学</span>（2023–2024）学习 <span class="keyword-highlight">数据科学</span>，随后于 2025–2027 年转入 <span class="keyword-highlight">威斯康星大学麦迪逊分校</span>，攻读 <span class="keyword-highlight">计算机科学与数据科学双学位</span>。<span class="keyword-highlight">GPA：3.91</span>。<span class="keyword-highlight">预计 2027 年 5 月毕业</span>。',
-      statsProjects: '重点项目',
       statsExperience: '经验年限',
       workTitle: '工作经历',
-      workNotePrefix: '共 6 段经历：数据、研究、运营与全栈工程方向（2024 年 6 月 - 至今）。来源：',
-      workNoteLink: 'LinkedIn',
       work1Title: '全栈工程实习生 · Global AI（Global API Inc.）',
       work1Period: '2026 年 5 月 - 至今 · 纽约，美国',
       work1Desc: '在纽约参与 AI 与平台工程开发，独立交付从 Next.js/TypeScript 前端到 Node.js + FastAPI 后端、PostgreSQL 与 Redis 的端到端特性；构建安全角色体系、可观测性与数据监控能力，并通过 GitHub Actions 落地每周发布的 CI/CD 流程。',
@@ -474,6 +475,20 @@
       openSourceWorkflow: '真实 maintainer 评审 + CI 流程',
       openSourceMore: '查看更多 PR',
       projectsTitle: '项目',
+      githubLiveEyebrow: 'GITHUB 实时数据',
+      githubLiveTitle: '公开工程动态',
+      githubLiveDescription: '公开数据每 15 分钟刷新一次，在保持页面快速稳定的同时及时反映最新活动。',
+      githubProfileLink: '查看 GitHub 主页',
+      githubPublicRepos: '公开仓库',
+      githubOriginalRepos: '原创仓库',
+      githubMergedPrs: '已合并 PR',
+      githubExternalMergedPrs: '外部仓库已合并 PR',
+      githubStars: '获得 Stars',
+      githubLoading: '正在读取最新 GitHub 数据…',
+      githubUpdated: 'GitHub 更新 · {{date}}',
+      githubUpdatedPartial: 'GitHub 部分更新 · {{date}}',
+      githubUnavailable: '实时更新暂不可用 · 当前显示最近已知数据',
+      githubLastPushed: 'GitHub 最后更新：{{date}}',
       projectTechLabel: '技术：',
       projectImpactLabel: '影响：',
       project1Tech: 'Gemini Live、多模态语音交互、动态视觉。',
@@ -678,6 +693,156 @@
     applyLanguage(next);
   });
 })();
+
+(function setupDynamicPortfolioStats() {
+  const experience = document.querySelector('[data-dynamic-experience]');
+
+  if (experience) {
+    const baseline = Number.parseFloat(experience.getAttribute('data-experience-base'));
+    const baselineDate = new Date(experience.getAttribute('data-experience-base-date'));
+    const elapsedMilliseconds = Math.max(0, Date.now() - baselineDate.getTime());
+    const averageYearMilliseconds = 365.2425 * 24 * 60 * 60 * 1000;
+    if (Number.isFinite(baseline) && !Number.isNaN(baselineDate.getTime())) {
+      const currentExperience = baseline + (elapsedMilliseconds / averageYearMilliseconds);
+      experience.textContent = `${(Math.floor(currentExperience * 10) / 10).toFixed(1)}+`;
+    }
+  }
+})();
+
+(function setupGithubLiveActivity() {
+  const panel = document.querySelector('[data-github-live]');
+  if (!panel) return;
+
+  const status = panel.querySelector('[data-github-updated]');
+  const refreshInterval = 15 * 60 * 1000;
+  const getText = () => window.__portfolioI18n && typeof window.__portfolioI18n.getText === 'function'
+    ? window.__portfolioI18n.getText
+    : null;
+  let latestData = null;
+  let requestFailed = false;
+  let requestInFlight = false;
+
+  function currentLanguage() {
+    return document.documentElement.lang === 'zh-CN' ? 'zh-CN' : 'en-US';
+  }
+
+  function formatNumber(value) {
+    return new Intl.NumberFormat(currentLanguage()).format(value);
+  }
+
+  function formatDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat(currentLanguage(), {
+      dateStyle: 'medium',
+      timeZone: 'UTC',
+    }).format(date);
+  }
+
+  function formatTimestamp(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23',
+      timeZone: 'America/Chicago',
+    }).formatToParts(date).reduce((result, part) => {
+      result[part.type] = part.value;
+      return result;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second} CT`;
+  }
+
+  function translated(key, vars, fallback) {
+    const translate = getText();
+    return translate ? translate(key, vars) : fallback;
+  }
+
+  function renderStatus() {
+    if (!status) return;
+    if (!latestData || !latestData.generatedAt) {
+      if (requestFailed) {
+        status.textContent = translated(
+          'githubUnavailable',
+          null,
+          'Live update unavailable · showing last-known values',
+        );
+      }
+      return;
+    }
+
+    const date = formatTimestamp(new Date());
+    const key = latestData.partial ? 'githubUpdatedPartial' : 'githubUpdated';
+    const fallback = latestData.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
+    status.textContent = translated(key, { date }, fallback);
+  }
+
+  function render(data) {
+    if (!data) {
+      panel.dataset.state = requestFailed ? 'fallback' : 'loading';
+      renderStatus();
+      return;
+    }
+
+    panel.querySelectorAll('[data-github-stat]').forEach((node) => {
+      const key = node.getAttribute('data-github-stat');
+      const value = key ? data[key] : null;
+      if (Number.isFinite(value)) node.textContent = formatNumber(value);
+    });
+
+    document.querySelectorAll('[data-github-repo]').forEach((card) => {
+      const repositoryName = card.getAttribute('data-github-repo');
+      const repository = repositoryName && data.repositories ? data.repositories[repositoryName] : null;
+      const dateNode = card.querySelector('[data-github-pushed-at]');
+      if (!repository || !repository.pushedAt || !dateNode) return;
+      const date = formatDate(repository.pushedAt);
+      dateNode.textContent = translated('githubLastPushed', { date }, `Last pushed on GitHub: ${date}`);
+    });
+
+    panel.dataset.state = data.partial ? 'partial' : 'ready';
+    renderStatus();
+  }
+
+  window.addEventListener('portfolio-language-changed', () => render(latestData));
+
+  function loadGithubData() {
+    if (requestInFlight) return;
+    requestInFlight = true;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+    fetch('/api/github-stats', {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(`GitHub stats request failed with ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        latestData = data;
+        requestFailed = false;
+        render(latestData);
+      })
+      .catch(() => {
+        requestFailed = true;
+        if (!latestData) render(null);
+      })
+      .finally(() => {
+        requestInFlight = false;
+        window.clearTimeout(timeout);
+      });
+  }
+
+  loadGithubData();
+  window.setInterval(renderStatus, 1000);
+  window.setInterval(loadGithubData, refreshInterval);
+})();
 // Minimal JS to integrate small accessibility tweaks.
 (function optimizeTabOrder() {
   const skip = document.querySelector('.skip-link');
@@ -791,7 +956,6 @@
     '.timeline li',
     '.stats > div',
     '.pill-row span',
-    '.open-source-chip',
     '.certificate-card',
     '.contact-actions .btn',
     '.message-board',
@@ -1351,7 +1515,7 @@
     : null;
 
   const cards = Array.from(grid.querySelectorAll('[data-certificate-card]'));
-  const pageSize = 3;
+  const pageSize = window.matchMedia('(max-width: 940px)').matches ? 3 : 4;
   const total = cards.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   let currentPage = 0;
@@ -1692,13 +1856,14 @@
     '.section-3d-subpanel',
     '#about #certificates',
     '.card:not(.education-card)',
+    '.uw-logo-showcase',
     '.stats > div',
     '.certificate-card',
     '.ability-grid article'
   ].join(',')));
   if (!candidates.length) return;
 
-  document.querySelectorAll('.portrait-frame.spatial-card, .uw-logo-showcase.spatial-card')
+  document.querySelectorAll('.portrait-frame.spatial-card')
     .forEach((card) => {
       card.classList.remove('spatial-card', 'is-spatial-active');
       card.style.removeProperty('--tilt-x');
@@ -1723,6 +1888,7 @@
 
     card.addEventListener('pointermove', (event) => {
       if (event.pointerType === 'touch') return;
+      if (event.target instanceof Element && event.target.closest('.spatial-card') !== card) return;
       window.clearTimeout(resetTimer);
 
       const rect = card.getBoundingClientRect();
@@ -1746,7 +1912,8 @@
       resetTimer = window.setTimeout(resetCard, resetDelayMs);
     }, { passive: true });
 
-    card.addEventListener('focusin', () => {
+    card.addEventListener('focusin', (event) => {
+      if (event.target instanceof Element && event.target.closest('.spatial-card') !== card) return;
       card.classList.add('is-spatial-active');
       card.style.setProperty('--tilt-x', '-2deg');
       card.style.setProperty('--tilt-y', '2deg');
