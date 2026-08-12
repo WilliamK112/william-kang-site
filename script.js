@@ -477,7 +477,6 @@
       projectsTitle: '项目',
       githubLiveEyebrow: 'GITHUB 实时数据',
       githubLiveTitle: '公开工程动态',
-      githubLiveDescription: '公开数据每 15 分钟刷新一次，在保持页面快速稳定的同时及时反映最新活动。',
       githubProfileLink: '查看 GitHub 主页',
       githubPublicRepos: '公开仓库',
       githubOriginalRepos: '原创仓库',
