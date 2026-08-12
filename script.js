@@ -374,8 +374,8 @@
     themeAriaToDark: 'Switch to dark mode',
     themeAriaToLight: 'Switch to light mode',
     projectGitHub: 'GitHub',
-    githubUpdated: 'GitHub data updated {{date}}',
-    githubUpdatedPartial: 'Partial GitHub data updated {{date}}',
+    githubUpdated: 'GitHub updated · {{date}}',
+    githubUpdatedPartial: 'GitHub partial update · {{date}}',
     githubUnavailable: 'Live update unavailable · showing last-known values',
     githubLastPushed: 'Last pushed on GitHub: {{date}}'
   });
@@ -486,8 +486,8 @@
       githubExternalMergedPrs: '外部仓库已合并 PR',
       githubStars: '获得 Stars',
       githubLoading: '正在读取最新 GitHub 数据…',
-      githubUpdated: 'GitHub 数据更新于 {{date}}',
-      githubUpdatedPartial: 'GitHub 部分数据更新于 {{date}}',
+      githubUpdated: 'GitHub 更新 · {{date}}',
+      githubUpdatedPartial: 'GitHub 部分更新 · {{date}}',
       githubUnavailable: '实时更新暂不可用 · 当前显示最近已知数据',
       githubLastPushed: 'GitHub 最后更新：{{date}}',
       projectTechLabel: '技术：',
@@ -747,17 +747,20 @@
   function formatTimestamp(value) {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-    return new Intl.DateTimeFormat(currentLanguage(), {
+    const parts = new Intl.DateTimeFormat('en-CA', {
       year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      timeZone,
-      timeZoneName: 'short',
-    }).format(date);
+      hourCycle: 'h23',
+      timeZone: 'America/Chicago',
+    }).formatToParts(date).reduce((result, part) => {
+      result[part.type] = part.value;
+      return result;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second} CT`;
   }
 
   function translated(key, vars, fallback) {
