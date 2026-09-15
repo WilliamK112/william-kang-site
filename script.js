@@ -558,6 +558,7 @@
       award6Year: '2025',
       award6Placement: '已核验获奖徽章',
       award6Title: 'Devpost 黑客松获奖者 · Level 1',
+      award6Level: '成就等级',
       award6Desc: 'Devpost 在赢得黑客松奖项后颁发的官方成就。',
       awardProof: '查看证明',
       awardOfficialProof: '官方证明',
