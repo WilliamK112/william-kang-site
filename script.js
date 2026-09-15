@@ -398,6 +398,7 @@
       navAwards: '奖项',
       navCertificates: '证书',
       navContact: '联系',
+      topResume: '简历',
       topGitHub: 'GitHub',
       topLinkedIn: '领英',
       topDevpost: 'Devpost',
