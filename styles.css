@@ -3247,104 +3247,72 @@ body[data-theme="light"] .open-source-chip-enterprise:focus-visible {
   pointer-events: none;
 }
 
-.achievement-emblem {
+.achievement-medal {
   position: relative;
+  z-index: 1;
   display: grid;
   width: 62px;
   height: 62px;
   place-items: center;
-  border: 1px solid rgba(255, 214, 107, 0.48);
-  border-radius: 18px;
+  border: 3px solid #4b351b;
+  border-radius: 48% 53% 47% 51% / 52% 47% 54% 46%;
   background:
-    linear-gradient(145deg, rgba(255, 239, 183, 0.2), rgba(255, 214, 107, 0.04)),
-    rgba(255, 214, 107, 0.07);
+    radial-gradient(ellipse at 30% 24%, rgba(255, 250, 210, 0.9) 0 8%, transparent 9%),
+    radial-gradient(ellipse at 64% 72%, rgba(181, 117, 26, 0.18), transparent 46%),
+    #f3c95d;
+  color: #4b351b;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.25rem;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 1px 1px 0 #fff2b1;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 12px 28px rgba(255, 201, 79, 0.12);
-  transform: rotate(-3deg);
+    inset 0 0 0 3px #ffe48d,
+    inset -4px -5px 0 rgba(169, 103, 21, 0.18),
+    4px 5px 0 #4b351b,
+    0 13px 30px rgba(255, 201, 79, 0.16);
+  transform: rotate(-4deg);
 }
 
-.achievement-emblem-ring {
+.achievement-medal::before,
+.achievement-medal::after {
+  content: "";
   position: absolute;
-  inset: 5px;
-  border: 1px solid rgba(255, 214, 107, 0.18);
-  border-radius: 14px;
+  bottom: -14px;
+  z-index: -1;
+  width: 20px;
+  height: 30px;
+  border: 2px solid #4b351b;
+  border-radius: 3px 3px 7px 6px;
+  background:
+    linear-gradient(100deg, rgba(255, 240, 167, 0.24), transparent 44%),
+    #d19a3c;
+  clip-path: polygon(4% 0, 96% 2%, 84% 100%, 50% 79%, 15% 98%);
 }
 
-.achievement-emblem svg {
-  width: 36px;
-  height: 36px;
-  overflow: visible;
-  fill: rgba(255, 214, 107, 0.17);
-  stroke: #ffda75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.2;
+.achievement-medal::before {
+  left: 10px;
+  transform: rotate(9deg);
 }
 
-.achievement-emblem .achievement-emblem-check {
-  fill: none;
-  stroke: #fff4c8;
-  stroke-width: 2.6;
+.achievement-medal::after {
+  right: 10px;
+  transform: rotate(-9deg);
 }
 
-.achievement-verified {
-  position: absolute;
-  right: -6px;
-  bottom: -5px;
-  display: grid;
-  width: 23px;
-  height: 23px;
-  place-items: center;
-  border: 3px solid #15221f;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #06120e;
-  font-size: 0.72rem;
-  font-weight: 950;
-  box-shadow: 0 5px 15px rgba(137, 247, 209, 0.3);
+.achievement-medal > span {
+  transform: translateY(-1px);
+  -webkit-text-stroke: 0.35px #4b351b;
 }
 
-.achievement-level {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.62rem;
-  padding: 0.28rem 0.52rem 0.28rem 0.3rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: 0.65rem;
-  font-weight: 750;
-  letter-spacing: 0.055em;
-  text-transform: uppercase;
-}
-
-.achievement-level > span:first-child {
-  display: grid;
-  width: 23px;
-  height: 23px;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #07130f;
-  font-size: 0.61rem;
-  font-weight: 950;
-}
-
-.achievement-level-label {
-  color: inherit;
-}
-
-.award-card-devpost:hover .achievement-emblem,
-.award-card-devpost:focus-within .achievement-emblem {
+.award-card-devpost:hover .achievement-medal,
+.award-card-devpost:focus-within .achievement-medal {
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.26),
-    0 14px 34px rgba(255, 201, 79, 0.22);
-  transform: translateY(-2px) rotate(0deg);
+    inset 0 0 0 3px #ffe89d,
+    inset -4px -5px 0 rgba(169, 103, 21, 0.16),
+    3px 4px 0 #4b351b,
+    0 14px 34px rgba(255, 201, 79, 0.2);
+  transform: translateY(-2px) rotate(-1deg);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
@@ -3461,10 +3429,6 @@ body[data-theme="light"] .award-card-devpost {
     radial-gradient(circle at 15% 12%, rgba(212, 166, 58, 0.16), transparent 30%),
     radial-gradient(circle at 100% 100%, rgba(68, 151, 124, 0.1), transparent 46%),
     rgba(255, 252, 245, 0.88);
-}
-
-body[data-theme="light"] .achievement-verified {
-  border-color: #fffaf0;
 }
 
 @media (max-width: 900px) {
