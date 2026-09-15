@@ -404,17 +404,17 @@
       heroEyebrow: '作品集',
       heroName: '康景威',
       heroRole: '软件工程师',
-      heroLead: '威斯康星大学麦迪逊分校计算机科学与数据科学学生，专注软件工程、数据系统与应用机器学习。我将原型打磨成可靠的全栈工具、自动化流水线和计算机视觉工作流。',
+      heroLead: '威斯康星大学麦迪逊分校计算机科学与数据科学学生，专注 AI 工程、软件系统与应用机器学习。我构建面向生产的 AI 系统、全栈产品、自动化流水线和数据基础设施，并将原型推进至部署。',
       heroSignal1: '当前重点：羽毛球 AI 追踪',
       heroSignal2: '方向：AI 工程 + 系统',
-      heroSignal3: '正在开放 2026 SWE/AI 实习机会',
+      heroSignal3: '正在开放 2027 SWE/AI 职位机会',
       flipHint: '点击翻转',
       profileSnapshotTitle: '个人信息',
       profileName: '康景威（William Kang）',
       profileSchool: '威斯康星大学麦迪逊 · 大三',
-      profileGpa: 'GPA：3.91',
+      profileGpa: 'UW GPA：3.91 · GWU GPA：3.94',
       profileMiniTagSchool: '威斯康星大学麦迪逊 · 2027',
-      profileMiniTagGpa: 'GPA：3.91',
+      profileMiniTagGpa: 'UW 3.91 · GWU 3.94',
       profileMiniInstagram: 'Instagram：@williamkangcw',
       uwMiniTitle: '威斯康星大学麦迪逊 CS 优势',
       uwMiniStanding: '我目前是威斯康星大学麦迪逊分校的大三本科生。',
@@ -435,7 +435,7 @@
       ctaMore: '更多作品',
       snapshotTitle: '速览',
       snapshotEducationLabel: '教育',
-      snapshotEducationValue: '大三，计算机科学 + 数据科学双学位（2027）',
+      snapshotEducationValue: '乔治·华盛顿大学（2023–2024，GPA 3.94）→ 威斯康星大学麦迪逊分校计算机科学 + 数据科学（2027）',
       snapshotFocusLabel: '方向',
       snapshotFocusValue: 'AI 工程 · 后端系统 · 数据流水线 · 产品交付',
       snapshotTechLabel: '技术',
@@ -453,21 +453,25 @@
       workTitle: '工作经历',
       work1Title: '全栈工程实习生 · Global AI（Global API Inc.）',
       work1Period: '2026 年 5 月 - 至今 · 纽约，美国',
-      work1Desc: '在纽约参与 AI 与平台工程开发，独立交付从 Next.js/TypeScript 前端到 Node.js + FastAPI 后端、PostgreSQL 与 Redis 的端到端特性；构建安全角色体系、可观测性与数据监控能力，并通过 GitHub Actions 落地每周发布的 CI/CD 流程。',
+      work1Desc: '为 AI 广告与视频生成平台交付生产级功能，技术栈覆盖 Next.js/TypeScript、FastAPI、PostgreSQL、Redis、RBAC、可观测性与 CI/CD。设计四阶段媒体流水线，将商品三视图依次转换为 Gemini 生成的关键帧、并行视频片段，再由 FFmpeg 合成 720p/1080p 成片，并支持三种动画后端。同时交付基于 14 个 FastAPI 端点的利益相关方看板，包含 SSE 进度更新、缓存与 7 种角色化语音。',
+      workAkangTitle: 'AI 与软件工程实习生 · 阿康健康（AkangHealth）',
+      workAkangPeriod: '2026 年 7 月 - 2026 年 8 月 · 中国',
+      workAkangDesc: '为覆盖美国、印度尼西亚和越南的医药市场情报工作设计 AI 辅助多智能体研究流程，加入证据分级、人工审核节点与自动验证。构建可搜索界面和结构化数据导出，并验证覆盖 24 家越南医疗机构与 17 个 RFQ/联系目标的合作伙伴筛选数据。',
       work2Title: '维修技师 · 威斯康星大学麦迪逊',
       work2Period: '2025 年 5 月 - 2025 年 8 月 · 3 个月 · 麦迪逊，美国',
+      work2Desc: '协助开展校园设施例行巡检与预防性维护，使用基础工具处理轻微的设备和物业问题。记录并上报维修需求，帮助学生、教职员工与访客使用安全、整洁且正常运行的校园空间。',
       work3Title: '研究助理 · 中国科学技术协会',
       work3Period: '2024 年 12 月 - 2025 年 2 月 · 2 个月',
-      work3Desc: '参与研究国家级关键技术人才配置机制的项目，支持数据采集、政策对比分析与研究报告编写。',
+      work3Desc: '参与国家级研究项目，分析 AI 与战略技术生态中的政策趋势与人才配置机制。收集并校对多源政策数据，比较不同机构的实施路径，撰写研究结论，并构建 Python 线性模型，为项目利益相关方提供定量预测支持。',
       work4Title: '数据采集与录入 · Marcus Harris Foundation',
       work4Period: '2024 年 10 月 - 2024 年 12 月 · 2 个月 · 美国',
-      work4Desc: '使用 Python 自动化 IRS 非营利组织数据采集流程，并将大量数据整理进结构化奖学金数据库。',
+      work4Desc: '使用 BeautifulSoup、Requests 与 Pandas 设计 Python 数据摄取流水线，从 IRS 及其他公开登记库采集非营利组织税务数据。编写 HTML 解析器与正则过滤器，按申报年份、税务类别、EIN 和地理区域整理数据，最终以 98% 准确率将 50,000+ 条结构化记录写入 PostgreSQL，支持资助研究与合作伙伴拓展。',
       work5Title: '数据分析与自动化实习生 · Springer Capital',
       work5Period: '2024 年 8 月 - 2024 年 10 月 · 2 个月 · 芝加哥，美国',
-      work5Desc: '通过 Excel、SQL 与 Python 进行数据采集与分析，利用自动化与可视化报告推进流程改进。',
+      work5Desc: '使用 Excel、SQL 与 Python 从数据库、API、电子表格和网页数据源采集、清洗并分析运营数据。在 Microsoft Power Platform 生态中使用 Power BI、Power Automate、Power Apps 和 Microsoft Lists，并结合 Scoro CRM 连接数据、支持工作流自动化，将分析结果转化为面向管理层的报告与流程改进建议。',
       work6Title: '数据分析师 · Chihuo Inc',
       work6Period: '2024 年 6 月 - 2024 年 9 月 · 3 个月',
-      work6Desc: '开展北美亚洲美食市场研究，结合 Python 与 Excel 输出数据驱动洞察。',
+      work6Desc: '使用 Python 与 Excel 分析种族人口结构、客户行为与消费偏好，研究北美亚洲餐饮市场。制作数据可视化并参与完成 200+ 页市场白皮书，将分析结论转化为营销建议和多平台内容，用于提升受众互动。',
       openSourceTitle: '开源 PR',
       openSourceNote: '已核验的 merged PR，覆盖 GitHub、Docker、Microsoft、NVIDIA、Meta 工具链与开发者基础设施等成熟开源项目。每个链接都指向确定合并的 pull request。',
       openSourceMerged: '57 个已核验 merged PR',
@@ -1019,6 +1023,7 @@
   const form = document.querySelector('.message-form');
   const status = document.getElementById('form-status');
   if (!form || !status) return;
+  const startedAt = Date.now();
   const getText = window.__portfolioI18n && typeof window.__portfolioI18n.getText === 'function'
     ? window.__portfolioI18n.getText
     : null;
@@ -1030,8 +1035,10 @@
 
     const emailInput = document.getElementById('sender-email');
     const messageInput = document.getElementById('sender-message');
+    const honeypotInput = document.getElementById('sender-company');
     const email = emailInput && 'value' in emailInput ? emailInput.value.trim() : '';
     const message = messageInput && 'value' in messageInput ? messageInput.value.trim() : '';
+    const company = honeypotInput && 'value' in honeypotInput ? honeypotInput.value.trim() : '';
 
     if (!email || !message) {
       status.textContent = getText ? getText('formMissingFields') : 'Please enter both your email and message.';
@@ -1040,7 +1047,7 @@
     }
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/ckang53@wisc.edu', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1049,9 +1056,8 @@
         body: JSON.stringify({
           email,
           message,
-          _subject: 'New portfolio message',
-          _captcha: 'false',
-          _template: 'table',
+          company,
+          startedAt,
         }),
       });
 

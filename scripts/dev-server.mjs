@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { extname, join, normalize, resolve } from 'node:path';
 
 import githubStatsHandler from '../api/github-stats.js';
+import contactHandler from '../api/contact.js';
 
 const root = resolve(import.meta.dirname, '..');
 const port = Number(process.env.PORT || 8000);
@@ -49,6 +50,20 @@ const server = createServer(async (request, response) => {
 
   if (url.pathname === '/api/github-stats') {
     await githubStatsHandler(request, createApiResponse(response));
+    return;
+  }
+
+  if (url.pathname === '/api/contact') {
+    const chunks = [];
+    for await (const chunk of request) chunks.push(chunk);
+    const raw = Buffer.concat(chunks).toString('utf8');
+    try {
+      request.body = raw ? JSON.parse(raw) : {};
+    } catch {
+      sendJson(response, 400, { error: 'Invalid request' });
+      return;
+    }
+    await contactHandler(request, createApiResponse(response));
     return;
   }
 
