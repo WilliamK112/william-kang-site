@@ -2722,6 +2722,13 @@ body[data-theme="light"] .github-live-heading > a {
   object-fit: cover;
   display: block;
 }
+.clearmove-front {
+  background: #fff;
+}
+.clearmove-front > img {
+  object-fit: contain;
+  object-position: center top;
+}
 .bci-mvp-front-face {
   background: #05081a;
 }
@@ -2859,8 +2866,7 @@ body[data-theme="light"] .github-live-heading > a {
 .clawwork-placeholder::after,
 .llmfit-placeholder::after,
 .appos-placeholder::after,
-.tableus-placeholder::after,
-.clearmove-placeholder::after {
+.tableus-placeholder::after {
   content: attr(aria-label);
   position: absolute;
   inset: 1rem 1rem auto 1rem;
@@ -2881,36 +2887,6 @@ body[data-theme="light"] .github-live-heading > a {
 }
 .tableus-placeholder::after {
   content: "TableUs";
-}
-.clearmove-placeholder::after {
-  content: "ClearMove";
-}
-.clearmove-placeholder {
-  background:
-    radial-gradient(circle at 50% 42%, rgba(137, 247, 209, 0.22), transparent 32%),
-    linear-gradient(145deg, rgba(16, 22, 49, 0.94), rgba(12, 55, 58, 0.92));
-}
-.clearmove-symbol {
-  position: absolute;
-  top: 46%;
-  left: 50%;
-  z-index: 1;
-  display: grid;
-  width: 6.5rem;
-  height: 6.5rem;
-  place-items: center;
-  border: 1px solid rgba(137, 247, 209, 0.46);
-  border-radius: 1.75rem;
-  background:
-    radial-gradient(circle at 34% 26%, rgba(255, 255, 255, 0.2), transparent 24%),
-    linear-gradient(145deg, rgba(137, 247, 209, 0.26), rgba(142, 167, 255, 0.12));
-  color: #89f7d1;
-  font-size: 3.8rem;
-  font-weight: 900;
-  line-height: 1;
-  box-shadow: 0 24px 56px rgba(27, 205, 167, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.24);
-  text-shadow: 0 0 28px rgba(137, 247, 209, 0.54);
-  transform: translate(-50%, -50%) rotate(-4deg);
 }
 .project-card.is-out {
   animation: projectBubbleOut 420ms cubic-bezier(.2,.7,.2,1) forwards;
