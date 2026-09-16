@@ -42,6 +42,10 @@
 })();
 
 (function setupSignalField() {
+  if (document.documentElement.dataset.background3d) {
+    window.addEventListener('portfolio-background-fallback', setupSignalField, { once: true });
+    return;
+  }
   const canvas = document.getElementById('portfolio-signal-field');
   const cursor = document.querySelector('[data-cursor-light]');
   const ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
