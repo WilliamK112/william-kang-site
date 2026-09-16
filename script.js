@@ -481,7 +481,7 @@
       openSourceWorkflow: '真实 maintainer 评审 + CI 流程',
       openSourceMore: '查看更多 PR',
       projectsTitle: '项目',
-      moreProjectsNote: '涵盖 AI 智能体、强化学习、脑机接口与开发者工具的工程实践。',
+      moreProjectsNote: '涵盖 AI 产品、计算机视觉、强化学习与开发者工具的工程项目。',
       githubLiveEyebrow: 'GITHUB 实时数据',
       githubLiveTitle: '公开工程动态',
       githubProfileLink: '查看 GitHub 主页',
