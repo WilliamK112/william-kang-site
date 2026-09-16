@@ -657,12 +657,10 @@ body[data-theme="light"] .btn-ghost:hover {
 body[data-theme="light"] .btn:hover {
   box-shadow: 0 10px 24px rgba(184, 134, 11, 0.22);
 }
-body[data-theme="light"] #featured-engineering::before,
 body[data-theme="light"] #work::before,
 body[data-theme="light"] #projects::before {
   background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.38), rgba(212, 166, 58, 0.32), transparent);
 }
-body[data-theme="light"] #featured-engineering::after,
 body[data-theme="light"] #work::after,
 body[data-theme="light"] #projects::after {
   background: radial-gradient(closest-side, rgba(212, 166, 58, 0.16), rgba(184, 134, 11, 0.1) 58%, transparent 100%);
@@ -1530,13 +1528,11 @@ h1 {
   transform: translateY(calc(var(--hero-progress) * -18px));
 }
 
-#featured-engineering,
 #work,
 #projects {
   padding-top: 1.2rem;
 }
 
-#featured-engineering::before,
 #work::before,
 #projects::before {
   content: "";
@@ -1552,7 +1548,6 @@ h1 {
   z-index: 1;
 }
 
-#featured-engineering::after,
 #work::after,
 #projects::after {
   content: "";
@@ -3663,7 +3658,6 @@ body[data-theme="light"] .meeting-card:hover {
   align-items: start;
 }
 
-#featured-engineering.section-3d-board,
 #work.section-3d-board,
 #projects.section-3d-board,
 #contact.section-3d-board {
@@ -4184,12 +4178,10 @@ section[data-scroll-reveal].is-visible {
     align-items: flex-start;
     flex-direction: column;
   }
-  #featured-engineering,
   #work,
   #projects {
     padding-top: 0.95rem;
   }
-  #featured-engineering::after,
   #work::after,
   #projects::after {
     left: 6%;
