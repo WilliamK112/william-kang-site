@@ -1,34 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=silver-1">
-    <link rel="alternate icon" href="/favicon.ico?v=silver-1" sizes="any">
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=silver-1">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ching-Wei Kang — English Resume</title>
-    <meta name="description" content="The latest English resume for Ching-Wei (William) Kang, a UW–Madison Computer Science and Data Science student.">
-    <meta property="og:title" content="Ching-Wei Kang — English Resume">
-    <meta property="og:description" content="Software engineering, AI, backend systems, and data engineering experience.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://williamkang.com/resume-english.html">
-    <meta property="og:image" content="https://williamkang.com/assets/William_Kang-9c2f39ca-aa59-4956-8969-b7e0fa9d303a.png">
-    <link rel="canonical" href="https://williamkang.com/resume-english.html">
-    <style>
-        body { margin: 0; background: #111827; color: #f9fafb; font-family: system-ui, sans-serif; }
-        main { max-width: 760px; margin: 0 auto; padding: 12vh 24px; }
-        h1 { font-size: clamp(2rem, 6vw, 4rem); margin-bottom: 16px; }
-        p { color: #d1d5db; font-size: 1.1rem; line-height: 1.6; }
-        a { display: inline-block; margin-top: 20px; padding: 14px 20px; border-radius: 999px; background: #ef4444; color: white; font-weight: 700; text-decoration: none; }
-    </style>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=silver-1">
+  <link rel="alternate icon" href="/favicon.ico?v=silver-1" sizes="any">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=silver-1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ching-Wei Kang — Resume Library</title>
+  <meta name="description" content="Role-specific resumes for Ching-Wei Kang: master's applications, software engineering, artificial intelligence, and data science.">
+  <link rel="canonical" href="https://williamkang.com/resume-english.html">
+  <style>
+    :root { color-scheme: dark; --bg:#080b12; --panel:#111827; --line:#2b3548; --text:#f8fafc; --muted:#aeb9ca; --accent:#89f7d1; --blue:#8ea7ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 15% 0%,#17213a 0,transparent 38%),var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,system-ui,sans-serif; }
+    main { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:72px 0 88px; }
+    .eyebrow { color:var(--accent); font-size:.78rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.4rem,6vw,4.8rem); line-height:1; letter-spacing:-.045em; }
+    .intro { max-width:760px; color:var(--muted); font-size:1.08rem; line-height:1.7; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:40px; }
+    article { display:flex; flex-direction:column; min-height:270px; padding:26px; border:1px solid var(--line); border-radius:22px; background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018)); box-shadow:0 20px 50px rgba(0,0,0,.22); }
+    .tag { align-self:flex-start; padding:6px 10px; border:1px solid color-mix(in srgb,var(--accent) 45%,transparent); border-radius:999px; color:var(--accent); font-size:.76rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+    h2 { margin:18px 0 10px; font-size:1.5rem; }
+    article p { margin:0; color:var(--muted); line-height:1.6; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:auto; padding-top:24px; }
+    a.button { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:10px 15px; border-radius:999px; background:var(--accent); color:#07120e; font-weight:800; text-decoration:none; }
+    a.button.secondary { background:transparent; color:var(--text); border:1px solid var(--line); }
+    .note { margin-top:28px; color:var(--muted); font-size:.92rem; }
+    @media (max-width:760px) { main{padding-top:44px}.grid{grid-template-columns:1fr}article{min-height:250px} }
+  </style>
 </head>
 <body>
-    <main>
-        <h1>Ching-Wei Kang — English Resume</h1>
-        <p>University of Wisconsin–Madison · Computer Science and Data Science · Expected graduation May 2027</p>
-        <p>The George Washington University · 2023–2024 · GPA 3.94/4.00</p>
-        <a href="assets/Ching-Wei-Kang-Resume-English.pdf?v=20260922b">Open SWE resume (PDF)</a>
-        <a href="assets/Ching-Wei-Kang-Resume-AI.pdf?v=20260922b">Open AI resume (PDF)</a>
-    </main>
+  <main>
+    <div class="eyebrow">Resume Library</div>
+    <h1>Four focused versions.</h1>
+    <p class="intro">Choose the version that matches the application. Each job resume is one page and prioritizes role-specific evidence; the master's application CV is a broader two-page academic and technical record.</p>
+    <section class="grid" aria-label="Resume versions">
+      <article>
+        <span class="tag">Graduate Study</span>
+        <h2>Master's Application CV</h2>
+        <p>Two-page academic CV with UW–Madison and GWU education, research and professional experience, technical projects, open-source work, leadership, and awards.</p>
+        <div class="actions"><a class="button" href="assets/Ching-Wei-Kang-Resume-Masters.pdf">Open PDF</a><a class="button secondary" href="resumes/masters/Ching-Wei-Kang-Masters-Application-CV.docx">Download DOCX</a></div>
+      </article>
+      <article>
+        <span class="tag">Engineering</span>
+        <h2>Software Engineering</h2>
+        <p>One-page SWE resume centered on backend ownership, APIs, distributed workflows, data systems, production reliability, testing, and full-stack delivery. GWU is intentionally omitted.</p>
+        <div class="actions"><a class="button" href="assets/Ching-Wei-Kang-Resume-SWE.pdf">Open PDF</a><a class="button secondary" href="resumes/swe/Ching-Wei-Kang-SWE-Resume.docx">Download DOCX</a></div>
+      </article>
+      <article>
+        <span class="tag">Applied AI</span>
+        <h2>AI Engineering</h2>
+        <p>One-page AI resume emphasizing model integration, multi-agent orchestration, computer vision, reinforcement learning, evaluation, human review, and production inference systems.</p>
+        <div class="actions"><a class="button" href="assets/Ching-Wei-Kang-Resume-AI.pdf">Open PDF</a><a class="button secondary" href="resumes/ai/Ching-Wei-Kang-AI-Resume.docx">Download DOCX</a></div>
+      </article>
+      <article>
+        <span class="tag">Analytics</span>
+        <h2>Data Science</h2>
+        <p>One-page data resume focused on Python, SQL, statistical modeling, data engineering, visualization, forecasting, data quality, Power BI, and analytical impact.</p>
+        <div class="actions"><a class="button" href="assets/Ching-Wei-Kang-Resume-Data-Science.pdf">Open PDF</a><a class="button secondary" href="resumes/data-science/Ching-Wei-Kang-Data-Science-Resume.docx">Download DOCX</a></div>
+      </article>
+    </section>
+    <p class="note">Last structured update: September 22, 2026.</p>
+  </main>
 </body>
 </html>

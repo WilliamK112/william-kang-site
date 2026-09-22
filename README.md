@@ -43,3 +43,14 @@ only be needed for historical trends or site-owned data.
 - `api/github-stats.js` - cached server-side GitHub activity endpoint
 - `scripts/dev-server.mjs` - dependency-free local static and API server
 - `assets/` - local resume and image assets
+
+## Resume library
+
+The repository maintains four application-specific resume tracks under `resumes/`:
+
+- `resumes/masters/` — comprehensive two-page master's application CV
+- `resumes/swe/` — one-page software engineering resume without GWU
+- `resumes/ai/` — one-page AI engineering resume
+- `resumes/data-science/` — one-page data science resume
+
+Each directory contains an editable DOCX and its verified PDF export. The public selection page is `/resume-english.html`.
