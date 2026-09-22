@@ -74,7 +74,7 @@ for(let i=0;i<70;i++){
  dustMotion.push({x,y,z,phase:rand(0,Math.PI*2),speed:rand(.16,.38),xRange:rand(.12,.38),yRange:rand(.1,.34),zRange:rand(.16,.48)});
 }
 dustGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dustPositions,3));
-const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:theme.node,size:.023,transparent:true,opacity:.22}));scene.add(dust);
+const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:theme.node,size:.023,transparent:true,opacity:.42}));scene.add(dust);
 maskMaterial(links.material);maskMaterial(anchorDot.material);maskMaterial(endpointDots.material);maskMaterial(dust.material);
 function clearBodies(){for(const o of bodies){world.removeBody(o.body);scene.remove(o.group);o.group.traverse(v=>{v.geometry?.dispose();v.material?.dispose();});}bodies=[];}
 function build(){
