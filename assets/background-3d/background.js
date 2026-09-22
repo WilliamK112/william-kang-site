@@ -63,11 +63,13 @@ function updatePanelMask(){
 }
 const linkGeometry=new THREE.BufferGeometry();linkGeometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(60),3));linkGeometry.setDrawRange(0,0);
 const links=new THREE.LineSegments(linkGeometry,new THREE.LineBasicMaterial({color:theme.pointer,transparent:true,opacity:.6,depthTest:true}));scene.add(links);
+const anchorGeometry=new THREE.BufferGeometry();anchorGeometry.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0],3));
+const anchorDot=new THREE.Points(anchorGeometry,new THREE.PointsMaterial({color:theme.pointer,size:.055,transparent:true,opacity:.88,depthTest:true,depthWrite:false}));anchorDot.visible=false;scene.add(anchorDot);
 const dustGeometry=new THREE.BufferGeometry(),dustPositions=[];
 for(let i=0;i<70;i++)dustPositions.push(rand(-8,8),rand(-6,6),rand(-3,1));
 dustGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dustPositions,3));
 const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:theme.node,size:.023,transparent:true,opacity:.22}));scene.add(dust);
-maskMaterial(links.material);maskMaterial(dust.material);
+maskMaterial(links.material);maskMaterial(anchorDot.material);maskMaterial(dust.material);
 function clearBodies(){for(const o of bodies){world.removeBody(o.body);scene.remove(o.group);o.group.traverse(v=>{v.geometry?.dispose();v.material?.dispose();});}bodies=[];}
 function build(){
  clearBodies();
@@ -126,20 +128,22 @@ function animatePhysics(dt){
  for(const o of bodies){o.flash*=Math.exp(-4*dt);const depth=THREE.MathUtils.clamp((o.body.position.z+5)/6,.3,1.3);o.lines.material.opacity=intensity*(.8*depth+.2*o.flash);o.dots.material.opacity=Math.min(1,intensity*(1.15*depth+.22*o.flash));}
 }
 function drawLinks(){
- if(!pointer.active){linkGeometry.setDrawRange(0,0);return;}
+ if(!pointer.active){linkGeometry.setDrawRange(0,0);anchorDot.visible=false;return;}
  const candidates=[];
  for(const o of bodies){for(const v of o.linkVertices){const worldPoint=v.clone().applyMatrix4(o.group.matrixWorld),screen=worldPoint.clone().project(camera),d=Math.hypot((screen.x-ndc.x)*w/2,(screen.y-ndc.y)*h/2);if(d<180)candidates.push({point:worldPoint,d});}}
 
  const dp=dust.geometry.attributes.position;for(let i=0;i<dp.count;i++){const point=new THREE.Vector3().fromBufferAttribute(dp,i),p=point.clone().project(camera),d=Math.hypot((p.x-ndc.x)*w/2,(p.y-ndc.y)*h/2);if(d<180)candidates.push({point,d});}
  candidates.sort((a,b)=>a.d-b.d);const chosen=candidates.slice(0,10),positions=linkGeometry.attributes.position;
+ if(!chosen.length){linkGeometry.setDrawRange(0,0);anchorDot.visible=false;return;}
  ray.setFromCamera(ndc,camera);const z=chosen.length?chosen[0].point.z:0;const anchor=ray.ray.at((z-camera.position.z)/ray.ray.direction.z,new THREE.Vector3());
+ anchorGeometry.attributes.position.setXYZ(0,anchor.x,anchor.y,anchor.z+.01);anchorGeometry.attributes.position.needsUpdate=true;anchorDot.visible=true;
  chosen.forEach((p,i)=>{positions.setXYZ(i*2,anchor.x,anchor.y,anchor.z+.01);positions.setXYZ(i*2+1,p.point.x,p.point.y,p.point.z);});positions.needsUpdate=true;linkGeometry.setDrawRange(0,chosen.length*2);links.frustumCulled=false;
 }
 function render(){updatePanelMask();sync();drawLinks();renderer.render(scene,camera);}
 function tick(now){frame=0;if(paused||document.hidden)return;const dt=last?Math.min((now-last)/1000,.04):1/120;last=now;time+=dt;camera.position.x+=((pointer.active?ndc.x*.3:0)-camera.position.x)*.035;camera.position.y+=((pointer.active?ndc.y*.2:0)-camera.position.y)*.035;camera.lookAt(0,0,0);animatePhysics(dt);render();frame=requestAnimationFrame(tick);}
 function start(){if(!frame&&!paused&&!document.hidden){last=0;frame=requestAnimationFrame(tick);}}
 function pause(value){paused=value;cancelAnimationFrame(frame);frame=0;render();start();}
-function colors(){const css=getComputedStyle(document.body);for(const [key,prop] of [['line','--signal-link-rgb'],['node','--signal-node-rgb'],['pointer','--signal-pointer-rgb']])theme[key]=new THREE.Color(`rgb(${css.getPropertyValue(prop).trim()})`);for(const o of bodies){o.lines.material.color.copy(theme.line);o.dots.material.color.copy(theme.node);}links.material.color.copy(theme.pointer);dust.material.color.copy(theme.node);render();}
+function colors(){const css=getComputedStyle(document.body);for(const [key,prop] of [['line','--signal-link-rgb'],['node','--signal-node-rgb'],['pointer','--signal-pointer-rgb']])theme[key]=new THREE.Color(`rgb(${css.getPropertyValue(prop).trim()})`);for(const o of bodies){o.lines.material.color.copy(theme.line);o.dots.material.color.copy(theme.node);}links.material.color.copy(theme.pointer);anchorDot.material.color.copy(theme.pointer);dust.material.color.copy(theme.node);render();}
 addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const dt=Math.max(.012,(e.timeStamp-pointer.last)/1000);if(pointer.active){pointer.vx=THREE.MathUtils.clamp((e.clientX-pointer.x)/100/dt,-14,14);pointer.vy=THREE.MathUtils.clamp(-(e.clientY-pointer.y)/100/dt,-14,14);}Object.assign(pointer,{active:true,x:e.clientX,y:e.clientY,last:e.timeStamp});ndc.set(e.clientX/w*2-1,1-e.clientY/h*2);document.body.classList.toggle('is-pointer-active',pointer.active);if(cursor)cursor.style.transform=`translate3d(${e.clientX-140}px,${e.clientY-140}px,0)`;if(paused)render();},{passive:true});
 addEventListener('pointerdown',e=>{
  if(e.pointerType==='touch'||e.button!==0||e.target.closest('button,a,input,textarea,select'))return;
