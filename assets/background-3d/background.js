@@ -67,8 +67,12 @@ const anchorGeometry=new THREE.BufferGeometry();anchorGeometry.setAttribute('pos
 const anchorDot=new THREE.Points(anchorGeometry,new THREE.PointsMaterial({color:theme.pointer,size:.075,transparent:true,opacity:.92,depthTest:true,depthWrite:false}));anchorDot.visible=false;scene.add(anchorDot);
 const endpointGeometry=new THREE.BufferGeometry();endpointGeometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(30),3));endpointGeometry.setDrawRange(0,0);
 const endpointDots=new THREE.Points(endpointGeometry,new THREE.PointsMaterial({color:theme.pointer,size:.06,transparent:true,opacity:.9,depthTest:true,depthWrite:false}));endpointDots.visible=false;scene.add(endpointDots);
-const dustGeometry=new THREE.BufferGeometry(),dustPositions=[];
-for(let i=0;i<70;i++)dustPositions.push(rand(-8,8),rand(-6,6),rand(-3,1));
+const dustGeometry=new THREE.BufferGeometry(),dustPositions=[],dustMotion=[];
+for(let i=0;i<70;i++){
+ const x=rand(-8,8),y=rand(-6,6),z=rand(-3,1);
+ dustPositions.push(x,y,z);
+ dustMotion.push({x,y,z,phase:rand(0,Math.PI*2),speed:rand(.16,.38),xRange:rand(.12,.38),yRange:rand(.1,.34),zRange:rand(.16,.48)});
+}
 dustGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dustPositions,3));
 const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:theme.node,size:.023,transparent:true,opacity:.22}));scene.add(dust);
 maskMaterial(links.material);maskMaterial(anchorDot.material);maskMaterial(endpointDots.material);maskMaterial(dust.material);
@@ -129,6 +133,14 @@ function animatePhysics(dt){
  pointer.vx*=Math.exp(-9*dt);pointer.vy*=Math.exp(-9*dt);
  for(const o of bodies){o.flash*=Math.exp(-4*dt);const depth=THREE.MathUtils.clamp((o.body.position.z+5)/6,.3,1.3);o.lines.material.opacity=intensity*(.8*depth+.2*o.flash);o.dots.material.opacity=Math.min(1,intensity*(1.15*depth+.22*o.flash));}
 }
+function animateDust(){
+ const positions=dust.geometry.attributes.position;
+ dustMotion.forEach((point,i)=>{
+  const cycle=time*point.speed+point.phase;
+  positions.setXYZ(i,point.x+Math.sin(cycle)*point.xRange,point.y+Math.cos(cycle*.83+point.phase*.31)*point.yRange,point.z+Math.sin(cycle*.61+point.phase*.73)*point.zRange);
+ });
+ positions.needsUpdate=true;
+}
 function drawLinks(){
  if(!pointer.active){linkGeometry.setDrawRange(0,0);endpointGeometry.setDrawRange(0,0);anchorDot.visible=false;endpointDots.visible=false;return;}
  const candidates=[];
@@ -143,7 +155,7 @@ function drawLinks(){
  chosen.forEach((p,i)=>{positions.setXYZ(i*2,anchor.x,anchor.y,anchor.z+.01);positions.setXYZ(i*2+1,p.point.x,p.point.y,p.point.z);endpoints.setXYZ(i,p.point.x,p.point.y,p.point.z);});
  positions.needsUpdate=true;endpoints.needsUpdate=true;linkGeometry.setDrawRange(0,chosen.length*2);endpointGeometry.setDrawRange(0,chosen.length);endpointDots.visible=true;links.frustumCulled=false;endpointDots.frustumCulled=false;
 }
-function render(){updatePanelMask();sync();drawLinks();renderer.render(scene,camera);}
+function render(){updatePanelMask();sync();animateDust();drawLinks();renderer.render(scene,camera);}
 function tick(now){frame=0;if(paused||document.hidden)return;const dt=last?Math.min((now-last)/1000,.04):1/120;last=now;time+=dt;camera.position.x+=((pointer.active?ndc.x*.3:0)-camera.position.x)*.035;camera.position.y+=((pointer.active?ndc.y*.2:0)-camera.position.y)*.035;camera.lookAt(0,0,0);animatePhysics(dt);render();frame=requestAnimationFrame(tick);}
 function start(){if(!frame&&!paused&&!document.hidden){last=0;frame=requestAnimationFrame(tick);}}
 function pause(value){paused=value;cancelAnimationFrame(frame);frame=0;render();start();}
