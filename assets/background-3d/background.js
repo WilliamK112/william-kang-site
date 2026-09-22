@@ -14,7 +14,7 @@ world.defaultContactMaterial.restitution=.72;
 world.defaultContactMaterial.contactEquationStiffness=1e7;
 const motion=matchMedia('(prefers-reduced-motion: reduce)');
 let w=innerWidth,h=innerHeight,mode='mix',intensity=.6,paused=motion.matches,time=0,last=0,frame=0;
-let bodies=[],walls=[],pointer={active:false,pressed:false,x:0,y:0,vx:0,vy:0,last:0},theme={line:0x8ea7ff,node:0x84eeff,pointer:0x89f7d1};
+let bodies=[],walls=[],ripples=[],pointer={active:false,pressed:false,x:0,y:0,vx:0,vy:0,last:0,downX:0,downY:0},theme={line:0x8ea7ff,node:0x84eeff,pointer:0x89f7d1};
 const rand=(a,b)=>a+Math.random()*(b-a),cursor=document.querySelector('[data-cursor-light]');
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2(),tmp=new THREE.Vector3();
 const layout=[['sphere',.88,.40,.16],['cube',.10,.26,.135],['torus',.12,.79,.145],['octa',.78,.12,.085],['tetra',.31,.56,.07],['prism',.89,.85,.09],['helix',.48,.15,.075],['torus',.64,.72,.065],['octa',.07,.52,.07]];
@@ -76,6 +76,32 @@ for(let i=0;i<70;i++){
 dustGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dustPositions,3));
 const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:theme.node,size:.023,transparent:true,opacity:.42}));scene.add(dust);
 maskMaterial(links.material);maskMaterial(anchorDot.material);maskMaterial(endpointDots.material);maskMaterial(dust.material);
+function spawnRipple(x,y){
+ if(paused)return;
+ updatePanelMask();
+ if(panelRects.some(r=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom))return;
+ const clickNdc=new THREE.Vector2(x/w*2-1,1-y/h*2);ray.setFromCamera(clickNdc,camera);
+ const center=ray.ray.at((0-camera.position.z)/ray.ray.direction.z,new THREE.Vector3()),count=w<650?34:46;
+ const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(count*3),3));
+ const material=new THREE.PointsMaterial({color:theme.pointer,size:.048,transparent:true,opacity:.92,depthTest:true,depthWrite:false,blending:THREE.AdditiveBlending});
+ maskMaterial(material);
+ const points=new THREE.Points(geometry,material);points.frustumCulled=false;scene.add(points);
+ const particles=Array.from({length:count},(_,i)=>({angle:i/count*Math.PI*2+rand(-.045,.045),speed:rand(.88,1.12),lift:rand(-.12,.12),phase:rand(0,Math.PI*2)}));
+ ripples.push({center,geometry,material,points,particles,born:time,lifetime:1.35});
+ if(ripples.length>4){const old=ripples.shift();scene.remove(old.points);old.geometry.dispose();old.material.dispose();}
+}
+function animateRipples(){
+ for(let i=ripples.length-1;i>=0;i--){
+  const ripple=ripples[i],progress=(time-ripple.born)/ripple.lifetime;
+  if(progress>=1){scene.remove(ripple.points);ripple.geometry.dispose();ripple.material.dispose();ripples.splice(i,1);continue;}
+  const radius=.06+1.85*(1-Math.pow(1-progress,1.18)),positions=ripple.geometry.attributes.position;
+  ripple.particles.forEach((particle,index)=>{
+   const r=radius*particle.speed+Math.sin(progress*14+particle.phase)*.025*(1-progress);
+   positions.setXYZ(index,ripple.center.x+Math.cos(particle.angle)*r,ripple.center.y+Math.sin(particle.angle)*r,ripple.center.z+Math.sin(progress*Math.PI+particle.phase)*particle.lift);
+  });
+  positions.needsUpdate=true;ripple.material.opacity=.92*Math.pow(1-progress,1.55);ripple.material.size=.048-.014*progress;
+ }
+}
 function clearBodies(){for(const o of bodies){world.removeBody(o.body);scene.remove(o.group);o.group.traverse(v=>{v.geometry?.dispose();v.material?.dispose();});}bodies=[];}
 function build(){
  clearBodies();
@@ -155,18 +181,18 @@ function drawLinks(){
  chosen.forEach((p,i)=>{positions.setXYZ(i*2,anchor.x,anchor.y,anchor.z+.01);positions.setXYZ(i*2+1,p.point.x,p.point.y,p.point.z);endpoints.setXYZ(i,p.point.x,p.point.y,p.point.z);});
  positions.needsUpdate=true;endpoints.needsUpdate=true;linkGeometry.setDrawRange(0,chosen.length*2);endpointGeometry.setDrawRange(0,chosen.length);endpointDots.visible=true;links.frustumCulled=false;endpointDots.frustumCulled=false;
 }
-function render(){updatePanelMask();sync();animateDust();drawLinks();renderer.render(scene,camera);}
+function render(){updatePanelMask();sync();animateDust();animateRipples();drawLinks();renderer.render(scene,camera);}
 function tick(now){frame=0;if(paused||document.hidden)return;const dt=last?Math.min((now-last)/1000,.04):1/120;last=now;time+=dt;camera.position.x+=((pointer.active?ndc.x*.3:0)-camera.position.x)*.035;camera.position.y+=((pointer.active?ndc.y*.2:0)-camera.position.y)*.035;camera.lookAt(0,0,0);animatePhysics(dt);render();frame=requestAnimationFrame(tick);}
 function start(){if(!frame&&!paused&&!document.hidden){last=0;frame=requestAnimationFrame(tick);}}
 function pause(value){paused=value;cancelAnimationFrame(frame);frame=0;render();start();}
-function colors(){const css=getComputedStyle(document.body);for(const [key,prop] of [['line','--signal-link-rgb'],['node','--signal-node-rgb'],['pointer','--signal-pointer-rgb']])theme[key]=new THREE.Color(`rgb(${css.getPropertyValue(prop).trim()})`);for(const o of bodies){o.lines.material.color.copy(theme.line);o.dots.material.color.copy(theme.node);}links.material.color.copy(theme.pointer);anchorDot.material.color.copy(theme.pointer);endpointDots.material.color.copy(theme.pointer);dust.material.color.copy(theme.node);render();}
+function colors(){const css=getComputedStyle(document.body);for(const [key,prop] of [['line','--signal-link-rgb'],['node','--signal-node-rgb'],['pointer','--signal-pointer-rgb']])theme[key]=new THREE.Color(`rgb(${css.getPropertyValue(prop).trim()})`);for(const o of bodies){o.lines.material.color.copy(theme.line);o.dots.material.color.copy(theme.node);}links.material.color.copy(theme.pointer);anchorDot.material.color.copy(theme.pointer);endpointDots.material.color.copy(theme.pointer);dust.material.color.copy(theme.node);for(const ripple of ripples)ripple.material.color.copy(theme.pointer);render();}
 addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const dt=Math.max(.012,(e.timeStamp-pointer.last)/1000);if(pointer.active){pointer.vx=THREE.MathUtils.clamp((e.clientX-pointer.x)/100/dt,-14,14);pointer.vy=THREE.MathUtils.clamp(-(e.clientY-pointer.y)/100/dt,-14,14);}Object.assign(pointer,{active:true,x:e.clientX,y:e.clientY,last:e.timeStamp});ndc.set(e.clientX/w*2-1,1-e.clientY/h*2);document.body.classList.toggle('is-pointer-active',pointer.active);if(cursor)cursor.style.transform=`translate3d(${e.clientX-140}px,${e.clientY-140}px,0)`;if(paused)render();},{passive:true});
 addEventListener('pointerdown',e=>{
  if(e.pointerType==='touch'||e.button!==0||e.target.closest('button,a,input,textarea,select'))return;
- pointer.pressed=true;pointer.active=true;pointer.x=e.clientX;pointer.y=e.clientY;pointer.last=e.timeStamp;
+ pointer.pressed=true;pointer.active=true;pointer.x=e.clientX;pointer.y=e.clientY;pointer.downX=e.clientX;pointer.downY=e.clientY;pointer.last=e.timeStamp;
  ndc.set(e.clientX/w*2-1,1-e.clientY/h*2);
 });
-addEventListener('pointerup',e=>{if(e.button===0)pointer.pressed=false;});
+addEventListener('pointerup',e=>{if(e.button===0){if(pointer.pressed&&Math.hypot(e.clientX-pointer.downX,e.clientY-pointer.downY)<8)spawnRipple(e.clientX,e.clientY);pointer.pressed=false;}});
 addEventListener('pointercancel',()=>{pointer.pressed=false;});
 // Recover even when the button was released outside this window.
 addEventListener('pointermove',e=>{if(!(e.buttons&1))pointer.pressed=false;},{passive:true});
