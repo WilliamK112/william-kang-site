@@ -76,30 +76,85 @@ for(let i=0;i<70;i++){
 dustGeometry.setAttribute('position',new THREE.Float32BufferAttribute(dustPositions,3));
 const dust=new THREE.Points(dustGeometry,new THREE.PointsMaterial({color:theme.node,size:.023,transparent:true,opacity:.42}));scene.add(dust);
 maskMaterial(links.material);maskMaterial(anchorDot.material);maskMaterial(endpointDots.material);maskMaterial(dust.material);
+const rippleSprite=document.createElement('canvas');rippleSprite.width=rippleSprite.height=32;
+const rippleContext=rippleSprite.getContext('2d'),rippleGlow=rippleContext.createRadialGradient(16,16,1,16,16,16);
+rippleGlow.addColorStop(0,'rgba(255,255,255,1)');rippleGlow.addColorStop(.42,'rgba(255,255,255,.95)');rippleGlow.addColorStop(1,'rgba(255,255,255,0)');
+rippleContext.fillStyle=rippleGlow;rippleContext.fillRect(0,0,32,32);
+const rippleTexture=new THREE.CanvasTexture(rippleSprite),rippleRadius=progress=>.04+2.65*(1-Math.pow(1-progress,1.1));
 function spawnRipple(x,y){
  if(paused)return;
  updatePanelMask();
  if(panelRects.some(r=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom))return;
  const clickNdc=new THREE.Vector2(x/w*2-1,1-y/h*2);ray.setFromCamera(clickNdc,camera);
- const center=ray.ray.at((0-camera.position.z)/ray.ray.direction.z,new THREE.Vector3()),count=w<650?34:46;
+ const center=ray.ray.at((0-camera.position.z)/ray.ray.direction.z,new THREE.Vector3()),count=w<650?48:72,perBand=count/3;
  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(count*3),3));
- const material=new THREE.PointsMaterial({color:theme.pointer,size:.048,transparent:true,opacity:.92,depthTest:true,depthWrite:false,blending:THREE.AdditiveBlending});
+ const material=new THREE.PointsMaterial({color:theme.pointer,map:rippleTexture,size:.065,transparent:true,opacity:.96,alphaTest:.025,depthTest:true,depthWrite:false});
  maskMaterial(material);
  const points=new THREE.Points(geometry,material);points.frustumCulled=false;scene.add(points);
- const particles=Array.from({length:count},(_,i)=>({angle:i/count*Math.PI*2+rand(-.045,.045),speed:rand(.88,1.12),lift:rand(-.12,.12),phase:rand(0,Math.PI*2)}));
- ripples.push({center,geometry,material,points,particles,born:time,lifetime:1.35});
+ const particles=Array.from({length:count},(_,i)=>({band:i%3,angle:Math.floor(i/3)/perBand*Math.PI*2+rand(-.04,.04),speed:rand(.96,1.04),phase:rand(0,Math.PI*2)}));
+ ripples.push({center,geometry,material,points,particles,born:time,lifetime:1.6,hit:new Set()});
  if(ripples.length>4){const old=ripples.shift();scene.remove(old.points);old.geometry.dispose();old.material.dispose();}
+}
+function visibleBodyCircle(o,z){
+ const bodyNdc=new THREE.Vector3(o.body.position.x,o.body.position.y,o.body.position.z).project(camera);
+ ray.setFromCamera(new THREE.Vector2(bodyNdc.x,bodyNdc.y),camera);
+ const center=ray.ray.at((z-camera.position.z)/ray.ray.direction.z,new THREE.Vector3());
+ const edgeNdc=new THREE.Vector3(o.body.position.x+o.r,o.body.position.y,o.body.position.z).project(camera);
+ ray.setFromCamera(new THREE.Vector2(edgeNdc.x,edgeNdc.y),camera);
+ const edge=ray.ray.at((z-camera.position.z)/ray.ray.direction.z,new THREE.Vector3());
+ return{center,radius:Math.max(.05,center.distanceTo(edge))};
 }
 function animateRipples(){
  for(let i=ripples.length-1;i>=0;i--){
   const ripple=ripples[i],progress=(time-ripple.born)/ripple.lifetime;
   if(progress>=1){scene.remove(ripple.points);ripple.geometry.dispose();ripple.material.dispose();ripples.splice(i,1);continue;}
-  const radius=.06+1.85*(1-Math.pow(1-progress,1.18)),positions=ripple.geometry.attributes.position;
+  const radius=rippleRadius(progress),positions=ripple.geometry.attributes.position,colliders=bodies.map(o=>visibleBodyCircle(o,ripple.center.z));
   ripple.particles.forEach((particle,index)=>{
-   const r=radius*particle.speed+Math.sin(progress*14+particle.phase)*.025*(1-progress);
-   positions.setXYZ(index,ripple.center.x+Math.cos(particle.angle)*r,ripple.center.y+Math.sin(particle.angle)*r,ripple.center.z+Math.sin(progress*Math.PI+particle.phase)*particle.lift);
+   if(particle.dead){positions.setXYZ(index,0,0,100);return;}
+   if(particle.bounce){
+    const bounce=particle.bounce,bounceProgress=(time-bounce.born)/bounce.duration;
+    if(bounceProgress>=1){particle.dead=true;positions.setXYZ(index,0,0,100);return;}
+    const travel=bounce.distance*(1-Math.pow(1-bounceProgress,1.35));
+    positions.setXYZ(index,bounce.x+bounce.vx*travel,bounce.y+bounce.vy*travel,bounce.z+bounce.vz*travel+Math.sin(bounceProgress*Math.PI)*.045);
+    return;
+   }
+   const ringRadius=Math.max(.025,radius*particle.speed-particle.band*(.08+.16*progress));
+   const r=ringRadius+Math.sin(progress*18+particle.phase)*.018*(1-progress);
+   const wave=Math.sin(particle.angle*3-progress*20+particle.band*1.25)*.11*(1-progress);
+   const x=ripple.center.x+Math.cos(particle.angle)*r,y=ripple.center.y+Math.sin(particle.angle)*r,z=ripple.center.z+wave-particle.band*.025;
+   for(const collider of colliders){
+    const dx=x-collider.center.x,dy=y-collider.center.y,distance=Math.hypot(dx,dy);
+    if(distance>collider.radius*1.03)continue;
+    const nx=dx/Math.max(distance,.001),ny=dy/Math.max(distance,.001),incomingX=Math.cos(particle.angle),incomingY=Math.sin(particle.angle),dot=incomingX*nx+incomingY*ny;
+    let vx=incomingX-2*dot*nx,vy=incomingY-2*dot*ny;
+    if(dot>=0){vx=-incomingX;vy=-incomingY;}
+    const velocityLength=Math.max(Math.hypot(vx,vy),.001);vx/=velocityLength;vy/=velocityLength;
+    particle.bounce={x,y,z,vx,vy,vz:rand(-.22,.22),born:time,duration:rand(.2,.34),distance:rand(.22,.42)};
+    break;
+   }
+   positions.setXYZ(index,x,y,z);
   });
-  positions.needsUpdate=true;ripple.material.opacity=.92*Math.pow(1-progress,1.55);ripple.material.size=.048-.014*progress;
+  positions.needsUpdate=true;ripple.material.opacity=.96*Math.pow(1-progress,1.35);ripple.material.size=.065-.018*progress;
+ }
+}
+function pushWithRipples(){
+ for(const ripple of ripples){
+  const progress=(time-ripple.born)/ripple.lifetime;if(progress<0||progress>=1)continue;
+  const radius=rippleRadius(progress);
+  for(const o of bodies){
+   if(ripple.hit.has(o))continue;
+   // Compare against the body's visible, perspective-projected footprint on
+   // the ripple plane. A body's physics center can be several world units
+   // behind the page, so raw x/y distance does not match what users see.
+   const {center:visibleCenter,radius:visibleRadius}=visibleBodyCircle(o,ripple.center.z);
+   const dx=visibleCenter.x-ripple.center.x,dy=visibleCenter.y-ripple.center.y,distance=Math.hypot(dx,dy);
+   if(radius<Math.max(0,distance-visibleRadius))continue;
+   ripple.hit.add(o);
+   const planar=Math.max(distance,.001),strength=o.body.mass*1.35*(1-progress*.3),z=(o.body.position.z-ripple.center.z)*.16+rand(-.12,.12);
+   const direction=new C.Vec3(dx/planar,dy/planar,z),length=Math.max(direction.length(),.001);direction.scale(1/length,direction);
+   const tangent=Math.min(o.r,.55)*.65,offset=new C.Vec3(-dy/planar*tangent,dx/planar*tangent,rand(-.16,.16));
+   o.body.applyImpulse(direction.scale(strength),offset);o.flash=1;
+  }
  }
 }
 function clearBodies(){for(const o of bodies){world.removeBody(o.body);scene.remove(o.group);o.group.traverse(v=>{v.geometry?.dispose();v.material?.dispose();});}bodies=[];}
@@ -155,6 +210,7 @@ function animatePhysics(dt){
   const diff=anchor.vsub(o.body.position);o.body.applyForce(diff.scale(o.body.mass*.32));
   o.body.torque.vadd(o.spin.scale(.035),o.body.torque);
  }
+ pushWithRipples();
  const steps=Math.max(1,Math.ceil(dt*120));for(let i=0;i<steps;i++){pointerPush(dt/steps);world.step(dt/steps);sync();}
  pointer.vx*=Math.exp(-9*dt);pointer.vy*=Math.exp(-9*dt);
  for(const o of bodies){o.flash*=Math.exp(-4*dt);const depth=THREE.MathUtils.clamp((o.body.position.z+5)/6,.3,1.3);o.lines.material.opacity=intensity*(.8*depth+.2*o.flash);o.dots.material.opacity=Math.min(1,intensity*(1.15*depth+.22*o.flash));}
