@@ -118,7 +118,7 @@ experience(swe,'Global AI (Global API Inc.)','New York, NY | Hybrid','Full-Stack
 experience(swe,'Guangdong Akang Health Technology Group Co., Ltd.','China | On-site','AI & Software Engineering Intern','Jul 2026 - Aug 2026',[
 ('Made fragmented pharmaceutical evidence searchable and reusable by building interfaces and JSON/SQLite pipelines that normalized reports, legal evidence, company, and partner records with provenance, validation metadata, and reproducible exports.','Built searchable research interfaces and structured JSON/SQLite pipelines'),
 ('Improved trust in AI-assisted research by combining automated completeness, citation, and source-coverage checks with human review checkpoints, producing auditable evidence for downstream pharmaceutical decisions.','Implemented automated checks')])
-experience(swe,'China Association for Science and Technology (CAST)','United States | Remote','Research Assistant','Dec 2024 - Feb 2025',[
+experience(swe,'China Association for Science and Technology (CAST)','Washington, DC | Remote','Research Assistant','Dec 2024 - Feb 2025',[
 ('Supported national research decisions on AI talent allocation by reconciling policy and institutional sources in Python, building a documented linear forecasting model, and delivering reproducible evidence to project stakeholders.','Built a Python linear model')])
 experience(swe,'The Marcus Harris Foundation','Washington, DC','Data Engineering and Automation Intern','Sep 2024 - Dec 2024',[
 ('Made fragmented nonprofit registry data usable for reporting by building a Python ingestion service with BeautifulSoup, Requests, and Pandas, adding reusable parsers, schema checks, and auditable source fields.','Built a Python ingestion service'),
@@ -147,7 +147,7 @@ experience(ai,'Global AI (Global API Inc.)','New York, NY | Hybrid','Full-Stack 
 experience(ai,'Guangdong Akang Health Technology Group Co., Ltd.','China | On-site','AI & Software Engineering Intern','Jul 2026 - Aug 2026',[
 ('Made pharmaceutical market research traceable by designing multi-agent workflows with evidence grading, human review checkpoints, source provenance, citation checks, and automated validation, enabling reproducible exports.','Designed multi-agent research workflows'),
 ('Enabled reviewers to verify AI-assisted findings by developing searchable interfaces and structured exports with source IDs, retrieval dates, and citation checks across legal, company, and partner-verification evidence.','Developed searchable interfaces and structured exports')])
-experience(ai,'China Association for Science and Technology (CAST)','United States | Remote','Research Assistant','Dec 2024 - Feb 2025',[
+experience(ai,'China Association for Science and Technology (CAST)','Washington, DC | Remote','Research Assistant','Dec 2024 - Feb 2025',[
 ('Supported national research decisions on AI talent allocation by reconciling institutional evidence in Python, documenting model assumptions, and delivering a reproducible forecasting workflow to project stakeholders.','Built a Python forecasting model')])
 experience(ai,'The Marcus Harris Foundation','Washington, DC','Data Engineering and Automation Intern','Sep 2024 - Dec 2024',[
 ('Made public nonprofit records analysis-ready by building a Python ingestion pipeline with reusable parsers, schema validation, and auditable source fields, then loading 50,000+ PostgreSQL records with 98% accuracy.','Built a Python ingestion pipeline')])
@@ -169,7 +169,7 @@ section(ds,'Data and Research Experience')
 experience(ds,'Global AI (Global API Inc.)','New York, NY | Hybrid','Full-Stack Engineering Intern','May 2026 - Present',[
 ('Made long-running AI generation jobs reliable and measurable by building FastAPI workflows backed by PostgreSQL and Redis, with validation, cache-backed processing, failure recovery, and operational observability.','Built PostgreSQL and Redis-backed FastAPI workflows'),
 ('Improved cross-functional visibility by partnering with the CEO and four departments to translate reporting needs into an SSE-streamed dashboard for real-time progress, debugging, and release monitoring.','Partnered with the CEO and four departments')])
-experience(ds,'China Association for Science and Technology (CAST)','United States | Remote','Research Assistant','Dec 2024 - Feb 2025',[
+experience(ds,'China Association for Science and Technology (CAST)','Washington, DC | Remote','Research Assistant','Dec 2024 - Feb 2025',[
 ('Supported national AI talent-allocation research by reconciling multi-source policy evidence and building a documented Python linear model, delivering reproducible forecasts for project stakeholders.','Analyzed AI policy and talent-allocation trends')])
 experience(ds,'The Marcus Harris Foundation','Washington, DC','Data Engineering and Automation Intern','Sep 2024 - Dec 2024',[
 ('Made public nonprofit tax records analysis-ready by building a Python pipeline with BeautifulSoup, Requests, and Pandas, using reusable parsers, schema validation, and auditable source fields.','Built a Python ingestion pipeline'),
@@ -203,7 +203,7 @@ experience(m,'Global AI (Global API Inc.)','New York, NY | Hybrid','Full-Stack E
 experience(m,'Guangdong Akang Health Technology Group Co., Ltd.','China | On-site','AI & Software Engineering Intern','Jul 2026 - Aug 2026',[
 ('Made pharmaceutical research traceable by designing multi-agent workflows with evidence grading, human review checkpoints, automated validation, and auditable source provenance.','Designed multi-agent pharmaceutical research workflows'),
 ('Enabled reviewers to verify international healthcare findings by building searchable interfaces and structured JSON/SQLite exports across reports, legal evidence, company data, and partner records.','Built searchable interfaces and structured JSON/SQLite exports')],True)
-experience(m,'China Association for Science and Technology (CAST)','United States | Remote','Research Assistant','Dec 2024 - Feb 2025',[
+experience(m,'China Association for Science and Technology (CAST)','Washington, DC | Remote','Research Assistant','Dec 2024 - Feb 2025',[
 ('Supported national AI talent-allocation research by reconciling institutional evidence and building a documented Python linear model for reproducible forecasting and stakeholder analysis.','Analyzed AI policy and talent-allocation trends')],True)
 experience(m,'The Marcus Harris Foundation','Washington, DC','Data Engineering and Automation Intern','Sep 2024 - Dec 2024',[
 ('Made nonprofit registry data usable for reporting by building a BeautifulSoup, Requests, and Pandas ingestion pipeline that loaded 50,000+ PostgreSQL records with 98% accuracy.','Designed a Python ingestion pipeline')],True)
