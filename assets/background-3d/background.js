@@ -24,7 +24,15 @@ const panelMask={
  studyPanelCount:{value:0},studyViewport:{value:new THREE.Vector3()}
 };
 const panelElements=[...document.querySelectorAll('.topbar,main > section,footer')];
+const sectionElements=[...document.querySelectorAll('main > section')];
+let activeSection=0,sectionTurn=0,sectionTurnTarget=0;
 let panelRects=[],panelStamp=-Infinity,panelOnly=false;
+function updateSectionAnchors(){
+ const focusY=h*.42;
+ let next=0,best=Infinity;
+ sectionElements.forEach((section,index)=>{const rect=section.getBoundingClientRect(),center=rect.top+Math.min(rect.height,h)*.5,distance=Math.abs(center-focusY);if(distance<best){best=distance;next=index;}});
+ activeSection=next;sectionTurnTarget=next*Math.PI*2/sectionElements.length;
+}
 function maskMaterial(material){
  material.onBeforeCompile=shader=>{
   Object.assign(shader.uniforms,panelMask);
@@ -190,7 +198,7 @@ function boundaries(){
  wall(-w/200-1,0,0,new C.Vec3(0,1,0),Math.PI/2);wall(w/200+1,0,0,new C.Vec3(0,1,0),-Math.PI/2);
  wall(0,-h/200-1,0,new C.Vec3(1,0,0),-Math.PI/2);wall(0,h/200+1,0,new C.Vec3(1,0,0),Math.PI/2);
 }
-function resize(){w=innerWidth;h=innerHeight;camera.aspect=w/h;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(h/200/8));camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(w,h);boundaries();build();render();}
+function resize(){w=innerWidth;h=innerHeight;camera.aspect=w/h;camera.fov=THREE.MathUtils.radToDeg(2*Math.atan(h/200/8));camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(w,h);updateSectionAnchors();boundaries();build();render();}
 function sync(){for(const o of bodies){o.group.position.copy(o.body.position);o.group.quaternion.copy(o.body.quaternion);}scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);}
 function pointerPush(dt){
  if(!pointer.active)return;
@@ -204,9 +212,12 @@ function pointerPush(dt){
  o.body.applyImpulse(force.scale(dt),offset);o.flash=Math.max(o.flash,.4);
 }
 function animatePhysics(dt){
+ sectionTurn+=(sectionTurnTarget-sectionTurn)*(1-Math.exp(-4.2*dt));
+ const turnCos=Math.cos(sectionTurn),turnSin=Math.sin(sectionTurn);
  for(const o of bodies){
   const direction=o.angle,px=pointer.active?ndc.x:0,py=pointer.active?ndc.y:0;
-  const anchor=new C.Vec3((o.x-.5)*w/100+Math.sin(time*o.speed+o.phase)*.60+(px*Math.cos(direction)-py*Math.sin(direction))*o.reach,(.5-o.y)*h/100+Math.cos(time*o.speed*.8+o.phase)*.68+(px*Math.sin(direction)+py*Math.cos(direction))*o.reach,o.z+Math.sin(time*o.speed*.65+o.phase)*.85);
+  const baseX=o.x-.5,baseY=o.y-.5,rotatedX=baseX*turnCos-baseY*turnSin,rotatedY=baseX*turnSin+baseY*turnCos;
+  const anchor=new C.Vec3(rotatedX*w/100+Math.sin(time*o.speed+o.phase)*.60+(px*Math.cos(direction)-py*Math.sin(direction))*o.reach,-rotatedY*h/100+Math.cos(time*o.speed*.8+o.phase)*.68+(px*Math.sin(direction)+py*Math.cos(direction))*o.reach,o.z+Math.sin(time*o.speed*.65+o.phase)*.85);
   const diff=anchor.vsub(o.body.position);o.body.applyForce(diff.scale(o.body.mass*.32));
   o.body.torque.vadd(o.spin.scale(.035),o.body.torque);
  }
@@ -255,7 +266,7 @@ addEventListener('pointermove',e=>{if(!(e.buttons&1))pointer.pressed=false;},{pa
 function clearPointer(){pointer.active=false;pointer.pressed=false;pointer.vx=pointer.vy=0;document.body.classList.remove('is-pointer-active');if(paused)render();}
 document.documentElement.addEventListener('pointerleave',clearPointer);addEventListener('blur',clearPointer);
 addEventListener('resize',resize);document.addEventListener('visibilitychange',()=>{cancelAnimationFrame(frame);frame=0;start();});motion.addEventListener('change',e=>pause(e.matches));new MutationObserver(colors).observe(document.body,{attributes:true,attributeFilter:['data-theme']});
-addEventListener('scroll',()=>{panelStamp=-Infinity;if(paused)render();},{passive:true});
+addEventListener('scroll',()=>{panelStamp=-Infinity;updateSectionAnchors();if(paused)render();},{passive:true});
 new ResizeObserver(()=>{panelStamp=-Infinity;if(paused)render();}).observe(document.querySelector('main'));
 resize();colors();pause(paused);
 }
