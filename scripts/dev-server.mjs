@@ -1,6 +1,6 @@
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { extname, join, normalize, resolve } from 'node:path';
+import { extname, join, normalize, resolve, sep } from 'node:path';
 
 import githubStatsHandler from '../api/github-stats.js';
 import contactHandler from '../api/contact.js';
@@ -17,6 +17,7 @@ const mimeTypes = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.webm': 'video/webm',
+  '.webp': 'image/webp',
 };
 
 function sendJson(response, statusCode, body, headers = {}) {
@@ -70,7 +71,7 @@ const server = createServer(async (request, response) => {
   const requestedPath = url.pathname === '/' ? '/index.html' : url.pathname;
   const safePath = normalize(decodeURIComponent(requestedPath)).replace(/^(\.\.[/\\])+/, '');
   const filePath = resolve(join(root, safePath));
-  if (!filePath.startsWith(`${root}/`) || !existsSync(filePath) || !statSync(filePath).isFile()) {
+  if (!filePath.startsWith(`${root}${sep}`) || !existsSync(filePath) || !statSync(filePath).isFile()) {
     response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     response.end('Not found');
     return;

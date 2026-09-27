@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-background3d="pending">
+<html lang="en" data-studio-portfolio>
 <head>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=silver-1">
     <link rel="alternate icon" href="/favicon.ico?v=silver-1" sizes="any">
@@ -17,38 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="William Kang (Ching-Wei Kang) | Software Engineer Portfolio">
   <meta name="twitter:description" content="UW-Madison CS + Data Science student focused on software engineering, data systems, and applied machine learning.">
-  <style>
-    html,
-    body {
-      background: #000;
-    }
-    .entry-mask-intro {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      display: grid;
-      place-items: center;
-      background: #000;
-    }
-    .entry-mask-intro video,
-    .entry-mask-title-wrap {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .entry-mask-intro.is-video-ready video,
-    .entry-mask-intro.is-video-ready .entry-mask-title-wrap {
-      opacity: 1;
-      visibility: visible;
-    }
-  </style>
   <script>
-    (function setupEntryLightMode() {
-      const params = new URLSearchParams(window.location.search);
-      const mode = params.get('entry-light') || 'rise';
-      const allowedModes = new Set(['curve', 'round', 'breath', 'rise']);
-      document.documentElement.dataset.entryLight = allowedModes.has(mode) ? mode : 'rise';
-    })();
-
     (function redirectLegacyDomain() {
       const host = window.location.hostname;
       if (host === 'william-kang-site.vercel.app' || host === 'www.william-kang-site.vercel.app') {
@@ -65,25 +34,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700&family=Prata&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=github-live-1">
     <script defer src="script.js?v=geometry-1"></script>
-    <script type="module" src="assets/background-3d/loader.js"></script>
+    <link rel="stylesheet" href="assets/studio-3d/hero.css?v=studio-1">
+    <link rel="preload" as="image" href="assets/studio-3d/poster.webp" fetchpriority="high">
+    <script type="module" src="assets/studio-3d/scene.js"></script>
 </head>
-<body>
+<body class="studio-page">
     <div class="noise" aria-hidden="true"></div>
-    <canvas id="portfolio-geometry-field" aria-hidden="true"></canvas>
     <div class="cursor-light" data-cursor-light aria-hidden="true"></div>
     <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
     <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
-    <div class="entry-mask-intro" data-entry-intro aria-hidden="true">
-        <div class="entry-mask-title-wrap">
-            <video class="entry-wordmark-glow" data-entry-glow-video muted playsinline preload="auto" poster="assets/gemini-intro/entry-black-poster.png">
-                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1" type="video/webm">
-            </video>
-            <video class="entry-wordmark" data-entry-video muted playsinline preload="auto" poster="assets/gemini-intro/entry-black-poster.png">
-                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1" type="video/webm">
-            </video>
-        </div>
-    </div>
-
     <a href="#main" class="skip-link" data-i18n="skipLinkText">Skip to main content</a>
 
     <header class="topbar">
@@ -110,85 +69,49 @@
     </header>
 
     <main id="main">
-        <section id="hero" class="hero">
-            <p class="eyebrow" data-i18n="heroEyebrow">Portfolio</p>
-            <h1 class="hero-heading">
-                <span class="hero-name" data-i18n="heroName">Ching-Wei Kang</span>
-                <span class="hero-role" data-i18n="heroRole">Software Engineer</span>
-            </h1>
-            <p class="lead" data-i18n="heroLead">UW–Madison Computer Science and Data Science student focused on AI engineering, software systems, and applied machine learning. I build production-oriented AI systems, full-stack products, automation pipelines, and data infrastructure from prototype to deployment.</p>
-            <div class="signal-bar" aria-label="Current engineering focus">
-                <span data-i18n="heroSignal1">Now Shipping: Badminton AI Tracking</span>
-                <span data-i18n="heroSignal2">Focus: AI Engineering + Systems</span>
-                <span data-i18n="heroSignal3">Seeking 2027 Software Engineering &amp; AI Internships</span>
+        <section id="hero" class="hero studio-hero" aria-labelledby="studio-title">
+            <div id="studio-scene" class="studio-scene" role="group" aria-describedby="studio-scene-description" aria-label="An interactive UW–Madison-inspired AI courtyard">
+                <img class="studio-poster studio-poster-night" src="assets/studio-3d/poster.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+                <img class="studio-poster studio-poster-day" src="assets/studio-3d/poster-day.webp" alt="" aria-hidden="true" decoding="async">
+                <nav class="studio-road-links" aria-label="Courtyard shortcuts">
+                    <a data-studio-road-link="github" href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a data-studio-road-link="resume" href="assets/Ching-Wei-Kang-Resume.pdf?v=20260922h" target="_blank" rel="noopener noreferrer"><span data-i18n="topResume">Resume</span></a>
+                    <a data-studio-road-link="linkedin" href="https://www.linkedin.com/in/kcw2027/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a data-studio-road-link="devpost" href="https://devpost.com/ckang53" target="_blank" rel="noopener noreferrer">Devpost</a>
+                    <button type="button" data-studio-board-toggle aria-pressed="false" aria-describedby="uw-card-details" aria-controls="uw-card-details" data-i18n="studioBoardToggle" disabled>UW–Madison card</button>
+                </nav>
             </div>
-            <div class="hero-visuals">
-                <figure class="portrait-frame">
-                    <button class="profile-flip-card profile-proximity-card" type="button" data-flip-card aria-pressed="false" aria-label="Flip to view personal information">
-                        <div class="profile-flip-inner">
-                            <div class="profile-flip-face profile-flip-front">
-                                <img src="assets/William_Kang-9c2f39ca-aa59-4956-8969-b7e0fa9d303a.png" alt="Portrait of Ching-Wei Kang in a black suit">
-                                <div class="profile-front-badge" aria-hidden="true">
-                                    <span data-i18n="profileMiniTagSchool">UWM 2027</span>
-                                    <span data-i18n="profileMiniTagGpa">UW 3.91 · GWU 3.94</span>
-                                </div>
-                                <span class="profile-flip-hint" data-i18n="flipHint">Click to flip</span>
-                            </div>
-                            <div class="profile-flip-face profile-flip-back">
-                                <img class="profile-origin-bg" src="assets/taiwan-dot-personal-bg.svg?v=taiwan-clipped-dots-1" alt="" aria-hidden="true">
-                                <span class="profile-origin-dot-field" data-taiwan-dot-field aria-hidden="true">
-                                    <span class="profile-taipei-marker" aria-hidden="true">
-                                        <span class="profile-taipei-dot"></span>
-                                        <span class="profile-taipei-label">
-                                            <span>Taipei, Taiwan</span>
-                                            <span>台北 · 台湾</span>
-                                        </span>
-                                    </span>
-                                </span>
-                                <strong class="profile-mini-title" data-i18n="profileSnapshotTitle">Personal Info</strong>
-                                <span class="profile-mini-line" data-i18n="profileName">Ching-Wei (William) Kang</span>
-                                <span class="profile-mini-line" data-i18n="profileSchool">Junior, UW-Madison</span>
-                                <span class="profile-mini-line" data-i18n="profileGpa">UW GPA: 3.91 · GWU GPA: 3.94</span>
-                                <a class="profile-mini-link" href="https://www.instagram.com/williamkangcw/" target="_blank" rel="noopener noreferrer" data-i18n="profileMiniInstagram">Instagram: @williamkangcw</a>
-                            </div>
-                        </div>
-                    </button>
-                </figure>
-                <figure class="uw-logo-showcase" aria-label="University of Wisconsin-Madison logo">
-                    <button class="uw-flip-card" id="uw-flip-card" type="button" data-flip-card aria-pressed="false" aria-label="Flip to view UW-Madison CS highlights">
-                        <div class="uw-flip-inner">
-                            <div class="uw-flip-face uw-flip-front">
-                                <div class="uw-logo-glow" aria-hidden="true"></div>
-                                <img src="assets/wisconsin_logo_transparent_only_W_white-dc13339c-e36a-4f86-85ca-242fa3512993.png" alt="University of Wisconsin-Madison logo">
-                                <span class="uw-flip-hint" data-i18n="flipHint">Click to flip</span>
-                            </div>
-                            <div class="uw-flip-face uw-flip-back">
-                                <strong class="uw-mini-title" data-i18n="uwMiniTitle">UW-Madison CS Edge</strong>
-                                <span class="uw-mini-standing" data-i18n="uwMiniStanding">I am a junior undergraduate at UW-Madison.</span>
-                                <span class="uw-mini-ranks">
-                                    <span data-i18n="uwRankOverall">#16 Overall CS</span>
-                                    <span data-i18n="uwRankPublic">#9 Public CS</span>
-                                    <span data-i18n="uwRankSystems">#6 Systems</span>
-                                    <span data-i18n="uwRankLanguages">#15 Programming Languages</span>
-                                    <span data-i18n="uwRankAI">#23 Artificial Intelligence</span>
-                                </span>
-                                <span class="uw-mini-points">
-                                    <span data-i18n="uwPointSystems">Strong systems depth + research culture.</span>
-                                    <span data-i18n="uwPointExecution">Practical engineering execution with rigorous CS training.</span>
-                                </span>
-                                <a class="uw-mini-source" href="https://news.wisc.edu/uw-rises-to-36th-overall-12th-among-publics-in-u-s-news-rankings/" target="_blank" rel="noopener noreferrer" data-i18n="uwSource">U.S. News + UW CS + CSRankings (UW source)</a>
-                            </div>
-                        </div>
-                    </button>
-                </figure>
+            <p id="studio-scene-description" class="studio-sr-only" data-i18n="studioSceneDescription">An interactive, cel-shaded courtyard inspired by UW–Madison, with campus architecture and a personal AI workspace. Light mode brings daytime and begins turning to autumn after 30 seconds of visible animation; dark mode changes from a rainy night into a snowy winter courtyard. Pause motion also pauses seasonal progress. Click the road keys to open GitHub, Resume, LinkedIn, or Devpost; the same links are available by keyboard. Drag to rotate, scroll over the scene to zoom, or use the zoom and reset buttons. Scroll outside the scene to continue through the portfolio.</p>
+            <div class="studio-shade studio-shade-night" aria-hidden="true"></div>
+            <div class="studio-shade studio-shade-day" aria-hidden="true"></div>
+            <div class="studio-copy">
+                <p class="studio-kicker"><span class="studio-kicker-line" aria-hidden="true"></span><span data-i18n="studioKicker">UW–MADISON / AI COURTYARD</span></p>
+                <h1 id="studio-title" class="hero-heading"><span class="hero-name" data-i18n="heroName">Ching‑Wei Kang</span></h1>
+                <p class="studio-role" data-i18n="studioRole">SOFTWARE ENGINEER <span aria-hidden="true">/</span> AI &amp; SYSTEMS</p>
+                <p class="studio-intro" data-i18n="studioIntro">UW–Madison CS + Data Science. I build AI systems, full-stack products, and data infrastructure — from prototype to deployment.</p>
+                <p class="studio-availability"><span aria-hidden="true"></span><span data-i18n="studioAvailability">Seeking 2027 software engineering &amp; AI internships</span></p>
+                <div class="studio-actions">
+                    <a href="assets/Ching-Wei-Kang-Resume.pdf?v=20260922h" class="studio-button studio-button-primary" target="_blank" rel="noopener noreferrer"><span data-i18n="ctaResume">Resume PDF</span><span aria-hidden="true">↗</span></a>
+                    <a href="#projects" class="studio-button studio-button-secondary"><span data-i18n="studioSelectedWork">Selected work</span><span aria-hidden="true">↓</span></a>
+                </div>
+                <div class="studio-links">
+                    <a href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+                    <span class="studio-link-divider" aria-hidden="true"></span>
+                    <button type="button" class="copy-email-btn" data-copy-email="ckang53@wisc.edu" data-i18n="ctaEmail">Copy Email</button>
+                </div>
             </div>
-            <div class="hero-cta">
-                <a href="assets/Ching-Wei-Kang-Resume.pdf?v=20260922h" class="btn" target="_blank" rel="noopener noreferrer" data-i18n="ctaResume">Resume PDF</a>
-                <button type="button" class="btn btn-ghost copy-email-btn" data-copy-email="ckang53@wisc.edu" data-i18n="ctaEmail">Copy Email</button>
-                <a href="https://github.com/WilliamK112" class="btn btn-ghost" target="_blank" rel="noopener noreferrer" data-i18n="ctaGithub">View GitHub</a>
-                <a href="https://www.linkedin.com/in/kcw2027/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer" data-i18n="ctaLinkedIn">LinkedIn</a>
-                <a href="https://devpost.com/ckang53" class="btn btn-ghost" target="_blank" rel="noopener noreferrer" data-i18n="ctaDevpost">Devpost</a>
-                <a href="https://calendly.com/ckang53-wisc/30min" class="btn btn-ghost" target="_blank" rel="noopener noreferrer" data-i18n="ctaBook">Book 30-Min Intro</a>
+            <div class="studio-scene-note" aria-hidden="true"><span class="studio-note-dot"></span><span data-i18n="studioSceneNote">CAMPUS ROOTS. OPEN POSSIBILITIES.</span></div>
+            <div class="studio-bottom-line">
+                <a href="#open-source" class="studio-scroll-link"><span class="studio-scroll-mark" aria-hidden="true">↓</span><span data-i18n="studioExplore">Explore my work</span></a>
+                <div class="studio-view-tools">
+                    <span class="studio-drag-hint" data-i18n="studioDragHint">Click keys · Drag to rotate · Scroll to zoom</span>
+                    <div class="studio-zoom-controls" role="group" aria-label="Courtyard view controls">
+                        <button type="button" class="studio-view-button" data-studio-zoom="out" data-studio-label="studioZoomOut" aria-label="Zoom out" disabled><span aria-hidden="true">−</span><span class="studio-sr-only" data-i18n="studioZoomOut">Zoom out</span></button>
+                        <button type="button" class="studio-view-button" data-studio-zoom="in" data-studio-label="studioZoomIn" aria-label="Zoom in" disabled><span aria-hidden="true">+</span><span class="studio-sr-only" data-i18n="studioZoomIn">Zoom in</span></button>
+                        <button type="button" class="studio-view-button" data-studio-reset data-studio-label="studioResetView" aria-label="Reset view" disabled><span aria-hidden="true">↺</span><span class="studio-sr-only" data-i18n="studioResetView">Reset view</span></button>
+                    </div>
+                    <button type="button" class="studio-motion-button" data-studio-motion aria-pressed="false" disabled><span class="studio-motion-icon" aria-hidden="true"></span><span data-studio-motion-label data-i18n="studioPauseMotion">Pause motion</span></button>
+                </div>
             </div>
         </section>
 
@@ -593,6 +516,80 @@
         </section>
 
         <section id="about" class="grid-2">
+            <article class="studio-profile-detail" aria-labelledby="profile-detail-title">
+                <div class="profile-detail-heading">
+                    <p class="eyebrow" data-i18n="profileDetailEyebrow">BEHIND THE WORK</p>
+                    <h2 id="profile-detail-title" data-i18n="profileDetailTitle">A little more about me.</h2>
+                    <p data-i18n="profileDetailIntro">Ching-Wei (William) Kang. A UW–Madison student combining computer science, data science, and a hands-on approach to building useful software.</p>
+                    <p class="profile-current-focus" data-i18n="heroSignal1">Now Shipping: Badminton AI Tracking</p>
+                    <a class="profile-detail-more" href="about-william-kang.html" data-i18n="profileDetailMore">Profile &amp; background ↗</a>
+                </div>
+            <div class="profile-detail-visuals">
+                <figure class="portrait-frame">
+                    <button class="profile-flip-card profile-proximity-card" type="button" data-flip-card aria-pressed="false" aria-label="Flip to view personal information">
+                        <div class="profile-flip-inner">
+                            <div class="profile-flip-face profile-flip-front">
+                                <img src="assets/William_Kang-9c2f39ca-aa59-4956-8969-b7e0fa9d303a.png" alt="Portrait of Ching-Wei Kang in a black suit">
+                                <div class="profile-front-badge" aria-hidden="true">
+                                    <span data-i18n="profileMiniTagSchool">UWM 2027</span>
+                                    <span data-i18n="profileMiniTagGpa">UW 3.91 · GWU 3.94</span>
+                                </div>
+                                <span class="profile-flip-hint" data-i18n="flipHint">Click to flip</span>
+                            </div>
+                            <div class="profile-flip-face profile-flip-back">
+                                <img class="profile-origin-bg" src="assets/taiwan-dot-personal-bg.svg?v=taiwan-clipped-dots-1" alt="" aria-hidden="true">
+                                <span class="profile-origin-dot-field" data-taiwan-dot-field aria-hidden="true">
+                                    <span class="profile-taipei-marker" aria-hidden="true">
+                                        <span class="profile-taipei-dot"></span>
+                                        <span class="profile-taipei-label">
+                                            <span>Taipei, Taiwan</span>
+                                            <span>台北 · 台湾</span>
+                                        </span>
+                                    </span>
+                                </span>
+                                <strong class="profile-mini-title" data-i18n="profileSnapshotTitle">Personal Info</strong>
+                                <span class="profile-mini-line" data-i18n="profileName">Ching-Wei (William) Kang</span>
+                                <span class="profile-mini-line" data-i18n="profileSchool">Junior, UW-Madison</span>
+                                <span class="profile-mini-line" data-i18n="profileGpa">UW GPA: 3.91 · GWU GPA: 3.94</span>
+                                <a class="profile-mini-link" href="https://www.instagram.com/williamkangcw/" target="_blank" rel="noopener noreferrer" data-i18n="profileMiniInstagram">Instagram: @williamkangcw</a>
+                            </div>
+                        </div>
+                    </button>
+                </figure>
+                <figure class="uw-logo-showcase" aria-label="University of Wisconsin-Madison logo">
+                    <button class="uw-flip-card" id="uw-flip-card" type="button" data-flip-card aria-pressed="false" aria-label="Flip to view UW-Madison CS highlights">
+                        <div class="uw-flip-inner">
+                            <div class="uw-flip-face uw-flip-front">
+                                <div class="uw-logo-glow" aria-hidden="true"></div>
+                                <img src="assets/wisconsin_logo_transparent_only_W_white-dc13339c-e36a-4f86-85ca-242fa3512993.png" alt="University of Wisconsin-Madison logo">
+                                <span class="uw-flip-hint" data-i18n="flipHint">Click to flip</span>
+                            </div>
+                            <div class="uw-flip-face uw-flip-back" id="uw-card-details">
+                                <strong class="uw-mini-title" data-i18n="uwMiniTitle">UW-Madison CS Edge</strong>
+                                <span class="uw-mini-standing" data-i18n="uwMiniStanding">I am a junior undergraduate at UW-Madison.</span>
+                                <span class="uw-mini-ranks">
+                                    <span data-i18n="uwRankOverall">#16 Overall CS</span>
+                                    <span data-i18n="uwRankPublic">#9 Public CS</span>
+                                    <span data-i18n="uwRankSystems">#6 Systems</span>
+                                    <span data-i18n="uwRankLanguages">#15 Programming Languages</span>
+                                    <span data-i18n="uwRankAI">#23 Artificial Intelligence</span>
+                                </span>
+                                <span class="uw-mini-points">
+                                    <span data-i18n="uwPointSystems">Strong systems depth + research culture.</span>
+                                    <span data-i18n="uwPointExecution">Practical engineering execution with rigorous CS training.</span>
+                                </span>
+                                <a class="uw-mini-source" href="https://news.wisc.edu/uw-rises-to-36th-overall-12th-among-publics-in-u-s-news-rankings/" target="_blank" rel="noopener noreferrer" data-i18n="uwSource">U.S. News + UW CS + CSRankings (UW source)</a>
+                            </div>
+                        </div>
+                    </button>
+                </figure>
+            </div>
+                <div class="profile-detail-links">
+                    <a href="https://www.linkedin.com/in/kcw2027/" target="_blank" rel="noopener noreferrer" data-i18n="ctaLinkedIn">LinkedIn</a>
+                    <a href="https://devpost.com/ckang53" target="_blank" rel="noopener noreferrer" data-i18n="ctaDevpost">Devpost</a>
+                    <a href="https://calendly.com/ckang53-wisc/30min" target="_blank" rel="noopener noreferrer" data-i18n="ctaBook">Book 30-Min Intro</a>
+                </div>
+            </article>
             <article class="card section-3d-subpanel about-summary-card">
                 <h2 data-i18n="snapshotTitle">Snapshot</h2>
                 <div class="recruiter-snapshot">

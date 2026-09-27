@@ -381,7 +381,8 @@
     githubUpdated: 'GitHub updated · {{date}}',
     githubUpdatedPartial: 'GitHub partial update · {{date}}',
     githubUnavailable: 'Live update unavailable · showing last-known values',
-    githubLastPushed: 'Last pushed on GitHub: {{date}}'
+    githubLastPushed: 'Last pushed on GitHub: {{date}}',
+    studioResumeMotion: 'Resume motion'
   });
 
   const translations = {
@@ -409,6 +410,25 @@
       topDevpost: 'Devpost',
       heroEyebrow: '作品集',
       heroName: '康景威',
+      studioKicker: '威斯康星大学麦迪逊分校 / AI 庭院',
+      studioRole: '软件工程师 <span aria-hidden="true">/</span> AI 与系统',
+      studioIntro: '威斯康星大学麦迪逊分校计算机科学与数据科学学生。我构建 AI 系统、全栈产品与数据基础设施，将原型推进至部署。',
+      studioAvailability: '正在寻找 2027 软件工程与 AI 实习机会',
+      studioSelectedWork: '精选项目',
+      studioSceneNote: '扎根校园，探索无限可能。',
+      studioExplore: '探索我的作品',
+      studioDragHint: '点击按键 · 拖动旋转 · 滚轮缩放',
+      studioZoomIn: '放大场景',
+      studioZoomOut: '缩小场景',
+      studioResetView: '重置视角',
+      studioBoardToggle: 'UW–Madison 卡片',
+      studioPauseMotion: '暂停动态',
+      studioResumeMotion: '继续动态',
+      studioSceneDescription: '以威斯康星大学麦迪逊分校为灵感的可交互三渲二微缩庭院，结合校园建筑与个人 AI 工作空间。浅色模式呈现白天，在场景可见且动画运行累计 30 秒后开始转入秋天；深色模式从雨夜逐渐变为积雪的冬日庭院。暂停动效也会暂停季节变化。点击路面按键可打开 GitHub、简历、LinkedIn 或 Devpost，也可通过键盘访问相同链接。拖动旋转，在场景上使用滚轮缩放，或使用放大、缩小和重置按钮。在场景外滚动可继续浏览作品集。',
+      profileDetailEyebrow: '作品背后的我',
+      profileDetailTitle: '再多了解我一点。',
+      profileDetailIntro: '康景威（William Kang），威斯康星大学麦迪逊分校学生。结合计算机科学、数据科学与实践，构建有用的软件。',
+      profileDetailMore: '个人资料与背景 ↗',
       heroRole: '软件工程师',
       heroLead: '威斯康星大学麦迪逊分校计算机科学与数据科学学生，专注 AI 工程、软件系统与应用机器学习。我构建面向生产的 AI 系统、全栈产品、自动化流水线和数据基础设施，并将原型推进至部署。',
       heroSignal1: '当前重点：羽毛球 AI 追踪',
@@ -675,6 +695,11 @@
       if (value !== undefined) node.setAttribute('placeholder', value);
     });
 
+    document.querySelectorAll('[data-studio-label]').forEach((node) => {
+      const key = node.getAttribute('data-studio-label');
+      if (key) node.setAttribute('aria-label', getText(key));
+    });
+
     toggle.setAttribute('aria-pressed', isZh ? 'true' : 'false');
     toggle.setAttribute('aria-label', isZh ? getText('langAriaToEnglish') : getText('langAriaToChinese'));
     toggle.textContent = isZh ? (dict.langButtonText || 'EN') : (translations.en.langButtonText || '中文');
@@ -862,6 +887,10 @@
 (function setupHeroSceneSequence() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
+  if (hero.classList.contains('studio-hero')) {
+    hero.classList.add('hero-ready');
+    return;
+  }
 
   const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
