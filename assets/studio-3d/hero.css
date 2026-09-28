@@ -127,8 +127,9 @@ body[data-theme="light"] #hero.studio-hero { --studio-day: 1; }
 body[data-theme="light"] #studio-scene .studio-poster-night { opacity: 0; }
 body[data-theme="light"] #studio-scene .studio-poster-day { opacity: 1; }
 #studio-scene[data-ready="true"] .studio-poster,
-#studio-scene.is-ready .studio-poster { opacity: 0 !important; }
+#studio-scene.is-ready .studio-poster { opacity: 0 !important; visibility: hidden; transition: none; }
 #studio-scene[data-state="fallback"] canvas { display: none; }
+#studio-scene[data-state="fallback"] .studio-poster { visibility: visible; }
 #studio-scene[data-state="fallback"] .studio-poster-night { opacity: 1 !important; }
 #studio-scene[data-state="fallback"] .studio-poster-day { opacity: 0 !important; }
 body[data-theme="light"] #studio-scene[data-state="fallback"] .studio-poster-night { opacity: 0 !important; }

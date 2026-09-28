@@ -47,7 +47,8 @@
     <link rel="stylesheet" href="styles.css?v=github-live-1">
     <script defer src="script.js?v=geometry-1"></script>
     <link rel="stylesheet" href="assets/studio-3d/hero.css?v=studio-1">
-    <link rel="preload" as="image" href="assets/studio-3d/poster.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/studio-3d/poster.webp?v=opening-2" media="(prefers-reduced-motion: no-preference)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/studio-3d/poster-reduced.webp?v=opening-2" media="(prefers-reduced-motion: reduce)" fetchpriority="high">
     <script type="module" src="assets/studio-3d/scene.js"></script>
     <script type="module" src="assets/background-3d/loader.js"></script>
 </head>
@@ -95,8 +96,14 @@
     <main id="main">
         <section id="hero" class="hero studio-hero" aria-labelledby="studio-title">
             <div id="studio-scene" class="studio-scene" role="group" aria-describedby="studio-scene-description" aria-label="An interactive UW–Madison-inspired AI courtyard">
-                <img class="studio-poster studio-poster-night" src="assets/studio-3d/poster.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async">
-                <img class="studio-poster studio-poster-day" src="assets/studio-3d/poster-day.webp" alt="" aria-hidden="true" decoding="async">
+                <picture aria-hidden="true">
+                    <source media="(prefers-reduced-motion: reduce)" srcset="assets/studio-3d/poster-reduced.webp?v=opening-2">
+                    <img class="studio-poster studio-poster-night" src="assets/studio-3d/poster.webp?v=opening-2" alt="" fetchpriority="high" decoding="async">
+                </picture>
+                <picture aria-hidden="true">
+                    <source media="(prefers-reduced-motion: reduce)" srcset="assets/studio-3d/poster-day-reduced.webp?v=opening-2">
+                    <img class="studio-poster studio-poster-day" src="assets/studio-3d/poster-day.webp?v=opening-2" alt="" decoding="async">
+                </picture>
                 <nav class="studio-road-links" aria-label="Courtyard shortcuts">
                     <a data-studio-road-link="github" href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a data-studio-road-link="resume" href="assets/Ching-Wei-Kang-Resume.pdf?v=20260922h" target="_blank" rel="noopener noreferrer"><span data-i18n="topResume">Resume</span></a>
