@@ -2,8 +2,8 @@
 export function buildMascot({THREE, scene, mat}) {
   const badger = new THREE.Group();
   badger.name = 'Resting American badger';
-  badger.position.set(-5.45, .01, 3.95);
-  badger.rotation.y = 1.10;
+  badger.position.set(-5.55, .01, -3.92);
+  badger.rotation.y = -2.40;
   badger.scale.set(.93, 1.06, .93);
   scene.add(badger);
 

@@ -222,12 +222,8 @@ export async function buildCampus(api) {
   terraceTable(6.57,.02,true);terraceChair(6.58,-.67,0,2);terraceChair(6.59,.73,Math.PI,0);
   collectInto(terraceGroup,hallGroup,lakeGroup);
 
-  // Pale pedestrian paving makes the space between the two buildings explicit.
-  const path=group(0,0,0,0,campusGroup);path.name='Separate campus pedestrian court';
-  const pavingOutline=new THREE.Shape();
-  [[1.98,-3.04],[4.02,-3.04],[4.02,1.80],[4.32,1.80],[4.32,2.43],[1.98,2.43]].forEach(([x,z],i)=>i?pavingOutline.lineTo(x,-z):pavingOutline.moveTo(x,-z));pavingOutline.closePath();
-  const walkway=new THREE.Mesh(new THREE.ExtrudeGeometry(pavingOutline,{depth:.09,bevelEnabled:false,steps:1}),stone);walkway.rotation.x=-Math.PI/2;walkway.castShadow=walkway.receiveShadow=true;path.add(walkway);
-  box(.28,.15,.60,4.17,.075,2.12,sandstone,path,false);
+  // Three entrance steps connect the academic hall to the courtyard.
+  const path=group(0,0,0,0,campusGroup);path.name='UW entrance steps';
   box(2.98,.30,.83,4.80,.15,-2.87,sandstone,path);
   box(3.10,.20,.40,4.80,.10,-2.26,sandstone,path);
   box(3.22,.10,.40,4.80,.05,-1.86,sandstone,path);
@@ -258,8 +254,11 @@ export async function buildCampus(api) {
   box(2.23,.055,1.81,6.53,.020,-7.00,stone,bikeCourt,false);
   const parkedBikePaint=[mat(0x8d514f),mat(0x668c82),mat(0xb09963),mat(0x496573)];
   for(let i=0;i<4;i++){
-    const x=5.78+i*.50,parked=bike.clone(true);parked.position.set(x,.0415,-7.00);parked.rotation.y=Math.PI/2+(i%2?.025:-.025);
-    parked.name=`Parked campus bicycle ${i+1}`;parked.traverse(o=>{if(o.isMesh&&o.material===red)o.material=parkedBikePaint[i];});bikeCourt.add(parked);
+    const x=5.78+i*.50;
+    if(i!==2){
+      const parked=bike.clone(true);parked.position.set(x,.0415,-7.00);parked.rotation.y=Math.PI/2+(i%2?.025:-.025);
+      parked.name=`Parked campus bicycle ${i+1}`;parked.traverse(o=>{if(o.isMesh&&o.material===red)o.material=parkedBikePaint[i];});bikeCourt.add(parked);
+    }
     for(const side of [-1,1])rod([x+side*.105,.05,-6.43],[x+side*.105,.34,-6.43],.019,metal,bikeCourt);
     tube([[x-.105,.34,-6.43],[x-.09,.40,-6.43],[x+.09,.40,-6.43],[x+.105,.34,-6.43]],.019,metal,bikeCourt);
   }

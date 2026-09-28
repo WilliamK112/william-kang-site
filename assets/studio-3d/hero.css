@@ -1,4 +1,21 @@
 /* The first screen is the studio itself; portfolio content remains below it. */
+html[data-studio-portfolio] {
+  --section-bg-start: 100vh;
+  --section-bg-end: 100vh;
+  --section-bg-visible: 0;
+}
+/* The original geometry starts at the lower edge of the courtyard. Its canvas
+   remains behind content and never captures pointer or scrolling gestures. */
+.studio-page :is(#portfolio-geometry-field, #portfolio-signal-field) {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent var(--section-bg-start), #000 var(--section-bg-end));
+  mask-image: linear-gradient(to bottom, transparent var(--section-bg-start), #000 var(--section-bg-end));
+}
+.studio-page #portfolio-geometry-field { opacity: var(--section-bg-visible); }
+.studio-page #portfolio-signal-field { opacity: calc(var(--section-bg-visible) * var(--signal-canvas-opacity)); }
 .studio-page #main {
   width: 100%;
   margin: 0 auto 4rem;
@@ -189,9 +206,12 @@ body[data-theme="light"] #studio-scene .studio-road-links :is(a, button):focus-v
   background: linear-gradient(90deg, #fbf3df 0%, rgba(251, 243, 223, .96) 18%, rgba(251, 243, 223, .74) 31%, rgba(251, 243, 223, .15) 47%, transparent 64%);
   opacity: var(--studio-day);
 }
-#hero .studio-copy > * { pointer-events: auto; }
+#hero .studio-copy > * { pointer-events: none; }
+#hero .studio-copy :is(a, button) { pointer-events: auto; }
 #hero .studio-copy {
   pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
   position: relative;
   z-index: 3;
   width: 37%;
@@ -203,13 +223,38 @@ body[data-theme="light"] #studio-scene .studio-road-links :is(a, button):focus-v
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 0 31px;
+  margin: 0 0 24px;
   color: #9ebbbd;
   font: 500 10px/1.6 "Plus Jakarta Sans", sans-serif;
   letter-spacing: .19em;
   text-transform: uppercase;
 }
 .studio-kicker-line { width: 27px; height: 1px; flex: 0 0 auto; background: #89b6af; }
+#hero .studio-portrait {
+  position: relative;
+  flex: 0 0 auto;
+  width: 68px;
+  height: 68px;
+  overflow: hidden;
+  border: 2px solid #d9ded0;
+  border-radius: 50%;
+  background: #c8c9c3;
+  box-shadow: 0 0 0 5px rgba(157, 190, 178, .07), 0 5px 17px rgba(5, 15, 24, .14);
+}
+#hero .studio-portrait img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 200%;
+  max-width: none;
+  height: auto;
+  display: block;
+  transform: translateX(-50%);
+}
+body[data-theme="light"] #hero .studio-portrait {
+  border-color: #fff6e4;
+  box-shadow: 0 0 0 1px rgba(151, 62, 69, .21), 0 5px 17px rgba(93, 71, 40, .10);
+}
 #hero .hero-heading {
   display: block;
   margin: 0 0 27px;
@@ -277,7 +322,8 @@ body[data-theme="light"] #studio-scene .studio-road-links :is(a, button):focus-v
   margin: 31px 0 0;
 }
 #hero .studio-button {
-  min-height: 48px;
+  min-height: 54px;
+  min-width: 218px;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -286,16 +332,16 @@ body[data-theme="light"] #studio-scene .studio-road-links :is(a, button):focus-v
   border: 1px solid transparent;
   border-radius: 5px;
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: .018em;
   transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
-#hero .studio-button-primary { color: #213139; background: #e5ddc5; border-color: #e5ddc5; }
+#hero .studio-button-primary { color: #213139; background: #eee2bd; border-color: #f5eacf; box-shadow: 0 5px 24px rgba(225, 206, 157, .17); }
 #hero .studio-button-primary:hover { background: #f5ecd4; border-color: #f5ecd4; transform: translateY(-2px); }
 #hero .studio-button-secondary { color: #d8e1df; border-color: rgba(162, 191, 191, .29); background: rgba(19, 37, 47, .5); }
 #hero .studio-button-secondary:hover { background: rgba(53, 79, 86, .5); border-color: #7d9e9d; transform: translateY(-2px); }
-#hero .studio-button > span:last-child { font-size: 16px; font-weight: 400; }
+#hero .studio-button > span:last-child { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; background: rgba(27, 48, 54, .08); font-size: 18px; font-weight: 400; }
 #hero .studio-links { display: flex; align-items: center; gap: 16px; margin-top: 25px; }
 #hero .studio-links a,
 #hero .studio-links button {
@@ -335,7 +381,7 @@ body[data-theme="light"] #studio-scene .studio-road-links :is(a, button):focus-v
   right: 5.6%;
   bottom: 31px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 24px;
 }
@@ -420,7 +466,8 @@ body[data-theme="light"] #hero .studio-role span { color: #8aa0a6; }
 body[data-theme="light"] #hero .studio-intro { color: #4d636e; }
 body[data-theme="light"] #hero .studio-availability { color: #4f756c; }
 body[data-theme="light"] #hero .studio-availability > span:first-child { background: #5a897a; box-shadow: 0 0 0 3px rgba(89, 138, 121, .09); }
-body[data-theme="light"] #hero .studio-button-primary { background: #973e45; border-color: #973e45; color: #faf2df; }
+body[data-theme="light"] #hero .studio-button-primary { background: #973e45; border-color: #973e45; color: #faf2df; box-shadow: 0 5px 22px rgba(132, 44, 53, .17); }
+body[data-theme="light"] #hero .studio-button-primary > span:last-child { background: rgba(255, 242, 218, .12); }
 body[data-theme="light"] #hero .studio-button-primary:hover { background: #aa4c52; border-color: #aa4c52; }
 body[data-theme="light"] #hero .studio-button-secondary { color: #344f5b; border-color: rgba(97, 126, 135, .38); background: rgba(247, 249, 239, .50); }
 body[data-theme="light"] #hero .studio-button-secondary:hover { border-color: #7c999f; background: rgba(255, 255, 250, .82); }
@@ -485,7 +532,8 @@ body[data-theme="light"] #hero button:focus-visible { outline-color: #a95559; }
   #hero.studio-hero { display: flex; flex-direction: column; align-items: stretch; height: auto; max-height: none; min-height: 0; padding: 55px 6vw 0; }
   #hero .studio-copy { display: contents; }
   #hero .studio-copy > * { position: relative; z-index: 3; flex: 0 0 auto; }
-  #hero .studio-kicker { order: 1; font-size: 9px; margin-bottom: 21px; }
+  #hero .studio-kicker { order: 1; font-size: 9px; margin-bottom: 18px; }
+  #hero .studio-portrait { width: 60px; height: 60px; }
   #hero .hero-heading { order: 2; margin-bottom: 21px; max-width: 560px; }
   #hero .hero-name { max-width: 450px; font-size: clamp(60px, 10.4vw, 80px); line-height: 1.11; }
   #hero .studio-role { order: 3; font-size: 9px; margin-bottom: 20px; }
@@ -511,13 +559,14 @@ body[data-theme="light"] #hero button:focus-visible { outline-color: #a95559; }
   .studio-page .topbar .top-actions .btn-sm { font-size: 10px; padding-inline: 5px; min-height: 32px; }
   #hero.studio-hero { padding-top: 36px; }
   #hero .studio-kicker { font-size: 8px; gap: 9px; letter-spacing: .15em; }
+  #hero .studio-portrait { width: 56px; height: 56px; }
   #hero .hero-name { max-width: 360px; font-size: clamp(53px, 13.8vw, 70px); }
   #hero .studio-role { font-size: 8px; letter-spacing: .11em; }
   #hero .studio-role span { margin-inline: 4px; }
   #hero .studio-intro { max-width: 37ch; font-size: 12px; line-height: 1.85; }
   #hero .studio-availability { font-size: 9px; }
   #hero .studio-actions { gap: 10px; }
-  #hero .studio-button { font-size: 10px; padding: 12px 15px; }
+  #hero .studio-button { font-size: 12px; padding: 12px 17px; }
   #hero .studio-scene { height: 350px; margin-top: -20px; }
   #studio-scene .studio-road-links { gap: 3px; }
   #studio-scene .studio-road-links :is(a, button) { padding: 7px 10px; font-size: 9px; }

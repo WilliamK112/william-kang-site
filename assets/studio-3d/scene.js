@@ -16,7 +16,12 @@ import { buildCampusBoard } from './campus-board.js';
 // Original procedural artwork for William Kang's portfolio. All scene assets
 // are local. The accessible biography and navigation remain ordinary HTML.
 const host=document.getElementById('studio-scene');
-if(host) initStudio().catch(error=>{host.dataset.state='fallback';console.warn('Studio preview unavailable; using still artwork.',error);});
+if(host){
+ const startStudio=()=>initStudio().catch(error=>{host.dataset.state='fallback';console.warn('Studio preview unavailable; using still artwork.',error);});
+ // Let the original name reveal finish before compiling the campus scene.
+ if(document.querySelector('[data-entry-intro]'))window.addEventListener('portfolio-entry-complete',startStudio,{once:true});
+ else startStudio();
+}
 
 async function initStudio(){
  const scene=new THREE.Scene(),renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
@@ -93,7 +98,6 @@ async function initStudio(){
  const drain=group(0,.025,2.8);box(8.7,.018,.18,0,0,0,0x0d2834,drain,false);for(let x=-4.3;x<=4.3;x+=.14)box(.036,.025,.19,x,0,0,0x62818e,drain,false);
  for(let x=-4.9;x<5.4;x+=1.75)box(.73,.011,.06,x,.04,5.52,0x809aa0,scene,false);
  box(.03,.01,1.78,4.8,.04,4,0x778f99,scene,false);box(1.8,.01,.03,3.9,.04,4.87,0x778f99,scene,false);
- const cover=cyl(.36,.026,-3.8,.035,4.6,0x294753,scene,32);for(let i=-3;i<4;i++)rod([-4.04,.055,4.6+i*.072],[-3.56,.055,4.6+i*.072],.01,0x67848d);
  // Warm street lamp and a compact tree frame the courtyard.
  cyl(.15,.13,-4.85,.065,2.8,0x233e49);cyl(.052,3.75,-4.85,1.9,2.8,0x5a7d89);
  tube([[-4.85,3.6,2.8],[-4.85,4.1,2.8],[-4.6,4.2,2.8],[-4.26,4.14,2.8],[-4.19,3.97,2.8]],.042,0x688991);

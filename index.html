@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-studio-portfolio>
+<html lang="en" data-studio-portfolio data-background3d="pending">
 <head>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=silver-1">
     <link rel="alternate icon" href="/favicon.ico?v=silver-1" sizes="any">
@@ -17,7 +17,19 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="William Kang (Ching-Wei Kang) | Software Engineer Portfolio">
   <meta name="twitter:description" content="UW-Madison CS + Data Science student focused on software engineering, data systems, and applied machine learning.">
+  <style>
+    .entry-mask-intro { position: fixed; inset: 0; z-index: 999; display: grid; place-items: center; background: #000; }
+    .entry-mask-intro video, .entry-mask-title-wrap { opacity: 0; visibility: hidden; }
+    .entry-mask-intro.is-video-ready video, .entry-mask-intro.is-video-ready .entry-mask-title-wrap { opacity: 1; visibility: visible; }
+    @media (prefers-reduced-motion: reduce) { .entry-mask-intro { display: none !important; } }
+  </style>
+  <noscript><style>.entry-mask-intro { display: none !important; }</style></noscript>
   <script>
+    (function setupEntryLightMode() {
+      const mode = new URLSearchParams(window.location.search).get('entry-light') || 'rise';
+      document.documentElement.dataset.entryLight = ['curve', 'round', 'breath', 'rise'].includes(mode) ? mode : 'rise';
+    })();
+
     (function redirectLegacyDomain() {
       const host = window.location.hostname;
       if (host === 'william-kang-site.vercel.app' || host === 'www.william-kang-site.vercel.app') {
@@ -37,8 +49,20 @@
     <link rel="stylesheet" href="assets/studio-3d/hero.css?v=studio-1">
     <link rel="preload" as="image" href="assets/studio-3d/poster.webp" fetchpriority="high">
     <script type="module" src="assets/studio-3d/scene.js"></script>
+    <script type="module" src="assets/background-3d/loader.js"></script>
 </head>
 <body class="studio-page">
+    <div class="entry-mask-intro" data-entry-intro aria-hidden="true">
+        <div class="entry-mask-title-wrap">
+            <video class="entry-wordmark-glow" data-entry-glow-video muted playsinline preload="auto" poster="assets/gemini-intro/entry-black-poster.png">
+                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1" type="video/webm">
+            </video>
+            <video class="entry-wordmark" data-entry-video muted playsinline preload="auto" poster="assets/gemini-intro/entry-black-poster.png">
+                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1" type="video/webm">
+            </video>
+        </div>
+    </div>
+    <canvas id="portfolio-geometry-field" aria-hidden="true"></canvas>
     <div class="noise" aria-hidden="true"></div>
     <div class="cursor-light" data-cursor-light aria-hidden="true"></div>
     <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
@@ -85,14 +109,13 @@
             <div class="studio-shade studio-shade-night" aria-hidden="true"></div>
             <div class="studio-shade studio-shade-day" aria-hidden="true"></div>
             <div class="studio-copy">
-                <p class="studio-kicker"><span class="studio-kicker-line" aria-hidden="true"></span><span data-i18n="studioKicker">UW–MADISON / AI COURTYARD</span></p>
+                <p class="studio-kicker"><span class="studio-portrait"><img src="assets/William_Kang-9c2f39ca-aa59-4956-8969-b7e0fa9d303a.png" alt="Ching-Wei (William) Kang" width="1024" height="903" decoding="async"></span><span data-i18n="studioKicker">UW–MADISON / AI COURTYARD</span></p>
                 <h1 id="studio-title" class="hero-heading"><span class="hero-name" data-i18n="heroName">Ching‑Wei Kang</span></h1>
                 <p class="studio-role" data-i18n="studioRole">SOFTWARE ENGINEER <span aria-hidden="true">/</span> AI &amp; SYSTEMS</p>
                 <p class="studio-intro" data-i18n="studioIntro">UW–Madison CS + Data Science. I build AI systems, full-stack products, and data infrastructure — from prototype to deployment.</p>
                 <p class="studio-availability"><span aria-hidden="true"></span><span data-i18n="studioAvailability">Seeking 2027 software engineering &amp; AI internships</span></p>
                 <div class="studio-actions">
-                    <a href="assets/Ching-Wei-Kang-Resume.pdf?v=20260922h" class="studio-button studio-button-primary" target="_blank" rel="noopener noreferrer"><span data-i18n="ctaResume">Resume PDF</span><span aria-hidden="true">↗</span></a>
-                    <a href="#projects" class="studio-button studio-button-secondary"><span data-i18n="studioSelectedWork">Selected work</span><span aria-hidden="true">↓</span></a>
+                    <a href="#open-source" class="studio-button studio-button-primary"><span data-i18n="studioExplore">Explore More Work</span><span aria-hidden="true">↓</span></a>
                 </div>
                 <div class="studio-links">
                     <a href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
@@ -102,7 +125,6 @@
             </div>
             <div class="studio-scene-note" aria-hidden="true"><span class="studio-note-dot"></span><span data-i18n="studioSceneNote">CAMPUS ROOTS. OPEN POSSIBILITIES.</span></div>
             <div class="studio-bottom-line">
-                <a href="#open-source" class="studio-scroll-link"><span class="studio-scroll-mark" aria-hidden="true">↓</span><span data-i18n="studioExplore">Explore my work</span></a>
                 <div class="studio-view-tools">
                     <span class="studio-drag-hint" data-i18n="studioDragHint">Click keys · Drag to rotate · Scroll to zoom</span>
                     <div class="studio-zoom-controls" role="group" aria-label="Courtyard view controls">

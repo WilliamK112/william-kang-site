@@ -50,8 +50,17 @@
   const cursor = document.querySelector('[data-cursor-light]');
   const ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
   if (!canvas || !ctx) return;
+  if (canvas.dataset.signalReady === 'true') return;
+  canvas.dataset.signalReady = 'true';
 
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reduceMotion = motionPreference.matches;
+  const scopedHero = document.documentElement.hasAttribute('data-studio-portfolio') ? document.getElementById('hero') : null;
+  const areaVisible = () => !scopedHero || scopedHero.getBoundingClientRect().bottom < window.innerHeight;
+  const pointerAllowed = (event) => event.pointerType !== 'touch' && areaVisible() &&
+    (!scopedHero || event.clientY >= Math.max(0, scopedHero.getBoundingClientRect().bottom)) &&
+    !event.target.closest?.('a,button,input,textarea,select');
+  let signalFrame = 0;
   const pointer = {
     x: window.innerWidth * 0.58,
     y: window.innerHeight * 0.34,
@@ -101,6 +110,9 @@
   }
 
   function draw() {
+    signalFrame = 0;
+    canvas.dataset.running = 'false';
+    if (document.hidden || !areaVisible()) return;
     ctx.clearRect(0, 0, width, height);
     ctx.globalCompositeOperation = 'lighter';
 
@@ -151,10 +163,35 @@
     }
 
     ctx.globalCompositeOperation = 'source-over';
-    if (!reduceMotion) window.requestAnimationFrame(draw);
+    if (!reduceMotion) scheduleDraw();
+  }
+
+  function scheduleDraw() {
+    if (!signalFrame && !document.hidden && areaVisible()) {
+      signalFrame = window.requestAnimationFrame(draw);
+      canvas.dataset.running = String(!reduceMotion);
+    }
+  }
+
+  function syncVisibility() {
+    const active = areaVisible();
+    canvas.dataset.active = String(active);
+    if (!active || document.hidden) {
+      window.cancelAnimationFrame(signalFrame);
+      signalFrame = 0;
+      canvas.dataset.running = 'false';
+      pointer.active = false;
+      document.body.classList.remove('is-pointer-active');
+    } else scheduleDraw();
   }
 
   window.addEventListener('pointermove', (event) => {
+    if (!pointerAllowed(event)) {
+      pointer.active = false;
+      document.body.classList.remove('is-pointer-active');
+      if (reduceMotion) scheduleDraw();
+      return;
+    }
     pointer.x = event.clientX;
     pointer.y = event.clientY;
     pointer.active = true;
@@ -162,26 +199,37 @@
     if (cursor) {
       cursor.style.transform = `translate3d(${event.clientX - 140}px, ${event.clientY - 140}px, 0)`;
     }
+    if (reduceMotion) scheduleDraw();
   }, { passive: true });
 
   window.addEventListener('pointerleave', () => {
     pointer.active = false;
     document.body.classList.remove('is-pointer-active');
+    if (reduceMotion) scheduleDraw();
   }, { passive: true });
 
   window.addEventListener('resize', () => {
     resize();
-    if (reduceMotion) draw();
+    syncVisibility();
   }, { passive: true });
+
+  window.addEventListener('scroll', syncVisibility, { passive: true });
+  document.addEventListener('visibilitychange', syncVisibility);
+  motionPreference.addEventListener('change', event => {
+    reduceMotion = event.matches;
+    window.cancelAnimationFrame(signalFrame);
+    signalFrame = 0;
+    syncVisibility();
+  });
 
   new MutationObserver(() => {
     refreshColors();
-    if (reduceMotion) draw();
+    scheduleDraw();
   }).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
 
   refreshColors();
   resize();
-  draw();
+  syncVisibility();
 })();
 
 (function setupEntryMaskIntro() {
@@ -191,6 +239,7 @@
   const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) {
     intro.remove();
+    window.dispatchEvent(new Event('portfolio-entry-complete'));
     return;
   }
 
@@ -234,7 +283,9 @@
     if (holdTimer) window.clearTimeout(holdTimer);
     if (loadTimer) window.clearTimeout(loadTimer);
     if (fallbackTimer) window.clearTimeout(fallbackTimer);
+    entryVideos.forEach(video => video.pause());
     if (document.body.contains(intro)) intro.remove();
+    window.dispatchEvent(new Event('portfolio-entry-complete'));
   };
 
   const finishIntro = () => {
@@ -416,7 +467,7 @@
       studioAvailability: '正在寻找 2027 软件工程与 AI 实习机会',
       studioSelectedWork: '精选项目',
       studioSceneNote: '扎根校园，探索无限可能。',
-      studioExplore: '探索我的作品',
+      studioExplore: '探索更多作品',
       studioDragHint: '点击按键 · 拖动旋转 · 滚轮缩放',
       studioZoomIn: '放大场景',
       studioZoomOut: '缩小场景',

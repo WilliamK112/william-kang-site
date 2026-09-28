@@ -1,8 +1,13 @@
 import * as THREE from './vendor/three.module.js';
 import * as C from './vendor/cannon-es.js';
 import {makeShape} from './physics-shapes.js';
-export function initBackground(){
+export function initBackground(options={}){
 const canvas=document.getElementById('portfolio-geometry-field');
+if(!canvas)throw new Error('Geometric background canvas is missing.');
+const scoped=document.documentElement.hasAttribute('data-studio-portfolio'),hero=scoped?document.getElementById('hero'):null;
+let scopeActive=options.active??(!hero||hero.getBoundingClientRect().bottom<innerHeight),disposed=false,contextLost=false;
+const removers=[];
+function listen(target,type,listener,settings){target.addEventListener(type,listener,settings);removers.push(()=>target.removeEventListener(type,listener,settings));}
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
 renderer.setClearColor(0,0);
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(45,1,.1,80);
@@ -23,15 +28,15 @@ const panelMask={
  studyPanels:{value:Array.from({length:12},()=>new THREE.Vector4())},
  studyPanelCount:{value:0},studyViewport:{value:new THREE.Vector3()}
 };
-const panelElements=[...document.querySelectorAll('.topbar,main > section,footer')];
-const sectionElements=[...document.querySelectorAll('main > section')];
+const panelElements=[...document.querySelectorAll('.topbar,main > section,footer')].filter(element=>!scoped||element.id!=='hero');
+const sectionElements=[...document.querySelectorAll('main > section')].filter(element=>!scoped||element.id!=='hero');
 let activeSection=0,sectionTurn=0,sectionTurnTarget=0;
 let panelRects=[],panelStamp=-Infinity,panelOnly=false;
 function updateSectionAnchors(){
  const focusY=h*.42;
  let next=0,best=Infinity;
  sectionElements.forEach((section,index)=>{const rect=section.getBoundingClientRect(),center=rect.top+Math.min(rect.height,h)*.5,distance=Math.abs(center-focusY);if(distance<best){best=distance;next=index;}});
- activeSection=next;sectionTurnTarget=next*Math.PI*2/sectionElements.length;
+ activeSection=next;sectionTurnTarget=next*Math.PI*2/Math.max(1,sectionElements.length);
 }
 function maskMaterial(material){
  material.onBeforeCompile=shader=>{
@@ -90,7 +95,7 @@ rippleGlow.addColorStop(0,'rgba(255,255,255,1)');rippleGlow.addColorStop(.42,'rg
 rippleContext.fillStyle=rippleGlow;rippleContext.fillRect(0,0,32,32);
 const rippleTexture=new THREE.CanvasTexture(rippleSprite),rippleRadius=progress=>.04+2.65*(1-Math.pow(1-progress,1.1));
 function spawnRipple(x,y){
- if(paused)return;
+ if(paused||!scopeActive||disposed||contextLost||(hero&&y<hero.getBoundingClientRect().bottom))return;
  updatePanelMask();
  if(panelRects.some(r=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom))return;
  const clickNdc=new THREE.Vector2(x/w*2-1,1-y/h*2);ray.setFromCamera(clickNdc,camera);
@@ -186,7 +191,7 @@ function build(){
   body.position.set((x-.5)*w/100,(.5-y)*h/100,i<3?0:rand(-1.4,-.3));body.quaternion.setFromEuler(rand(0,1),rand(0,1),rand(0,1));body.angularVelocity.set(rand(-.13,.13),rand(-.16,.16),rand(-.07,.07));world.addBody(body);
   const linkVertices=[],seenVertices=new Set(),positions=geometry.attributes.position;
   for(let i=0;i<positions.count;i++){const v=new THREE.Vector3().fromBufferAttribute(positions,i);const key=v.toArray().map(n=>n.toFixed(3)).join(',');if(!seenVertices.has(key)){seenVertices.add(key);linkVertices.push(v);}}
-  const item={body,group,surface,lines,dots,geometry,linkVertices,r,x,y,z:body.position.z,phase:rand(0,6.28),speed:rand(.21,.46),angle:rand(0,6.28),reach:rand(.12,.6),spin:body.angularVelocity.clone(),flash:0};surface.userData.item=item;
+  const item={kind:type,body,group,surface,lines,dots,geometry,linkVertices,r,x,y,z:body.position.z,phase:rand(0,6.28),speed:rand(.21,.46),angle:rand(0,6.28),reach:rand(.12,.6),spin:body.angularVelocity.clone(),flash:0};surface.userData.item=item;
   body.addEventListener('collide',e=>{if(Math.abs(e.contact.getImpactVelocityAlongNormal())>.3)item.flash=1;});bodies.push(item);
  });
  sync();
@@ -248,25 +253,56 @@ function drawLinks(){
  chosen.forEach((p,i)=>{positions.setXYZ(i*2,anchor.x,anchor.y,anchor.z+.01);positions.setXYZ(i*2+1,p.point.x,p.point.y,p.point.z);endpoints.setXYZ(i,p.point.x,p.point.y,p.point.z);});
  positions.needsUpdate=true;endpoints.needsUpdate=true;linkGeometry.setDrawRange(0,chosen.length*2);endpointGeometry.setDrawRange(0,chosen.length);endpointDots.visible=true;links.frustumCulled=false;endpointDots.frustumCulled=false;
 }
-function render(){updatePanelMask();sync();animateDust();animateRipples();drawLinks();renderer.render(scene,camera);}
-function tick(now){frame=0;if(paused||document.hidden)return;const dt=last?Math.min((now-last)/1000,.04):1/120;last=now;time+=dt;camera.position.x+=((pointer.active?ndc.x*.3:0)-camera.position.x)*.035;camera.position.y+=((pointer.active?ndc.y*.2:0)-camera.position.y)*.035;camera.lookAt(0,0,0);animatePhysics(dt);render();frame=requestAnimationFrame(tick);}
-function start(){if(!frame&&!paused&&!document.hidden){last=0;frame=requestAnimationFrame(tick);}}
-function pause(value){paused=value;cancelAnimationFrame(frame);frame=0;render();start();}
+function runningState(){const active=String(scopeActive&&!disposed&&!contextLost),running=String(Boolean(frame)&&!paused&&!document.hidden&&scopeActive&&!disposed&&!contextLost);if(canvas.dataset.active!==active)canvas.dataset.active=active;if(canvas.dataset.running!==running)canvas.dataset.running=running;}
+function render(){if(!scopeActive||disposed||contextLost||document.hidden)return;updatePanelMask();sync();animateDust();animateRipples();drawLinks();renderer.render(scene,camera);}
+function tick(now){frame=0;if(paused||document.hidden||!scopeActive||disposed||contextLost){runningState();return;}const dt=last?Math.min((now-last)/1000,.04):1/120;last=now;time+=dt;camera.position.x+=((pointer.active?ndc.x*.3:0)-camera.position.x)*.035;camera.position.y+=((pointer.active?ndc.y*.2:0)-camera.position.y)*.035;camera.lookAt(0,0,0);animatePhysics(dt);render();frame=requestAnimationFrame(tick);runningState();}
+function start(){if(!frame&&!paused&&!document.hidden&&scopeActive&&!disposed&&!contextLost){last=0;frame=requestAnimationFrame(tick);}runningState();}
+function stop(){cancelAnimationFrame(frame);frame=0;last=0;runningState();}
+function pause(value){paused=value;stop();render();start();}
 function colors(){const css=getComputedStyle(document.body);for(const [key,prop] of [['line','--signal-link-rgb'],['node','--signal-node-rgb'],['pointer','--signal-pointer-rgb']])theme[key]=new THREE.Color(`rgb(${css.getPropertyValue(prop).trim()})`);for(const o of bodies){o.lines.material.color.copy(theme.line);o.dots.material.color.copy(theme.node);}links.material.color.copy(theme.pointer);anchorDot.material.color.copy(theme.pointer);endpointDots.material.color.copy(theme.pointer);dust.material.color.copy(theme.node);for(const ripple of ripples)ripple.material.color.copy(theme.pointer);render();}
-addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const dt=Math.max(.012,(e.timeStamp-pointer.last)/1000);if(pointer.active){pointer.vx=THREE.MathUtils.clamp((e.clientX-pointer.x)/100/dt,-14,14);pointer.vy=THREE.MathUtils.clamp(-(e.clientY-pointer.y)/100/dt,-14,14);}Object.assign(pointer,{active:true,x:e.clientX,y:e.clientY,last:e.timeStamp});ndc.set(e.clientX/w*2-1,1-e.clientY/h*2);document.body.classList.toggle('is-pointer-active',pointer.active);if(cursor)cursor.style.transform=`translate3d(${e.clientX-140}px,${e.clientY-140}px,0)`;if(paused)render();},{passive:true});
-addEventListener('pointerdown',e=>{
- if(e.pointerType==='touch'||e.button!==0||e.target.closest('button,a,input,textarea,select'))return;
+function allowedPointer(event){
+ if(!scopeActive||disposed||contextLost||document.hidden||event.pointerType==='touch')return false;
+ if(hero&&event.clientY<hero.getBoundingClientRect().bottom)return false;
+ if(event.target instanceof Element&&event.target.closest('button,a,input,textarea,select,summary,[role="button"],[role="link"],[contenteditable="true"]'))return false;
+ updatePanelMask();
+ return !panelRects.some(rect=>event.clientX>=rect.left&&event.clientX<=rect.right&&event.clientY>=rect.top&&event.clientY<=rect.bottom);
+}
+listen(window,'pointermove',e=>{if(!allowedPointer(e)){if(pointer.active||pointer.pressed)clearPointer();return;}const dt=Math.max(.012,(e.timeStamp-pointer.last)/1000);if(pointer.active){pointer.vx=THREE.MathUtils.clamp((e.clientX-pointer.x)/100/dt,-14,14);pointer.vy=THREE.MathUtils.clamp(-(e.clientY-pointer.y)/100/dt,-14,14);}Object.assign(pointer,{active:true,x:e.clientX,y:e.clientY,last:e.timeStamp});ndc.set(e.clientX/w*2-1,1-e.clientY/h*2);document.body.classList.toggle('is-pointer-active',pointer.active);if(cursor)cursor.style.transform=`translate3d(${e.clientX-140}px,${e.clientY-140}px,0)`;if(paused)render();},{passive:true});
+listen(window,'pointerdown',e=>{
+ if(e.button!==0||!allowedPointer(e))return;
  pointer.pressed=true;pointer.active=true;pointer.x=e.clientX;pointer.y=e.clientY;pointer.downX=e.clientX;pointer.downY=e.clientY;pointer.last=e.timeStamp;
  ndc.set(e.clientX/w*2-1,1-e.clientY/h*2);
 });
-addEventListener('pointerup',e=>{if(e.button===0){if(pointer.pressed&&Math.hypot(e.clientX-pointer.downX,e.clientY-pointer.downY)<8)spawnRipple(e.clientX,e.clientY);pointer.pressed=false;}});
-addEventListener('pointercancel',()=>{pointer.pressed=false;});
+listen(window,'pointerup',e=>{if(e.button===0){if(pointer.pressed&&allowedPointer(e)&&Math.hypot(e.clientX-pointer.downX,e.clientY-pointer.downY)<8)spawnRipple(e.clientX,e.clientY);pointer.pressed=false;}});
+listen(window,'pointercancel',()=>{pointer.pressed=false;});
 // Recover even when the button was released outside this window.
-addEventListener('pointermove',e=>{if(!(e.buttons&1))pointer.pressed=false;},{passive:true});
+listen(window,'pointermove',e=>{if(!(e.buttons&1))pointer.pressed=false;},{passive:true});
 function clearPointer(){pointer.active=false;pointer.pressed=false;pointer.vx=pointer.vy=0;document.body.classList.remove('is-pointer-active');if(paused)render();}
-document.documentElement.addEventListener('pointerleave',clearPointer);addEventListener('blur',clearPointer);
-addEventListener('resize',resize);document.addEventListener('visibilitychange',()=>{cancelAnimationFrame(frame);frame=0;start();});motion.addEventListener('change',e=>pause(e.matches));new MutationObserver(colors).observe(document.body,{attributes:true,attributeFilter:['data-theme']});
-addEventListener('scroll',()=>{panelStamp=-Infinity;updateSectionAnchors();if(paused)render();},{passive:true});
-new ResizeObserver(()=>{panelStamp=-Infinity;if(paused)render();}).observe(document.querySelector('main'));
+function setActive(value){
+ const next=Boolean(value);if(next===scopeActive){runningState();return;}
+ scopeActive=next;panelStamp=-Infinity;clearPointer();
+ if(!scopeActive)stop();else{updateSectionAnchors();render();start();}
+ runningState();
+}
+listen(document.documentElement,'pointerleave',clearPointer);listen(window,'blur',clearPointer);
+listen(window,'resize',resize);listen(document,'visibilitychange',()=>{stop();clearPointer();if(!document.hidden){render();start();}});listen(motion,'change',e=>pause(e.matches));
+const themeObserver=new MutationObserver(colors);themeObserver.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
+listen(window,'scroll',()=>{panelStamp=-Infinity;updateSectionAnchors();if(hero&&pointer.active&&pointer.y<hero.getBoundingClientRect().bottom)clearPointer();if(paused)render();},{passive:true});
+const panelObserver=new ResizeObserver(()=>{panelStamp=-Infinity;if(paused)render();});if(document.querySelector('main'))panelObserver.observe(document.querySelector('main'));
+listen(canvas,'webglcontextlost',event=>{event.preventDefault();contextLost=true;stop();clearPointer();options.onFailure?.(new Error('Geometric background WebGL context was lost.'));});
+function dispose(){
+ if(disposed)return;disposed=true;stop();clearPointer();removers.forEach(remove=>remove());themeObserver.disconnect();panelObserver.disconnect();
+ clearBodies();for(const ripple of ripples){scene.remove(ripple.points);ripple.geometry.dispose();ripple.material.dispose();}ripples=[];
+ for(const object of [links,anchorDot,endpointDots,dust]){object.geometry.dispose();object.material.dispose();}rippleTexture.dispose();renderer.dispose();
+}
+listen(window,'pagehide',event=>{if(!event.persisted)dispose();});
 resize();colors();pause(paused);
+const diagnostic=Object.freeze({
+ get ready(){return !disposed&&!contextLost;},get active(){return scopeActive&&!disposed&&!contextLost;},get running(){return Boolean(frame)&&!paused&&!document.hidden&&scopeActive&&!disposed&&!contextLost;},
+ get paused(){return paused;},get scoped(){return scoped;},get time(){return time;},get sectionCount(){return sectionElements.length;},get activeSection(){return activeSection;},get sectionTurn(){return sectionTurn;},get sectionTurnTarget(){return sectionTurnTarget;},
+ get pointerActive(){return pointer.active;},get rippleCount(){return ripples.length;},
+ get bodies(){return bodies.map(o=>Object.freeze({kind:o.kind,position:Object.freeze([o.body.position.x,o.body.position.y,o.body.position.z]),quaternion:Object.freeze([o.body.quaternion.x,o.body.quaternion.y,o.body.quaternion.z,o.body.quaternion.w]),angularVelocity:Object.freeze([o.body.angularVelocity.x,o.body.angularVelocity.y,o.body.angularVelocity.z])}));}
+});
+Object.defineProperty(window,'__portfolioBackground',{value:diagnostic,configurable:true});
+return Object.freeze({setActive,dispose});
 }
