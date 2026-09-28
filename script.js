@@ -236,16 +236,28 @@
   const intro = document.querySelector('[data-entry-intro]');
   if (!intro) return;
 
+  const releaseIntroMedia = (errorHandler) => {
+    intro.querySelectorAll('video').forEach(video => {
+      if (errorHandler) video.removeEventListener('error', errorHandler);
+      video.pause();
+      video.removeAttribute('src');
+      video.querySelectorAll('source').forEach(source => source.removeAttribute('src'));
+      // Reset resource selection so a dismissed intro stops downloading, too.
+      video.load();
+    });
+  };
+
   const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) {
+    releaseIntroMedia();
     intro.remove();
     window.dispatchEvent(new Event('portfolio-entry-complete'));
     return;
   }
 
   const entryVideo = intro.querySelector('[data-entry-video]');
-  const glowVideo = intro.querySelector('[data-entry-glow-video]');
-  const entryVideos = [entryVideo, glowVideo].filter(Boolean);
+  const glowCanvas = intro.querySelector('[data-entry-glow-canvas]');
+  const glowContext = glowCanvas?.getContext('2d', { alpha: true });
   const introParams = new URLSearchParams(window.location.search);
   const requestedHoldFrameVideoTime = Number(introParams.get('intro-hold'));
   const holdFrameVideoTime = Number.isFinite(requestedHoldFrameVideoTime) && requestedHoldFrameVideoTime > 0
@@ -265,6 +277,24 @@
   let loadTimer = 0;
   let fallbackTimer = 0;
 
+  // The soft glow reuses the presented frame instead of decoding a second video.
+  const drawGlowFrame = () => {
+    if (!glowContext || !entryVideo || entryVideo.readyState < 2 || !entryVideo.videoWidth || !entryVideo.videoHeight) return;
+    const scale = Math.min(1, 640 / entryVideo.videoWidth);
+    const width = Math.max(1, Math.round(entryVideo.videoWidth * scale));
+    const height = Math.max(1, Math.round(entryVideo.videoHeight * scale));
+    if (glowCanvas.width !== width || glowCanvas.height !== height) {
+      glowCanvas.width = width;
+      glowCanvas.height = height;
+    }
+    try {
+      glowContext.clearRect(0, 0, width, height);
+      glowContext.drawImage(entryVideo, 0, 0, width, height);
+    } catch (_) {
+      // A frame may become unavailable during a seek; the next callback retries.
+    }
+  };
+
   const cancelFrameWatcher = () => {
     if (!frameWatcher) return;
     if (frameWatcherIsVideo && entryVideo && entryVideo.cancelVideoFrameCallback) {
@@ -283,7 +313,7 @@
     if (holdTimer) window.clearTimeout(holdTimer);
     if (loadTimer) window.clearTimeout(loadTimer);
     if (fallbackTimer) window.clearTimeout(fallbackTimer);
-    entryVideos.forEach(video => video.pause());
+    releaseIntroMedia(removeIntro);
     if (document.body.contains(intro)) intro.remove();
     window.dispatchEvent(new Event('portfolio-entry-complete'));
   };
@@ -300,10 +330,8 @@
   };
 
   if (entryVideo) {
-    entryVideos.forEach((video) => {
-      video.pause();
-      video.addEventListener('error', removeIntro, { once: true });
-    });
+    entryVideo.pause();
+    entryVideo.addEventListener('error', removeIntro, { once: true });
 
     const scheduleFrameWatch = (watchVideoFrame) => {
       if (removed || ending) return;
@@ -317,16 +345,15 @@
     };
 
     const pauseOnCurrentFrame = () => {
-      entryVideos.forEach((video) => {
-        try {
-          video.pause();
-        } catch (_) {}
-      });
+      try {
+        entryVideo.pause();
+      } catch (_) {}
     };
 
     const watchVideoFrame = (_, metadata) => {
       frameWatcher = 0;
       if (removed || ending) return;
+      drawGlowFrame();
       if (entryVideo.readyState > 0) {
         const mediaTime = metadata && Number.isFinite(metadata.mediaTime)
           ? metadata.mediaTime
@@ -362,9 +389,12 @@
       if (entryVideo.readyState < 2) return;
       started = true;
       if (loadTimer) window.clearTimeout(loadTimer);
-      entryVideos.forEach(alignVideoToStart);
+      alignVideoToStart(entryVideo);
+      drawGlowFrame();
       intro.classList.add('is-video-ready', 'is-ready');
-      entryVideos.forEach(playVideo);
+      playVideo(entryVideo);
+      window.performance?.mark('portfolio-entry-started');
+      window.dispatchEvent(new Event('portfolio-entry-started'));
       scheduleFrameWatch(watchVideoFrame);
     };
 
@@ -379,16 +409,6 @@
         if (!started) removeIntro();
       }, loadFallbackMs);
     };
-
-    if (glowVideo) {
-      glowVideo.addEventListener('loadeddata', () => {
-        if (!started || removed || ending) return;
-        try {
-          glowVideo.currentTime = entryVideo.currentTime;
-        } catch (_) {}
-        playVideo(glowVideo);
-      }, { once: true });
-    }
 
     startWhenFrameIsReady();
   } else {
@@ -476,6 +496,8 @@
       studioSelectedWork: '精选项目',
       studioSceneNote: '扎根校园，探索无限可能。',
       studioExplore: '探索更多作品',
+      studioNextPage: '下一页',
+      studioPageScrollLabel: '上下滚动页面',
       studioDragHint: '点击工作室 · 拖动旋转 · 滚轮缩放',
       studioEnter: '进入工作室',
       studioExit: '返回庭院',

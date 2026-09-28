@@ -18,9 +18,11 @@ function updateLayout(){
  const canvas=document.getElementById('portfolio-geometry-field')||document.getElementById('portfolio-signal-field');
  if(canvas){canvas.dataset.active=String(active);if(!controller&&canvas.id==='portfolio-geometry-field')canvas.dataset.running='false';}
  controller?.setActive(active);
- if(layout.near&&!controller&&!failed&&!loading&&!scheduled&&!document.hidden){
+ // This second WebGL scene is below the hero. Start it when it is visible,
+ // keeping its physics setup and shader compilation out of the opening.
+ if(layout.active&&!document.querySelector('[data-entry-intro]')&&!controller&&!failed&&!loading&&!scheduled&&!document.hidden){
   scheduled=true;
-  const begin=()=>{scheduled=false;if(layout.near&&!document.hidden&&!disposed)loadBackground();};
+  const begin=()=>{scheduled=false;if(layout.active&&!document.hidden&&!disposed)loadBackground();};
   if('requestIdleCallback' in window)requestIdleCallback(begin,{timeout:900});else setTimeout(begin,40);
  }
 }
@@ -51,6 +53,7 @@ addEventListener('scroll',updateLayout,{passive:true});
 addEventListener('resize',updateLayout,{passive:true});
 document.addEventListener('visibilitychange',updateLayout);
 addEventListener('pageshow',updateLayout);
+addEventListener('portfolio-entry-complete',updateLayout,{once:true});
 addEventListener('pagehide',event=>{
  if(event.persisted)return;
  disposed=true;controller?.dispose();layoutObserver.disconnect();

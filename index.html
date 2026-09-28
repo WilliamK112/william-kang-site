@@ -44,22 +44,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700&family=Prata&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=consistency-20260928">
-    <script defer src="script.js?v=consistency-20260928"></script>
-    <link rel="stylesheet" href="assets/studio-3d/hero.css?v=studio-1">
+    <link rel="stylesheet" href="styles.css?v=startup-20260928">
+    <script defer src="script.js?v=startup-20260928"></script>
+    <link rel="stylesheet" href="assets/studio-3d/hero.css?v=zoom-navigation-20260928">
+    <script type="module" src="assets/studio-3d/page-navigation.js?v=20260928"></script>
     <link rel="preload" as="image" href="assets/studio-3d/poster.webp?v=opening-3" media="(prefers-reduced-motion: no-preference)" fetchpriority="high">
     <link rel="preload" as="image" href="assets/studio-3d/poster-reduced.webp?v=opening-3" media="(prefers-reduced-motion: reduce)" fetchpriority="high">
-    <script type="module" src="assets/studio-3d/scene.js"></script>
-    <script type="module" src="assets/background-3d/loader.js"></script>
+    <link rel="modulepreload" href="assets/background-3d/vendor/three.module.js">
+    <link rel="modulepreload" href="assets/background-3d/vendor/three.core.js">
+    <script type="module" src="assets/studio-3d/scene.js?v=zoom-navigation-20260928"></script>
+    <script type="module" src="assets/background-3d/loader.js?v=startup-20260928"></script>
 </head>
 <body class="studio-page">
     <div class="entry-mask-intro" data-entry-intro aria-hidden="true">
         <div class="entry-mask-title-wrap">
-            <video class="entry-wordmark-glow" data-entry-glow-video muted playsinline preload="auto" poster="assets/gemini-intro/entry-black-poster.png">
-                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1" type="video/webm">
-            </video>
+            <canvas class="entry-wordmark-glow" data-entry-glow-canvas width="640" height="360" aria-hidden="true"></canvas>
             <video class="entry-wordmark" data-entry-video muted playsinline preload="auto" poster="assets/gemini-intro/entry-black-poster.png">
-                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha.webm?v=entry-clean-1" type="video/webm">
+                <source src="assets/gemini-intro/ching-wei-kang-art-serif-intro-1s-alpha-960.webm?v=entry-warm-1" type="video/webm">
             </video>
         </div>
     </div>
@@ -120,6 +121,9 @@
                 </nav>
             </div>
             <p id="studio-scene-description" class="studio-sr-only" data-i18n="studioSceneDescription">An interactive, cel-shaded courtyard inspired by UW–Madison, with campus architecture and a personal AI workspace. Light mode brings daytime and begins turning to autumn after 30 seconds of visible animation; dark mode changes from a rainy night into a snowy winter courtyard. Small groups of walking pedestrians and passing cars briefly fade in and out in daytime; only occasional pedestrians pass at night. Pause motion stops both street activity and seasonal progress; reduced motion hides the passing impressions. On the studio's lake-facing exterior wall, large GitHub, Docker, and Microsoft logos link to William's merged open-source contributions; low ground lights illuminate the display at night. These links are also available by keyboard. Click elsewhere on the glass studio building, including its AI STUDIO sign, roof or windows, or use Enter studio to walk inside. Inside, drag or focus the scene and use the arrow keys to look around. Click a translucent floor tile to move between the lectern, side aisle, doorway, and window; the same destinations are available by keyboard. Four keys on the wooden lectern open GitHub, Resume, LinkedIn, and Devpost; the same links are available by keyboard. Press Escape or Back to courtyard to leave. Drag outside to rotate and scroll to zoom. Scroll outside the scene to continue through the portfolio.</p>
+            <div class="studio-page-scroll" data-page-scroll-lane role="scrollbar" tabindex="0" aria-orientation="vertical" aria-controls="main" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-studio-label="studioPageScrollLabel" aria-label="Scroll page">
+                <span class="studio-sr-only" data-i18n="studioPageScrollLabel">Scroll page</span>
+            </div>
             <div class="studio-visit-bar">
                 <button type="button" class="studio-visit-button" data-studio-exit hidden><span aria-hidden="true">←</span> <span data-i18n="studioExit">Back to courtyard</span></button>
                 <p data-studio-visit-status data-i18n="studioInsideHint" role="status" aria-live="polite" hidden>Drag to look · Click a floor tile to move · Explore the lectern keys</p>
@@ -142,6 +146,12 @@
                 </div>
             </div>
             <div class="studio-scene-note" aria-hidden="true"><span class="studio-note-dot"></span><span data-i18n="studioSceneNote">CAMPUS ROOTS. OPEN POSSIBILITIES.</span></div>
+            <div class="studio-next-page-wrap">
+                <a class="studio-next-page" href="#open-source">
+                    <span data-i18n="studioNextPage">Next page</span>
+                    <span class="studio-next-page-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v15m-6-6 6 6 6-6"/></svg></span>
+                </a>
+            </div>
             <div class="studio-bottom-line">
                 <div class="studio-view-tools">
                     <span class="studio-drag-hint" data-i18n="studioDragHint">Click the studio · Drag to rotate · Scroll to zoom</span>
