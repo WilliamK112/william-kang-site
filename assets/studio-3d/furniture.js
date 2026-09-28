@@ -189,11 +189,11 @@ export function buildFurniture(api) {
     rod([.38,2.92,.02],[x,y,z],.009,steel,shelf);
     const leaf=sphere(.095,x,y,z,mint,shelf);leaf.scale.set(1.24,.48,.76);leaf.rotation.z=a*.37;
   }
-  // Headphones hang off the outer shelf edge.
-  const phones=torus(.20,.022,-1.805,2.15,-2.92,slate);phones.rotation.z=.13;
-  box(.082,.16,.105,-2.00,2.02,-2.92,dark);
-  box(.082,.16,.105,-1.61,2.02,-2.92,dark);
-  tube([[-1.60,1.99,-2.93],[-1.55,1.75,-3.00],[-1.68,1.61,-3.12]],.011,dark);
+  // Headphones hang fully clear of the outer shelf upright and front face.
+  const phones=torus(.20,.022,-1.505,2.15,-2.69,slate);phones.rotation.z=.13;
+  box(.082,.16,.105,-1.70,2.02,-2.68,dark);
+  box(.082,.16,.105,-1.31,2.02,-2.68,dark);
+  tube([[-1.30,1.99,-2.70],[-1.25,1.75,-2.77],[-1.38,1.61,-2.89]],.011,dark);
 
   // Rear whiteboard: an actual architectural story, clearly a conceptual diagram.
   box(2.34,1.48,.070,.19,2.39,-3.405,steel);

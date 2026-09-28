@@ -40,6 +40,18 @@ export function buildStudioGlazing({THREE,scene,box,mat}){
  // compact zigzag cross-section reads as an M, leaving most glass uncovered.
  const canopy=new THREE.Group();canopy.name='Retracted navy M-fold roof canopy';group.add(canopy);
  const navy=mat(0x172b40),navyLit=mat(0x294359),hem=mat(0x101f2e),hinge=mat(0x5c7885);
+ // A full-width cassette explains where the rest of the roof-sized shade is
+ // stored. It is mounted on the service-roof edge, with the first M fold
+ // emerging through the narrow slot in its front face.
+ const cassette=new THREE.Group();cassette.name='Full-width retractable shade storage cassette';canopy.add(cassette);
+ box(7.38,.30,.36,-.10,4.185,-1.765,navy,cassette,true).name='Shade cassette body';
+ box(7.48,.055,.42,-.10,4.355,-1.765,navyLit,cassette,true).name='Shade cassette top cap';
+ box(7.14,.072,.022,-.10,4.105,-1.574,hem,cassette,false).name='Shade fabric exit slot';
+ box(7.20,.026,.030,-.10,4.057,-1.558,hinge,cassette,false).name='Cassette lower guide rail';
+ for(const x of [-3.83,3.63]){
+  box(.16,.35,.42,x,4.185,-1.765,navyLit,cassette,true).name='Shade cassette end cap';
+  box(.035,.22,.025,x,4.185,-1.542,hinge,cassette,false).name='Cassette end-cap seam';
+ }
  const folds=[[-1.58,4.085],[-1.44,4.34],[-1.30,4.095],[-1.16,4.34],[-1.02,4.085]];
  for(let i=0;i<folds.length-1;i++){
   const [za,ya]=folds[i],[zb,yb]=folds[i+1];
@@ -60,6 +72,7 @@ export function buildStudioGlazing({THREE,scene,box,mat}){
   }
  }
  canopy.userData.foldState='fully retracted';
+ canopy.userData.storage='full-width roof-edge cassette';
 
  // The front facade stops at the door jamb, leaving its full swing untouched.
  const frontEdges=[-3.87,-1.75,.37,2.49];

@@ -148,7 +148,9 @@ export async function buildCampus(api) {
     box(.030,.28,.025,x,6.335,-4.37,sandstone,campusGroup,false);
     const dormerRoof=new THREE.Mesh(new THREE.ConeGeometry(.67,.33,4),roof);dormerRoof.position.set(x,6.74,-4.71);dormerRoof.rotation.y=Math.PI/4;campusGroup.add(dormerRoof);
   }
-  const tower=group(3.37,5.93,-5.75,0,campusGroup);
+  // The clock tower sits just beyond the pitched roof's right edge. Its cap
+  // still meets the eaves, while the masonry no longer intersects the slope.
+  const tower=group(3.52,5.93,-5.75,0,campusGroup);
   box(1.26,.73,1.25,0,.365,0,brickDark,tower);
   for(const x of [-.66,.66])for(const z of [-.66,.66])box(.11,.80,.11,x,.40,z,sandstone,tower);
   box(1.45,.15,1.43,0,.78,0,sandstone,tower);
