@@ -2561,7 +2561,8 @@ body[data-theme="light"] .keyword-highlight {
   animation: none;
 }
 .github-live-panel[data-state="partial"] .github-live-dot,
-.github-live-panel[data-state="fallback"] .github-live-dot {
+.github-live-panel[data-state="fallback"] .github-live-dot,
+.github-live-panel[data-state="unavailable"] .github-live-dot {
   background: #f2c96d;
   animation: none;
 }
@@ -3056,6 +3057,10 @@ body[data-theme="light"] .github-live-heading > a {
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
+}
+.section-heading-row > .btn { flex-shrink: 0; white-space: nowrap; }
+@media (max-width: 600px) {
+  .open-source-section .section-heading-row { flex-direction: column; }
 }
 .open-source-section {
   display: grid;

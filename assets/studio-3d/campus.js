@@ -218,25 +218,8 @@ export async function buildCampus(api) {
       }
     }
   }
-  function terraceUmbrella(x,z){
-    const umbrella=group(x,.208,z,0,campusGroup);umbrella.name='Striped Terrace sun umbrella';
-    const cream=new THREE.MeshToonMaterial({color:0xe8d6a9,side:THREE.DoubleSide}),sunYellow=new THREE.MeshToonMaterial({color:0xd5a83f,side:THREE.DoubleSide});
-    cyl(.055,2.28,0,1.14,0,metal,umbrella,14);cyl(.12,.08,0,.04,0,dark,umbrella,18);
-    const radius=.82,peakY=2.58,rimY=2.31,segments=10;
-    for(let i=0;i<segments;i++){
-      const a=i*Math.PI*2/segments,b=(i+1)*Math.PI*2/segments;
-      const geometry=new THREE.BufferGeometry();
-      geometry.setAttribute('position',new THREE.Float32BufferAttribute([0,peakY,0,Math.cos(a)*radius,rimY,Math.sin(a)*radius,Math.cos(b)*radius,rimY,Math.sin(b)*radius],3));
-      geometry.computeVertexNormals();
-      const panelMesh=new THREE.Mesh(geometry,i%2?cream:sunYellow);panelMesh.castShadow=panelMesh.receiveShadow=true;umbrella.add(panelMesh);
-      rod([0,peakY,0],[Math.cos(a)*radius,rimY,Math.sin(a)*radius],.012,metal,umbrella);
-    }
-    const rim=torus(radius,.026,0,rimY,0,sunYellow,umbrella);rim.rotation.x=Math.PI/2;
-    sphere(.065,0,peakY+.035,0,sunYellow,umbrella);
-  }
   terraceTable(5.30,-2.08);terraceChair(4.65,-2.1,Math.PI/2,0);terraceChair(5.96,-2.06,-Math.PI/2,1);
   terraceTable(6.57,.02,true);terraceChair(6.58,-.67,0,2);terraceChair(6.59,.73,Math.PI,0);
-  terraceUmbrella(6.72,.77);
   collectInto(terraceGroup,hallGroup,lakeGroup);
 
   // Three entrance steps connect the academic hall to the courtyard.

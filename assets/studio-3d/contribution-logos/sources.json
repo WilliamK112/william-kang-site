@@ -1,0 +1,61 @@
+{
+  "verifiedOn": "2026-09-27",
+  "author": "WilliamK112",
+  "purpose": "Identify the upstream projects associated with the linked personal open-source contributions.",
+  "entries": [
+    {
+      "id": "github",
+      "company": "GitHub",
+      "project": "GitHub Docs",
+      "repository": "github/docs",
+      "pullRequest": 43969,
+      "url": "https://github.com/github/docs/pull/43969",
+      "status": "merged",
+      "mergedDate": "2026-05-13",
+      "description": "Clarified when private and internal Actions can be reused directly.",
+      "detail": "Clarified that checkout plus a local reference is not the only option, linked the access-configuration documentation, and retained the example for cases needing a separate checkout.",
+      "logo": "github.svg",
+      "darkBackgroundLogo": "github-white.svg",
+      "logoViewBox": [0, 0, 98, 96],
+      "logoSourcePage": "https://brand.github.com/foundations/logo",
+      "logoDownload": "https://brand.github.com/GitHub_Logos.zip",
+      "logoArchiveMembers": ["GitHub Logos/SVG/GitHub_Invertocat_Black.svg", "GitHub Logos/SVG/GitHub_Invertocat_White.svg"],
+      "logoChanges": "None. Official black and white Invertocat SVG files."
+    },
+    {
+      "id": "docker",
+      "company": "Docker",
+      "project": "Docker CLI",
+      "repository": "docker/cli",
+      "pullRequest": 6957,
+      "url": "https://github.com/docker/cli/pull/6957",
+      "status": "merged",
+      "mergedDate": "2026-06-04",
+      "description": "Made image-push notes respect NO_COLOR.",
+      "detail": "Routed auxiliary-note coloring through terminal output handling and added regression coverage for NO_COLOR=1.",
+      "logo": "docker.svg",
+      "logoViewBox": [0, 0, 340, 268],
+      "logoSourcePage": "https://www.docker.com/company/newsroom/media-resources/",
+      "logoDownload": "https://www.docker.com/static/Docker-Logos-1.zip",
+      "logoArchiveMember": "docker-logos/SVG/docker-mark-ocean-blue.svg",
+      "logoChanges": "Added explicit width=340 and height=268 matching the original viewBox for deterministic image sizing; vector artwork and colors are unchanged."
+    },
+    {
+      "id": "microsoft",
+      "company": "Microsoft",
+      "project": "Microsoft APM",
+      "repository": "microsoft/apm",
+      "pullRequest": 1971,
+      "url": "https://github.com/microsoft/apm/pull/1971",
+      "status": "merged",
+      "mergedDate": "2026-07-04",
+      "description": "Hardened plugin executable permissions and deny-list matching.",
+      "detail": "Set deployed POSIX plugin executables to owner-only 0700 permissions and normalized legacy package identities consistently across executable trust and deployment policy checks.",
+      "logo": "microsoft.svg",
+      "logoViewBox": [0, 0, 21, 21],
+      "logoSourcePage": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-branding-in-apps",
+      "logoDownload": "https://learn.microsoft.com/en-us/entra/identity-platform/media/howto-add-branding-in-apps/ms-symbollockup_mssymbol_19.svg",
+      "logoChanges": "None. Official four-color Microsoft symbol SVG."
+    }
+  ]
+}

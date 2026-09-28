@@ -25,15 +25,38 @@ Then open <http://localhost:8000>. The local server includes the GitHub stats AP
 
 ## Live GitHub data
 
-The homepage loads public activity from `/api/github-stats`, a dependency-free
-Vercel Function. The response is cached at the CDN for 15 minutes and can serve
-stale data while GitHub is temporarily unavailable. Static last-known values
-remain in the HTML as a visual and reliability fallback.
+The homepage reads public activity from `/api/github-stats`, a dependency-free
+Vercel Function, on load and every 15 minutes while the page is visible. The
+handler coalesces simultaneous requests and caches complete results for 15
+minutes. Partial results retry after one minute. Only complete GitHub search
+results are treated as verified PR counts.
 
-Set `GITHUB_TOKEN` in the Vercel project for a higher GitHub API rate limit. The
-token is optional during local development and is never returned to the browser.
-No database is required for current public GitHub stats; persistent storage would
-only be needed for historical trends or site-owned data.
+Each data source carries its actual verification timestamp. If GitHub is
+unavailable, the handler preserves dated public values from its runtime cache or
+`data/github-stats.json`; the interface identifies saved/partial data. Unknown
+values display as a dash. The timestamp never advances without a new successful
+verification. The contribution index is a selected collection, separate from
+the account-wide total.
+
+Set `GITHUB_TOKEN` in the Vercel project for a higher GitHub API rate limit. Local
+development uses `GITHUB_TOKEN` / `GH_TOKEN`, or the existing `gh auth` credential
+when available. Credentials stay on the server and are never written into the
+snapshot or returned to the browser.
+
+To refresh the checked-in public fallback explicitly:
+
+```sh
+npm run sync:github
+```
+
+This validates and atomically saves a complete snapshot. On failure it preserves
+the previous file. It does not commit, push, or deploy; include the updated public
+JSON in the next normal deployment. The live API works independently of this
+maintenance command and of whether the development computer is running.
+
+The separate `WilliamK112/WilliamK112` profile repository has a scheduled
+`update-approved-3d-banner.py` workflow. That workflow refreshes the GitHub
+profile contribution-calendar artwork, not this website's PR statistics.
 
 ## Contents
 

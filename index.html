@@ -44,11 +44,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700&family=Prata&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=github-live-1">
-    <script defer src="script.js?v=geometry-1"></script>
+    <link rel="stylesheet" href="styles.css?v=consistency-20260928">
+    <script defer src="script.js?v=consistency-20260928"></script>
     <link rel="stylesheet" href="assets/studio-3d/hero.css?v=studio-1">
-    <link rel="preload" as="image" href="assets/studio-3d/poster.webp?v=opening-2" media="(prefers-reduced-motion: no-preference)" fetchpriority="high">
-    <link rel="preload" as="image" href="assets/studio-3d/poster-reduced.webp?v=opening-2" media="(prefers-reduced-motion: reduce)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/studio-3d/poster.webp?v=opening-3" media="(prefers-reduced-motion: no-preference)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/studio-3d/poster-reduced.webp?v=opening-3" media="(prefers-reduced-motion: reduce)" fetchpriority="high">
     <script type="module" src="assets/studio-3d/scene.js"></script>
     <script type="module" src="assets/background-3d/loader.js"></script>
 </head>
@@ -97,12 +97,12 @@
         <section id="hero" class="hero studio-hero" aria-labelledby="studio-title">
             <div id="studio-scene" class="studio-scene" role="group" aria-describedby="studio-scene-description" aria-label="An interactive UW–Madison-inspired AI courtyard">
                 <picture aria-hidden="true">
-                    <source media="(prefers-reduced-motion: reduce)" srcset="assets/studio-3d/poster-reduced.webp?v=opening-2">
-                    <img class="studio-poster studio-poster-night" src="assets/studio-3d/poster.webp?v=opening-2" alt="" fetchpriority="high" decoding="async">
+                    <source media="(prefers-reduced-motion: reduce)" srcset="assets/studio-3d/poster-reduced.webp?v=opening-3">
+                    <img class="studio-poster studio-poster-night" src="assets/studio-3d/poster.webp?v=opening-3" alt="" fetchpriority="high" decoding="async">
                 </picture>
                 <picture aria-hidden="true">
-                    <source media="(prefers-reduced-motion: reduce)" srcset="assets/studio-3d/poster-day-reduced.webp?v=opening-2">
-                    <img class="studio-poster studio-poster-day" src="assets/studio-3d/poster-day.webp?v=opening-2" alt="" decoding="async">
+                    <source media="(prefers-reduced-motion: reduce)" srcset="assets/studio-3d/poster-day-reduced.webp?v=opening-3">
+                    <img class="studio-poster studio-poster-day" src="assets/studio-3d/poster-day.webp?v=opening-3" alt="" decoding="async">
                 </picture>
                 <nav class="studio-road-links" aria-label="Courtyard shortcuts">
                     <a data-studio-road-link="github" href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -110,12 +110,19 @@
                     <a data-studio-road-link="linkedin" href="https://www.linkedin.com/in/kcw2027/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                     <a data-studio-road-link="devpost" href="https://devpost.com/ckang53" target="_blank" rel="noopener noreferrer">Devpost</a>
                     <button type="button" data-studio-board-toggle aria-pressed="false" aria-describedby="uw-card-details" aria-controls="uw-card-details" data-i18n="studioBoardToggle" disabled>UW–Madison card</button>
+                    <a data-studio-contribution="github" href="https://github.com/github/docs/pull/43969" target="_blank" rel="noopener noreferrer" data-i18n="studioContributionGithub">GitHub contribution ↗</a>
+                    <a data-studio-contribution="docker" href="https://github.com/docker/cli/pull/6957" target="_blank" rel="noopener noreferrer" data-i18n="studioContributionDocker">Docker contribution ↗</a>
+                    <a data-studio-contribution="microsoft" href="https://github.com/microsoft/apm/pull/1971" target="_blank" rel="noopener noreferrer" data-i18n="studioContributionMicrosoft">Microsoft contribution ↗</a>
+                    <button type="button" data-studio-walk="lectern" data-i18n="studioWalkLectern" hidden>Move to lectern</button>
+                    <button type="button" data-studio-walk="aisle" data-i18n="studioWalkAisle" hidden>Move to side aisle</button>
+                    <button type="button" data-studio-walk="entry" data-i18n="studioWalkEntry" hidden>Move to doorway</button>
+                    <button type="button" data-studio-walk="window" data-i18n="studioWalkWindow" hidden>Move to window</button>
                 </nav>
             </div>
-            <p id="studio-scene-description" class="studio-sr-only" data-i18n="studioSceneDescription">An interactive, cel-shaded courtyard inspired by UW–Madison, with campus architecture and a personal AI workspace. Light mode brings daytime and begins turning to autumn after 30 seconds of visible animation; dark mode changes from a rainy night into a snowy winter courtyard. Pause motion also pauses seasonal progress. Click anywhere on the glass studio building, including its AI STUDIO sign, roof or windows, or use Enter studio to walk inside. Four keys on the wooden lectern open GitHub, Resume, LinkedIn, and Devpost; the same links are available by keyboard. Press Escape or Back to courtyard to leave. Drag outside to rotate and scroll to zoom. Scroll outside the scene to continue through the portfolio.</p>
+            <p id="studio-scene-description" class="studio-sr-only" data-i18n="studioSceneDescription">An interactive, cel-shaded courtyard inspired by UW–Madison, with campus architecture and a personal AI workspace. Light mode brings daytime and begins turning to autumn after 30 seconds of visible animation; dark mode changes from a rainy night into a snowy winter courtyard. Sparse, brief car and pedestrian impressions pass in daytime; only occasional pedestrians pass at night. Pause motion stops both street activity and seasonal progress; reduced motion hides the passing impressions. On the studio's lake-facing exterior wall, large GitHub, Docker, and Microsoft logos link to William's merged open-source contributions; low ground lights illuminate the display at night. These links are also available by keyboard. Click elsewhere on the glass studio building, including its AI STUDIO sign, roof or windows, or use Enter studio to walk inside. Inside, drag or focus the scene and use the arrow keys to look around. Click a translucent floor tile to move between the lectern, side aisle, doorway, and window; the same destinations are available by keyboard. Four keys on the wooden lectern open GitHub, Resume, LinkedIn, and Devpost; the same links are available by keyboard. Press Escape or Back to courtyard to leave. Drag outside to rotate and scroll to zoom. Scroll outside the scene to continue through the portfolio.</p>
             <div class="studio-visit-bar">
                 <button type="button" class="studio-visit-button" data-studio-exit hidden><span aria-hidden="true">←</span> <span data-i18n="studioExit">Back to courtyard</span></button>
-                <p data-studio-visit-status data-i18n="studioInsideHint" role="status" aria-live="polite" hidden>Choose a key on the lectern.</p>
+                <p data-studio-visit-status data-i18n="studioInsideHint" role="status" aria-live="polite" hidden>Drag to look · Click a floor tile to move · Explore the lectern keys</p>
             </div>
             <div class="studio-shade studio-shade-night" aria-hidden="true"></div>
             <div class="studio-shade studio-shade-day" aria-hidden="true"></div>
@@ -153,42 +160,28 @@
             <div class="section-heading-row">
                 <div>
                     <h2 data-i18n="openSourceTitle">Open Source PRs</h2>
-                    <p class="section-note" data-i18n="openSourceNote">Verified merged PRs across major open-source projects including GitHub, Docker, Microsoft, NVIDIA, Meta tooling, and developer infrastructure. Each link points to a confirmed merged pull request.</p>
+                    <p class="section-note" data-i18n="openSourceNote">Public engineering activity across open-source projects. Explore selected merged contributions and the changes behind them.</p>
                 </div>
                 <a class="btn btn-sm btn-ghost" href="/open-source-contributions.html" data-i18n="openSourceMore">View More PRs</a>
             </div>
             <div class="github-live-panel" data-github-live data-state="loading" aria-live="polite">
                 <div class="github-live-heading">
                     <div>
-                        <p class="eyebrow" data-i18n="githubLiveEyebrow">LIVE FROM GITHUB</p>
+                        <p class="eyebrow" data-i18n="githubLiveEyebrow">PUBLIC GITHUB DATA</p>
                         <h3 data-i18n="githubLiveTitle">Public engineering activity</h3>
                     </div>
                     <a href="https://github.com/WilliamK112" target="_blank" rel="noopener noreferrer" data-i18n="githubProfileLink">View GitHub profile</a>
                 </div>
                 <div class="github-live-stats">
-                    <div><strong data-github-stat="originalRepositories">26</strong><span data-i18n="githubOriginalRepos">Original repos</span></div>
-                    <div><strong data-github-stat="mergedPullRequests">96</strong><span data-i18n="githubMergedPrs">Merged PRs</span></div>
-                    <div><strong data-github-stat="externalMergedPullRequests">86</strong><span data-i18n="githubExternalMergedPrs">External merged PRs</span></div>
-                    <div><strong data-github-stat="totalStars">8</strong><span data-i18n="githubStars">Stars earned</span></div>
+                    <div><strong data-github-stat="originalRepositories">—</strong><span data-i18n="githubOriginalRepos">Original repos</span></div>
+                    <div><strong data-github-stat="mergedPullRequests">—</strong><span data-i18n="githubMergedPrs">Merged PRs</span></div>
+                    <div><strong data-github-stat="externalMergedPullRequests">—</strong><span data-i18n="githubExternalMergedPrs">External merged PRs</span></div>
+                    <div><strong data-github-stat="totalStars">—</strong><span data-i18n="githubStars">Stars earned</span></div>
                 </div>
                 <p class="github-live-status">
                     <span class="github-live-dot" aria-hidden="true"></span>
                     <span data-github-updated data-i18n="githubLoading">Loading current GitHub data…</span>
                 </p>
-            </div>
-            <div class="pill-row">
-                <span data-i18n="openSourceMerged">57 verified merged PRs</span>
-                <span data-i18n="openSourceActive">No pending links</span>
-                <span data-i18n="openSourceWorkflow">Real maintainer review + CI workflows</span>
-            </div>
-            <div class="open-source-grid">
-                <a class="open-source-chip open-source-chip-enterprise" href="https://github.com/github/docs/pull/43969" target="_blank" rel="noopener noreferrer">GitHub Docs</a>
-                <a class="open-source-chip open-source-chip-enterprise" href="https://github.com/docker/cli/pull/6957" target="_blank" rel="noopener noreferrer">Docker CLI</a>
-                <a class="open-source-chip open-source-chip-enterprise" href="https://github.com/microsoft/apm/pull/1821" target="_blank" rel="noopener noreferrer">Microsoft APM</a>
-                <a class="open-source-chip open-source-chip-enterprise" href="https://github.com/NVIDIA/NemoClaw/pull/1794" target="_blank" rel="noopener noreferrer">NVIDIA NemoClaw</a>
-                <a class="open-source-chip" href="https://github.com/facebook/install-dotslash/pull/16" target="_blank" rel="noopener noreferrer">Meta DotSlash</a>
-                <a class="open-source-chip" href="https://github.com/yamadashy/repomix/pull/1649" target="_blank" rel="noopener noreferrer">Repomix</a>
-                <a class="open-source-chip" href="https://github.com/alumnium-hq/alumnium/pull/395" target="_blank" rel="noopener noreferrer">Alumnium</a>
             </div>
         </section>
 
@@ -217,7 +210,7 @@
                     </li>
                     <li>
                         <h3 data-i18n="work4Title">Data Engineering and Automation Intern · The Marcus Harris Foundation</h3>
-                        <p data-i18n="work4Period">Oct 2024 - Dec 2024 · 2 months · United States</p>
+                        <p data-i18n="work4Period">Sep 2024 - Dec 2024 · United States</p>
                         <p data-i18n="work4Desc">Designed a Python ingestion pipeline with BeautifulSoup, Requests, and Pandas to collect nonprofit tax data from IRS and other public registries. Built HTML parsers and regex filters for filing year, tax category, EIN, and geography, then loaded 50,000+ structured records into PostgreSQL with 98% accuracy to support grant research and partner outreach.</p>
                     </li>
                     <li>
@@ -505,7 +498,7 @@
                     <h3 data-i18n="award3Title">University of Washington Hackathon</h3>
                     <p data-i18n="award3Desc">Recognized for a team-built technical solution under a fast-paced university hackathon format.</p>
                     <div class="award-links">
-                        <a href="/assets/Ching-Wei-Kang-Resume.pdf?v=20260928a" target="_blank" rel="noopener noreferrer" data-i18n="awardResumeProof">View public record</a>
+                        <a href="/assets/Ching-Wei-Kang-Resume-Chinese.pdf?v=20260928" target="_blank" rel="noopener noreferrer" data-i18n="awardResumeProof">Resume record</a>
                     </div>
                 </article>
 
@@ -517,14 +510,14 @@
                     <h3 data-i18n="award4Title">GWU Data Science Association Datathon</h3>
                     <p data-i18n="award4Desc">Applied Python-based analysis and data storytelling in a competitive datathon setting.</p>
                     <div class="award-links">
-                        <a href="/assets/Ching-Wei-Kang-Resume.pdf?v=20260928a" target="_blank" rel="noopener noreferrer" data-i18n="awardResumeProof">View public record</a>
+                        <a href="/assets/Ching-Wei-Kang-Resume-Data-Science.pdf?v=20260922h" target="_blank" rel="noopener noreferrer" data-i18n="awardResumeProof">Resume record</a>
                         <a href="https://www.linkedin.com/in/kcw2027/" target="_blank" rel="noopener noreferrer" data-i18n="awardProfileProof">Public profile</a>
                     </div>
                 </article>
 
                 <article class="award-card">
                     <div class="award-card-top">
-                        <span class="award-year">2022</span>
+                        <span class="award-year">2023</span>
                     </div>
                     <p class="award-placement" data-i18n="award5Placement">Robot Skills 2nd · Qualification 3rd</p>
                     <h3 data-i18n="award5Title">VEX VRC High School Division</h3>

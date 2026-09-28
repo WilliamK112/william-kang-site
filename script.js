@@ -1,4 +1,4 @@
-﻿(function setupPortfolioI18n() {
+(function setupPortfolioI18n() {
   const body = document.body;
   const toggle = document.querySelector('[data-theme-toggle]');
   if (!body || !toggle) return;
@@ -429,12 +429,18 @@
     themeAriaToDark: 'Switch to dark mode',
     themeAriaToLight: 'Switch to light mode',
     projectGitHub: 'GitHub',
-    githubUpdated: 'GitHub updated · {{date}}',
-    githubUpdatedPartial: 'GitHub partial update · {{date}}',
-    githubUnavailable: 'Live update unavailable · showing last-known values',
+    githubUpdated: 'Last verified on GitHub · {{date}}',
+    githubUpdatedPartial: 'Some data could not refresh · Last verified {{date}}',
+    githubCached: 'Showing saved GitHub data · Last verified {{date}}',
+    githubUnavailable: 'GitHub data is temporarily unavailable',
+    githubStatVerified: 'Verified on GitHub · {{date}}',
+    githubStatCached: 'Saved value · Verified {{date}}',
+    githubStatUnavailable: 'Currently unavailable',
     githubLastPushed: 'Last pushed on GitHub: {{date}}',
     studioResumeMotion: 'Resume motion',
     studioEnteringHint: 'Step inside…',
+    studioMovingHint: 'Moving through the studio…',
+    studioLookLabel: 'Studio view. Drag or use arrow keys to look around. Click a floor tile to move.',
     studioLeavingHint: 'Returning to the courtyard…'
   });
 
@@ -473,7 +479,16 @@
       studioDragHint: '点击工作室 · 拖动旋转 · 滚轮缩放',
       studioEnter: '进入工作室',
       studioExit: '返回庭院',
-      studioInsideHint: '按下讲台上的按键，探索我的作品。',
+      studioInsideHint: '拖动环顾 · 点击地面方格移动 · 讲台按键可打开链接',
+      studioMovingHint: '正在移到下一个位置…',
+      studioContributionGithub: 'GitHub 开源贡献 ↗',
+      studioContributionDocker: 'Docker 开源贡献 ↗',
+      studioContributionMicrosoft: 'Microsoft 开源贡献 ↗',
+      studioLookLabel: '工作室视角。拖动或使用方向键环顾，点击地面方格移动。',
+      studioWalkLectern: '移动到讲台前',
+      studioWalkAisle: '移动到侧边通道',
+      studioWalkEntry: '移动到门口',
+      studioWalkWindow: '移动到窗边',
       studioEnteringHint: '走进工作室…',
       studioLeavingHint: '正在返回庭院…',
       studioZoomIn: '放大场景',
@@ -482,7 +497,7 @@
       studioBoardToggle: 'UW–Madison 卡片',
       studioPauseMotion: '暂停动态',
       studioResumeMotion: '继续动态',
-      studioSceneDescription: '以威斯康星大学麦迪逊分校为灵感的可交互三渲二微缩庭院。浅色模式呈现白天，在动画运行累计 30 秒后转入秋天；深色模式从雨夜逐渐变为积雪的冬日庭院。暂停动效也会暂停季节变化。点击玻璃工作室建筑的任意部位，包括 AI STUDIO 招牌、屋顶、窗户或墙面，也可点击进入工作室，镜头会带你走入室内。讲台上的四个按键可打开 GitHub、简历、LinkedIn 和 Devpost，也可通过键盘访问相同链接。按 Escape 或返回庭院退出室内。外景可拖动旋转、滚轮缩放。在场景外滚动可继续浏览作品集。',
+      studioSceneDescription: '以威斯康星大学麦迪逊分校为灵感的可交互三渲二微缩庭院。浅色模式呈现白天，在动画运行累计 30 秒后转入秋天；深色模式从雨夜逐渐变为积雪的冬日庭院。白天偶尔有车与行人的短暂残影经过，夜晚只有零星行人。暂停动效会同时停止街道动态和季节变化；减少动态效果时不显示这些残影。工作室朝湖的外墙展示 GitHub、Docker 和 Microsoft 大标志，点击可打开 William 对应的已合并开源贡献，夜间由低矮地灯照亮，也可通过键盘访问。点击玻璃工作室建筑的其他部位，包括 AI STUDIO 招牌、屋顶、窗户或墙面，也可点击进入工作室，镜头会带你走入室内。在室内拖动即可环顾，聚焦场景后也可用方向键转头。点击半透明地面方格可在讲台前、侧边通道、门口和窗边移动，也可通过键盘选择这些位置。讲台上的四个按键可打开 GitHub、简历、LinkedIn 和 Devpost，也可通过键盘访问相同链接。按 Escape 或返回庭院退出室内。外景可拖动旋转、滚轮缩放。在场景外滚动可继续浏览作品集。',
       profileDetailEyebrow: '作品背后的我',
       profileDetailTitle: '再多了解我一点。',
       profileDetailIntro: '康景威（William Kang），威斯康星大学麦迪逊分校学生。结合计算机科学、数据科学与实践，构建有用的软件。',
@@ -548,7 +563,7 @@
       work3Period: '2024 年 12 月 - 2025 年 2 月 · 美国 | 远程',
       work3Desc: '参与国家级研究项目，分析 AI 与战略技术生态中的政策趋势与人才配置机制。收集并校对多源政策数据，比较不同机构的实施路径，撰写研究结论，并构建 Python 线性模型，为项目利益相关方提供定量预测支持。',
       work4Title: '数据工程与自动化实习生 · Marcus Harris Foundation',
-      work4Period: '2024 年 10 月 - 2024 年 12 月 · 2 个月 · 美国',
+      work4Period: '2024 年 9 月 - 2024 年 12 月 · 美国',
       work4Desc: '使用 BeautifulSoup、Requests 与 Pandas 设计 Python 数据摄取流水线，从 IRS 及其他公开登记库采集非营利组织税务数据。编写 HTML 解析器与正则过滤器，按申报年份、税务类别、EIN 和地理区域整理数据，最终以 98% 准确率将 50,000+ 条结构化记录写入 PostgreSQL，支持资助研究与合作伙伴拓展。',
       work5Title: '数据分析与自动化实习生 · Springer Capital',
       work5Period: '2024 年 8 月 - 2024 年 10 月 · 2 个月 · 芝加哥，美国',
@@ -557,14 +572,11 @@
       work6Period: '2024 年 6 月 - 2024 年 9 月 · 3 个月',
       work6Desc: '使用 Python 与 Excel 分析种族人口结构、客户行为与消费偏好，研究北美亚洲餐饮市场。制作数据可视化并参与完成 200+ 页市场白皮书，将分析结论转化为营销建议和多平台内容，用于提升受众互动。',
       openSourceTitle: '开源 PR',
-      openSourceNote: '已核验的 merged PR，覆盖 GitHub、Docker、Microsoft、NVIDIA、Meta 工具链与开发者基础设施等成熟开源项目。每个链接都指向确定合并的 pull request。',
-      openSourceMerged: '57 个已核验 merged PR',
-      openSourceActive: '不放 pending 链接',
-      openSourceWorkflow: '真实 maintainer 评审 + CI 流程',
+      openSourceNote: '跨开源项目的公开工程动态。查看精选的已合并贡献及具体改动。',
       openSourceMore: '查看更多 PR',
       projectsTitle: '项目',
       moreProjectsNote: '涵盖 AI 产品、计算机视觉、强化学习与开发者工具的工程项目。',
-      githubLiveEyebrow: 'GITHUB 实时数据',
+      githubLiveEyebrow: 'GITHUB 公开数据',
       githubLiveTitle: '公开工程动态',
       githubProfileLink: '查看 GitHub 主页',
       githubOriginalRepos: '原创仓库',
@@ -572,9 +584,13 @@
       githubExternalMergedPrs: '外部仓库已合并 PR',
       githubStars: '获得 Stars',
       githubLoading: '正在读取最新 GitHub 数据…',
-      githubUpdated: 'GitHub 更新 · {{date}}',
-      githubUpdatedPartial: 'GitHub 部分更新 · {{date}}',
-      githubUnavailable: '实时更新暂不可用 · 当前显示最近已知数据',
+      githubUpdated: 'GitHub 最近核验 · {{date}}',
+      githubUpdatedPartial: '部分数据暂未刷新 · 最近核验 {{date}}',
+      githubCached: '当前显示已保存的 GitHub 数据 · 最近核验 {{date}}',
+      githubUnavailable: 'GitHub 数据暂时不可用',
+      githubStatVerified: 'GitHub 已核验 · {{date}}',
+      githubStatCached: '已保存数值 · 核验时间 {{date}}',
+      githubStatUnavailable: '暂时不可用',
       githubLastPushed: 'GitHub 最后更新：{{date}}',
       projectTechLabel: '技术：',
       projectImpactLabel: '影响：',
@@ -645,7 +661,7 @@
       award6Desc: 'Devpost 在赢得黑客松奖项后颁发的官方成就。',
       awardProof: '查看证明',
       awardOfficialProof: '官方证明',
-      awardResumeProof: '查看公开记录',
+      awardResumeProof: '查看简历记录',
       awardProfileProof: '公开资料',
       awardProject: '查看项目',
       certificatesTitle: '证书',
@@ -813,6 +829,7 @@
   let latestData = null;
   let requestFailed = false;
   let requestInFlight = false;
+  const sourceForStat = { originalRepositories: 'repositories', totalStars: 'repositories', mergedPullRequests: 'mergedPullRequests', externalMergedPullRequests: 'externalMergedPullRequests' };
 
   function currentLanguage() {
     return document.documentElement.lang === 'zh-CN' ? 'zh-CN' : 'en-US';
@@ -857,20 +874,20 @@
 
   function renderStatus() {
     if (!status) return;
-    if (!latestData || !latestData.generatedAt) {
+    if (!latestData || !latestData.updatedAt) {
       if (requestFailed) {
         status.textContent = translated(
           'githubUnavailable',
           null,
-          'Live update unavailable · showing last-known values',
+          'GitHub data is temporarily unavailable',
         );
       }
       return;
     }
 
-    const date = formatTimestamp(new Date());
-    const key = latestData.partial ? 'githubUpdatedPartial' : 'githubUpdated';
-    const fallback = latestData.partial ? `Partial GitHub data updated ${date}` : `GitHub data updated ${date}`;
+    const date = formatTimestamp(latestData.updatedAt);
+    const key = requestFailed ? 'githubCached' : latestData.partial ? 'githubUpdatedPartial' : 'githubUpdated';
+    const fallback = requestFailed ? `Showing saved GitHub data · Last verified ${date}` : latestData.partial ? `Some data could not refresh · Last verified ${date}` : `Last verified on GitHub · ${date}`;
     status.textContent = translated(key, { date }, fallback);
   }
 
@@ -884,7 +901,11 @@
     panel.querySelectorAll('[data-github-stat]').forEach((node) => {
       const key = node.getAttribute('data-github-stat');
       const value = key ? data[key] : null;
-      if (Number.isFinite(value)) node.textContent = formatNumber(value);
+      const source = data.sources?.[sourceForStat[key]];
+      const available = Number.isFinite(value) && value >= 0 && Boolean(source?.updatedAt);
+      node.textContent = available ? formatNumber(value) : '—';
+      node.dataset.state = !available ? 'unavailable' : requestFailed || source.status !== 'live' ? 'stale' : 'ready';
+      node.title = available ? translated(node.dataset.state === 'stale' ? 'githubStatCached' : 'githubStatVerified', { date: formatTimestamp(source.updatedAt) }, `Verified ${formatTimestamp(source.updatedAt)}`) : translated('githubStatUnavailable', null, 'Currently unavailable');
     });
 
     document.querySelectorAll('[data-github-repo]').forEach((card) => {
@@ -896,44 +917,45 @@
       dateNode.textContent = translated('githubLastPushed', { date }, `Last pushed on GitHub: ${date}`);
     });
 
-    panel.dataset.state = data.partial ? 'partial' : 'ready';
+    panel.dataset.state = requestFailed ? 'fallback' : !data.updatedAt ? 'unavailable' : data.partial ? 'partial' : 'ready';
     renderStatus();
   }
 
   window.addEventListener('portfolio-language-changed', () => render(latestData));
 
-  function loadGithubData() {
+  async function loadGithubData() {
     if (requestInFlight) return;
     requestInFlight = true;
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 8000);
 
-    fetch('/api/github-stats', {
-      headers: { Accept: 'application/json' },
-      signal: controller.signal,
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error(`GitHub stats request failed with ${response.status}`);
-        return response.json();
-      })
-      .then((data) => {
-        latestData = data;
-        requestFailed = false;
-        render(latestData);
-      })
-      .catch(() => {
-        requestFailed = true;
-        if (!latestData) render(null);
-      })
-      .finally(() => {
-        requestInFlight = false;
-        window.clearTimeout(timeout);
-      });
+    try {
+      const response = await fetch('/api/github-stats', { cache: 'no-store', headers: { Accept: 'application/json' }, signal: controller.signal });
+      if (!response.ok) throw new Error('GitHub stats unavailable');
+      const data = await response.json();
+      if (!data.sources || data.user !== 'WilliamK112') throw new Error('Invalid GitHub data');
+      latestData = data;
+      requestFailed = !data.updatedAt;
+    } catch {
+      requestFailed = true;
+      // A dated public snapshot is also usable on static hosts or a cold API failure.
+      if (!latestData) {
+        try {
+          const response = await fetch('/data/github-stats.json', { signal: AbortSignal.timeout(4000) });
+          if (!response.ok) throw new Error('Snapshot unavailable');
+          const snapshot = await response.json();
+          if (snapshot.user === 'WilliamK112' && snapshot.sources && snapshot.updatedAt) latestData = snapshot;
+        } catch { /* Keep unknown values as dashes instead of fabricated totals. */ }
+      }
+    } finally {
+      render(latestData);
+      requestInFlight = false;
+      window.clearTimeout(timeout);
+    }
   }
 
   loadGithubData();
-  window.setInterval(renderStatus, 1000);
-  window.setInterval(loadGithubData, refreshInterval);
+  window.setInterval(() => { if (!document.hidden) loadGithubData(); }, refreshInterval);
 })();
 // Minimal JS to integrate small accessibility tweaks.
 (function optimizeTabOrder() {

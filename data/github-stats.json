@@ -1,0 +1,318 @@
+{
+  "user": "WilliamK112",
+  "profileUrl": "https://github.com/WilliamK112",
+  "publicRepositories": 134,
+  "originalRepositories": 28,
+  "followers": 16,
+  "totalStars": 10,
+  "mergedPullRequests": 213,
+  "externalMergedPullRequests": 201,
+  "repositories": {
+    "Akang_AI_Excel_Test": {
+      "name": "Akang_AI_Excel_Test",
+      "url": "https://github.com/WilliamK112/Akang_AI_Excel_Test",
+      "description": "High-difficulty pharmaceutical and healthcare Excel datasets for testing AI spreadsheet capabilities",
+      "language": null,
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-08-11T02:25:27Z",
+      "homepage": null
+    },
+    "application-os": {
+      "name": "application-os",
+      "url": "https://github.com/WilliamK112/application-os",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-07-26T17:00:24Z",
+      "homepage": "https://application-os.vercel.app"
+    },
+    "auto-apply-worker": {
+      "name": "auto-apply-worker",
+      "url": "https://github.com/WilliamK112/auto-apply-worker",
+      "description": null,
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-06-14T00:44:50Z",
+      "homepage": null
+    },
+    "badminton-machine-learning": {
+      "name": "badminton-machine-learning",
+      "url": "https://github.com/WilliamK112/badminton-machine-learning",
+      "description": "Badminton computer vision project by William Kang (Ching-Wei Kang) for player tracking, pose overlays, shuttle recovery, and sports analytics.",
+      "language": "Python",
+      "stars": 2,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:49Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "bci-mvp": {
+      "name": "bci-mvp",
+      "url": "https://github.com/WilliamK112/bci-mvp",
+      "description": "Brain-computer-interface MVP by William Kang (Ching-Wei Kang) for real-time neural signal processing and visualization.",
+      "language": "Python",
+      "stars": 1,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:49Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "ClawWork-personal": {
+      "name": "ClawWork-personal",
+      "url": "https://github.com/WilliamK112/ClawWork-personal",
+      "description": "Personal AI agent workspace by William Kang (Ching-Wei Kang) with OpenClaw integration, dashboards, and evaluation workflows.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:50:26Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "cpp-http-server": {
+      "name": "cpp-http-server",
+      "url": "https://github.com/WilliamK112/cpp-http-server",
+      "description": "High-performance HTTP server implementation in C++ with multi-threading support, benchmark tests, and RESTful API capabilities.",
+      "language": "C++",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-03-11T07:22:17Z",
+      "homepage": null
+    },
+    "ctm-adaptive-thinking-benchmark": {
+      "name": "ctm-adaptive-thinking-benchmark",
+      "url": "https://github.com/WilliamK112/ctm-adaptive-thinking-benchmark",
+      "description": "PyTorch benchmark for CTM-style adaptive computation, sparse-retrieval failure analysis, adaptive halting, and attention-supervised recovery.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-05-17T16:05:21Z",
+      "homepage": "https://github.com/WilliamK112/ctm-adaptive-thinking-benchmark/blob/main/docs/index.md"
+    },
+    "dungeons-and-dragons-adventure-voice-version": {
+      "name": "dungeons-and-dragons-adventure-voice-version",
+      "url": "https://github.com/WilliamK112/dungeons-and-dragons-adventure-voice-version",
+      "description": "AI voice adventure game by William Kang (Ching-Wei Kang) using Vite, TypeScript, real-time speech, and multimodal storytelling.",
+      "language": "TypeScript",
+      "stars": 3,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:51Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "global-product-compliance": {
+      "name": "global-product-compliance",
+      "url": "https://github.com/WilliamK112/global-product-compliance",
+      "description": "CanSell: product-aware market access agent for Chinese exporters. GOAI Boundless Agents 2026.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-08-16T13:45:21Z",
+      "homepage": null
+    },
+    "globalai-ad-studio": {
+      "name": "globalai-ad-studio",
+      "url": "https://github.com/WilliamK112/globalai-ad-studio",
+      "description": "GlobalAI Ad Studio - AI ad pipeline dashboard",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-08-01T17:32:36Z",
+      "homepage": null
+    },
+    "gugugaga-desktop-assistant": {
+      "name": "gugugaga-desktop-assistant",
+      "url": "https://github.com/WilliamK112/gugugaga-desktop-assistant",
+      "description": "Transparent Windows desktop assistant with animated Gugugaga pet, local voices, reminders, backpack and food system.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-05-26T15:32:36Z",
+      "homepage": null
+    },
+    "hand-control": {
+      "name": "hand-control",
+      "url": "https://github.com/WilliamK112/hand-control",
+      "description": null,
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-04-10T00:28:15Z",
+      "homepage": null
+    },
+    "image-making-pipeline": {
+      "name": "image-making-pipeline",
+      "url": "https://github.com/WilliamK112/image-making-pipeline",
+      "description": "AI-powered image generation pipeline using multiple providers (DALL-E, Midjourney, Stable Diffusion) with prompt building and local server support in Python.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-03-10T08:50:19Z",
+      "homepage": null
+    },
+    "llm-fit": {
+      "name": "llm-fit",
+      "url": "https://github.com/WilliamK112/llm-fit",
+      "description": "Local LLM hardware fit estimator by William Kang (Ching-Wei Kang) for model sizing, speed estimates, and runnable commands.",
+      "language": "JavaScript",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:52Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "mac-click-floater": {
+      "name": "mac-click-floater",
+      "url": "https://github.com/WilliamK112/mac-click-floater",
+      "description": "A macOS floating auto-clicker prototype with draggable click points and per-point timing.",
+      "language": "Swift",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-04-14T10:02:43Z",
+      "homepage": null
+    },
+    "Madhacks2025---TrustRent": {
+      "name": "Madhacks2025---TrustRent",
+      "url": "https://github.com/WilliamK112/Madhacks2025---TrustRent",
+      "description": "🏆 3rd place at Cursor Badger Build Festival Hackathon. TrustRent helps renters turn leases, checklists, and move-in/out photos into secure, organized evidence for deposit disputes.",
+      "language": "TypeScript",
+      "stars": 1,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:52Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "mario-machine-learning": {
+      "name": "mario-machine-learning",
+      "url": "https://github.com/WilliamK112/mario-machine-learning",
+      "description": "Super Mario reinforcement learning project by William Kang (Ching-Wei Kang) using DreamerV3, PPO, and experiment diagnostics.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:49Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "multi-agent-openclaw": {
+      "name": "multi-agent-openclaw",
+      "url": "https://github.com/WilliamK112/multi-agent-openclaw",
+      "description": "Multi-agent orchestration workspace by William Kang (Ching-Wei Kang) for research, writing, and productivity pipelines.",
+      "language": "TypeScript",
+      "stars": 1,
+      "forks": 1,
+      "pushedAt": "2026-06-21T15:50:25Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "profile-3d-banner": {
+      "name": "profile-3d-banner",
+      "url": "https://github.com/WilliamK112/profile-3d-banner",
+      "description": "GitHub profile 3D contribution banner with auto-update workflow",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-09-27T17:43:43Z",
+      "homepage": "https://github.com/WilliamK112"
+    },
+    "prompttrace": {
+      "name": "prompttrace",
+      "url": "https://github.com/WilliamK112/prompttrace",
+      "description": "LLM tracing and prompt evaluation tool by William Kang (Ching-Wei Kang) for latency, cost, and failure analysis.",
+      "language": "HTML",
+      "stars": 1,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:52Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "pruva": {
+      "name": "pruva",
+      "url": "https://github.com/WilliamK112/pruva",
+      "description": "The settlement layer for AI agents. GOAI Agent Infra 2026.",
+      "language": "Python",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-08-16T14:17:58Z",
+      "homepage": null
+    },
+    "react-dashboard": {
+      "name": "react-dashboard",
+      "url": "https://github.com/WilliamK112/react-dashboard",
+      "description": "Video download dashboard: React + Vite frontend, Express backend with yt-dlp orchestration and multi-stage fallback (Node resolver -> headless Chrome m3u8 capture -> Python helper).",
+      "language": "JavaScript",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-04-25T17:01:56Z",
+      "homepage": null
+    },
+    "repolens": {
+      "name": "repolens",
+      "url": "https://github.com/WilliamK112/repolens",
+      "description": "AI-powered repository analysis tool with linting rules, code quality metrics, and automated PR review suggestions in TypeScript.",
+      "language": "TypeScript",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-03-10T08:50:25Z",
+      "homepage": null
+    },
+    "TableUs": {
+      "name": "TableUs",
+      "url": "https://github.com/WilliamK112/TableUs",
+      "description": "🏆 2nd place at Cursor Hackathon 2026. A location-aware AI dining assistant that helps groups coordinate plans and choose where to eat.",
+      "language": "TypeScript",
+      "stars": 1,
+      "forks": 0,
+      "pushedAt": "2026-06-21T15:52:49Z",
+      "homepage": "https://williamkang.com/william-kang-projects.html"
+    },
+    "test": {
+      "name": "test",
+      "url": "https://github.com/WilliamK112/test",
+      "description": "writng",
+      "language": null,
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-08-11T08:26:04Z",
+      "homepage": null
+    },
+    "william-kang-site": {
+      "name": "william-kang-site",
+      "url": "https://github.com/WilliamK112/william-kang-site",
+      "description": "Personal portfolio website for William Kang (Ching-Wei Kang)",
+      "language": "JavaScript",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-09-28T04:57:30Z",
+      "homepage": "https://williamkang.com/"
+    },
+    "WilliamK112": {
+      "name": "WilliamK112",
+      "url": "https://github.com/WilliamK112/WilliamK112",
+      "description": "GitHub profile for William Kang (Ching-Wei Kang)",
+      "language": "CSS",
+      "stars": 0,
+      "forks": 0,
+      "pushedAt": "2026-09-27T17:49:06Z",
+      "homepage": "https://williamkang.com/"
+    }
+  },
+  "sources": {
+    "profile": {
+      "status": "live",
+      "updatedAt": "2026-09-28T05:13:49.204Z",
+      "sourceUrl": "https://api.github.com/users/WilliamK112"
+    },
+    "repositories": {
+      "status": "live",
+      "updatedAt": "2026-09-28T05:13:49.924Z",
+      "sourceUrl": "https://api.github.com/users/WilliamK112/repos?type=owner&sort=full_name&direction=asc&per_page=100"
+    },
+    "mergedPullRequests": {
+      "status": "live",
+      "updatedAt": "2026-09-28T05:13:49.374Z",
+      "sourceUrl": "https://api.github.com/search/issues?q=author%3AWilliamK112%20is%3Apr%20is%3Amerged%20is%3Apublic&per_page=1"
+    },
+    "externalMergedPullRequests": {
+      "status": "live",
+      "updatedAt": "2026-09-28T05:13:49.303Z",
+      "sourceUrl": "https://api.github.com/search/issues?q=author%3AWilliamK112%20is%3Apr%20is%3Amerged%20is%3Apublic%20-user%3AWilliamK112&per_page=1"
+    }
+  },
+  "generatedAt": "2026-09-28T05:13:48.691Z",
+  "partial": false,
+  "stale": false,
+  "updatedAt": "2026-09-28T05:13:49.204Z"
+}

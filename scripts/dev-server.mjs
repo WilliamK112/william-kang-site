@@ -2,8 +2,11 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 
-import githubStatsHandler from '../api/github-stats.js';
+import { createGithubStatsHandler } from '../api/github-stats.js';
 import contactHandler from '../api/contact.js';
+import { localGithubToken } from './github-auth.mjs';
+
+const githubStatsHandler = createGithubStatsHandler({ token: localGithubToken() });
 
 const root = resolve(import.meta.dirname, '..');
 const port = Number(process.env.PORT || 8000);
