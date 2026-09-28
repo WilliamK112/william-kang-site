@@ -433,7 +433,9 @@
     githubUpdatedPartial: 'GitHub partial update · {{date}}',
     githubUnavailable: 'Live update unavailable · showing last-known values',
     githubLastPushed: 'Last pushed on GitHub: {{date}}',
-    studioResumeMotion: 'Resume motion'
+    studioResumeMotion: 'Resume motion',
+    studioEnteringHint: 'Step inside…',
+    studioLeavingHint: 'Returning to the courtyard…'
   });
 
   const translations = {
@@ -468,14 +470,19 @@
       studioSelectedWork: '精选项目',
       studioSceneNote: '扎根校园，探索无限可能。',
       studioExplore: '探索更多作品',
-      studioDragHint: '点击按键 · 拖动旋转 · 滚轮缩放',
+      studioDragHint: '点击工作室 · 拖动旋转 · 滚轮缩放',
+      studioEnter: '进入工作室',
+      studioExit: '返回庭院',
+      studioInsideHint: '按下讲台上的按键，探索我的作品。',
+      studioEnteringHint: '走进工作室…',
+      studioLeavingHint: '正在返回庭院…',
       studioZoomIn: '放大场景',
       studioZoomOut: '缩小场景',
       studioResetView: '重置视角',
       studioBoardToggle: 'UW–Madison 卡片',
       studioPauseMotion: '暂停动态',
       studioResumeMotion: '继续动态',
-      studioSceneDescription: '以威斯康星大学麦迪逊分校为灵感的可交互三渲二微缩庭院，结合校园建筑与个人 AI 工作空间。浅色模式呈现白天，在场景可见且动画运行累计 30 秒后开始转入秋天；深色模式从雨夜逐渐变为积雪的冬日庭院。暂停动效也会暂停季节变化。点击路面按键可打开 GitHub、简历、LinkedIn 或 Devpost，也可通过键盘访问相同链接。拖动旋转，在场景上使用滚轮缩放，或使用放大、缩小和重置按钮。在场景外滚动可继续浏览作品集。',
+      studioSceneDescription: '以威斯康星大学麦迪逊分校为灵感的可交互三渲二微缩庭院。浅色模式呈现白天，在动画运行累计 30 秒后转入秋天；深色模式从雨夜逐渐变为积雪的冬日庭院。暂停动效也会暂停季节变化。点击玻璃工作室建筑的任意部位，包括 AI STUDIO 招牌、屋顶、窗户或墙面，也可点击进入工作室，镜头会带你走入室内。讲台上的四个按键可打开 GitHub、简历、LinkedIn 和 Devpost，也可通过键盘访问相同链接。按 Escape 或返回庭院退出室内。外景可拖动旋转、滚轮缩放。在场景外滚动可继续浏览作品集。',
       profileDetailEyebrow: '作品背后的我',
       profileDetailTitle: '再多了解我一点。',
       profileDetailIntro: '康景威（William Kang），威斯康星大学麦迪逊分校学生。结合计算机科学、数据科学与实践，构建有用的软件。',

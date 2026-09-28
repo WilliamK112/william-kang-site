@@ -105,7 +105,11 @@
                     <button type="button" data-studio-board-toggle aria-pressed="false" aria-describedby="uw-card-details" aria-controls="uw-card-details" data-i18n="studioBoardToggle" disabled>UW–Madison card</button>
                 </nav>
             </div>
-            <p id="studio-scene-description" class="studio-sr-only" data-i18n="studioSceneDescription">An interactive, cel-shaded courtyard inspired by UW–Madison, with campus architecture and a personal AI workspace. Light mode brings daytime and begins turning to autumn after 30 seconds of visible animation; dark mode changes from a rainy night into a snowy winter courtyard. Pause motion also pauses seasonal progress. Click the road keys to open GitHub, Resume, LinkedIn, or Devpost; the same links are available by keyboard. Drag to rotate, scroll over the scene to zoom, or use the zoom and reset buttons. Scroll outside the scene to continue through the portfolio.</p>
+            <p id="studio-scene-description" class="studio-sr-only" data-i18n="studioSceneDescription">An interactive, cel-shaded courtyard inspired by UW–Madison, with campus architecture and a personal AI workspace. Light mode brings daytime and begins turning to autumn after 30 seconds of visible animation; dark mode changes from a rainy night into a snowy winter courtyard. Pause motion also pauses seasonal progress. Click anywhere on the glass studio building, including its AI STUDIO sign, roof or windows, or use Enter studio to walk inside. Four keys on the wooden lectern open GitHub, Resume, LinkedIn, and Devpost; the same links are available by keyboard. Press Escape or Back to courtyard to leave. Drag outside to rotate and scroll to zoom. Scroll outside the scene to continue through the portfolio.</p>
+            <div class="studio-visit-bar">
+                <button type="button" class="studio-visit-button" data-studio-exit hidden><span aria-hidden="true">←</span> <span data-i18n="studioExit">Back to courtyard</span></button>
+                <p data-studio-visit-status data-i18n="studioInsideHint" role="status" aria-live="polite" hidden>Choose a key on the lectern.</p>
+            </div>
             <div class="studio-shade studio-shade-night" aria-hidden="true"></div>
             <div class="studio-shade studio-shade-day" aria-hidden="true"></div>
             <div class="studio-copy">
@@ -126,7 +130,8 @@
             <div class="studio-scene-note" aria-hidden="true"><span class="studio-note-dot"></span><span data-i18n="studioSceneNote">CAMPUS ROOTS. OPEN POSSIBILITIES.</span></div>
             <div class="studio-bottom-line">
                 <div class="studio-view-tools">
-                    <span class="studio-drag-hint" data-i18n="studioDragHint">Click keys · Drag to rotate · Scroll to zoom</span>
+                    <span class="studio-drag-hint" data-i18n="studioDragHint">Click the studio · Drag to rotate · Scroll to zoom</span>
+                    <button type="button" class="studio-visit-button" data-studio-enter aria-controls="studio-scene" aria-expanded="false" disabled><span data-i18n="studioEnter">Enter studio</span> <span aria-hidden="true">↗</span></button>
                     <div class="studio-zoom-controls" role="group" aria-label="Courtyard view controls">
                         <button type="button" class="studio-view-button" data-studio-zoom="out" data-studio-label="studioZoomOut" aria-label="Zoom out" disabled><span aria-hidden="true">−</span><span class="studio-sr-only" data-i18n="studioZoomOut">Zoom out</span></button>
                         <button type="button" class="studio-view-button" data-studio-zoom="in" data-studio-label="studioZoomIn" aria-label="Zoom in" disabled><span aria-hidden="true">+</span><span class="studio-sr-only" data-i18n="studioZoomIn">Zoom in</span></button>

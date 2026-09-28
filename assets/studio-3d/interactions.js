@@ -1,5 +1,5 @@
 // Pointer navigation stays separate from camera gestures and native link semantics.
-export function connectNavigation({ THREE, scene, camera, canvas, navigation, actions = [], onActivity, onGesture }) {
+export function connectNavigation({ THREE, scene, camera, canvas, navigation, actions = [], onActivity = () => {}, onGesture }) {
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
   const targets = [...navigation.keys, ...actions];
@@ -9,7 +9,13 @@ export function connectNavigation({ THREE, scene, camera, canvas, navigation, ac
   const occluders = [];
   const listeners = [];
   const activePointers = new Set();
+  const pressPulses = new Map();
   let hovered = null, focused = null, pressed = null, gesture = null;
+  let reduced = false;
+
+  function enabled(target) {
+    return !!target && (typeof target.enabled === 'function' ? target.enabled() : target.enabled) !== false;
+  }
 
   function owner(object) {
     if (meshOwners.has(object)) return meshOwners.get(object);
@@ -32,8 +38,9 @@ export function connectNavigation({ THREE, scene, camera, canvas, navigation, ac
     if (!rect.width || !rect.height || x < 0 || x > rect.width || y < 0 || y > rect.height) return null;
     pointer.set(x / rect.width * 2 - 1, 1 - y / rect.height * 2);
     scene.updateMatrixWorld(true);
+    camera.updateMatrixWorld();
     raycaster.setFromCamera(pointer, camera);
-    const hit = raycaster.intersectObjects(hitMeshes, false).find(result => visible(result.object) && owner(result.object)?.enabled?.() !== false);
+    const hit = raycaster.intersectObjects(hitMeshes, false).find(result => visible(result.object) && enabled(owner(result.object)));
     if (!hit) return null;
     raycaster.far = hit.distance - .035;
     const blocked = raycaster.intersectObjects(occluders, false).some(result => visible(result.object));
@@ -61,9 +68,17 @@ export function connectNavigation({ THREE, scene, camera, canvas, navigation, ac
     refreshCursor();
     onActivity();
   }
+  function pulsePress(target) {
+    if (!target.cap || !enabled(target) || reduced) return;
+    // Start feedback synchronously; opening the native link is never delayed.
+    target.cap.position.y = target.homeY - .085;
+    pressPulses.set(target, .20);
+    onActivity();
+  }
   listen(canvas, 'pointerdown', event => {
     activePointers.add(event.pointerId);
     if (activePointers.size > 1 || !event.isPrimary || event.button !== 0) {
+      if (activePointers.size > 1) onGesture?.();
       cancelGesture();
       return;
     }
@@ -98,10 +113,11 @@ export function connectNavigation({ THREE, scene, camera, canvas, navigation, ac
         !candidate.moved && candidate.key && candidate.key === released &&
         Math.hypot(event.clientX - candidate.x, event.clientY - candidate.y) <= 7) {
       // Synchronous native anchor activation retains the browser's popup allowance.
+      pulsePress(candidate.key);
       if (candidate.key.activate) candidate.key.activate();
       else candidate.key.link.anchor.click();
     }
-    setHovered(event.pointerType === 'touch' ? null : released);
+    setHovered(event.pointerType === 'touch' || !enabled(released) ? null : released);
     refreshCursor();
     onActivity();
   }, { passive: true });
@@ -122,18 +138,38 @@ export function connectNavigation({ THREE, scene, camera, canvas, navigation, ac
     const element = target.element || target.link?.anchor;
     if (!element) continue;
     listen(element, 'focus', () => { focused = target; target.onFocus?.(); onActivity(); });
-    listen(element, 'blur', () => { focused = null; onActivity(); });
-    if (target.activate) listen(element, 'click', target.activate);
+    listen(element, 'blur', () => { if (focused === target) focused = null; onActivity(); });
+    listen(element, 'click', () => {
+      pulsePress(target);
+      // Native anchors retain their URL behavior even when the 3D key is gated.
+      target.activate?.();
+    });
   }
 
   return {
     hitAt,
     get hovered() { return hovered; },
+    cancel() {
+      activePointers.clear();
+      focused = null;
+      pressPulses.clear();
+      cancelGesture();
+    },
     update(dt, reducedMotion) {
+      reduced = Boolean(reducedMotion);
+      dt = Number.isFinite(dt) ? Math.max(0, dt) : 0;
+      if (hovered && !enabled(hovered)) setHovered(null);
+      if (pressed && !enabled(pressed)) pressed = null;
       let moving = false;
       for (const key of navigation.keys) {
-        const selected = key === hovered || key === focused;
-        const target = key.homeY + (key === pressed ? -.085 : selected ? .11 : 0);
+        const available = enabled(key);
+        const selected = available && (key === hovered || key === focused);
+        let pulse = pressPulses.get(key) || 0;
+        if (!available || reduced) pulse = 0;
+        if (pulse > 0) { pulse = Math.max(0, pulse - dt); pressPulses.set(key, pulse); moving = true; }
+        else pressPulses.delete(key);
+        const depression = available && key === pressed ? -.085 : pulse > 0 ? -.085 * Math.sqrt(pulse / .20) : selected ? .11 : 0;
+        const target = key.homeY + depression;
         const oldY = key.cap.position.y;
         key.cap.position.y = reducedMotion ? target : THREE.MathUtils.lerp(oldY, target, 1 - Math.exp(-22 * dt));
         if (Math.abs(key.cap.position.y - target) < .0005) key.cap.position.y = target;
@@ -142,6 +178,6 @@ export function connectNavigation({ THREE, scene, camera, canvas, navigation, ac
       }
       return moving;
     },
-    dispose() { listeners.forEach(remove => remove()); }
+    dispose() { listeners.forEach(remove => remove()); pressPulses.clear(); activePointers.clear(); }
   };
 }

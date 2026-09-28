@@ -2,7 +2,7 @@
 export function buildMascot({THREE, scene, mat}) {
   const badger = new THREE.Group();
   badger.name = 'Resting American badger';
-  badger.position.set(-5.55, .01, -3.92);
+  badger.position.set(1.18, .01, -3.92);
   badger.rotation.y = -2.40;
   badger.scale.set(.93, 1.06, .93);
   scene.add(badger);
@@ -129,6 +129,79 @@ export function buildMascot({THREE, scene, mat}) {
     lock.rotation.y=side*(.21+(i%3)*.06);
     lock.scale.multiplyScalar(.60);
   }
+
+  // A small campus sweater follows the animal's actual low body silhouette.
+  // Its radial envelope includes both torso ellipsoids, keeping fur inside the
+  // fabric while leaving the natural head, feet, belly and tail uncovered.
+  const jerseyRed=mat(0xb12b40,0x942235,.065);
+  const jerseyRib=mat(0x94283b,0x842535,.045);
+  const jerseyWhite=mat(0xf3ead8,0xd8cfb7,.045);
+  const garment=new THREE.Group();garment.name='Fitted Wisconsin campus sweater';badger.add(garment);
+  function fabricPoint(z,angle,padding=.020) {
+    const sx=Math.sin(angle),cy=Math.cos(angle);
+    const bodySection=Math.max(0,1-((z+.265)/.93)**2);
+    let radius=Math.sqrt(bodySection/(sx*sx/(.675*.675)+cy*cy/(.402*.402)));
+    const shoulderSection=1-((z-.37)/.54)**2;
+    if(shoulderSection>0) {
+      const rx=.55*Math.sqrt(shoulderSection),ry=.309*Math.sqrt(shoulderSection),offsetY=.088;
+      const a=sx*sx/(rx*rx)+cy*cy/(ry*ry),b=2*offsetY*cy/(ry*ry),c=offsetY*offsetY/(ry*ry)-1;
+      const discriminant=b*b-4*a*c;
+      if(discriminant>=0)radius=Math.max(radius,(-b+Math.sqrt(discriminant))/(2*a));
+    }
+    return [sx*(radius+padding),.442+cy*(radius+padding),z];
+  }
+  function fabricPatch(z0,z1,a0,a1,material,{rows=24,columns=28,padding=.020,name='Sweater fabric'}={}) {
+    const positions=[],indices=[];
+    for(let row=0;row<=rows;row++)for(let column=0;column<=columns;column++) {
+      positions.push(...fabricPoint(z0+(z1-z0)*row/rows,a0+(a1-a0)*column/columns,padding));
+    }
+    for(let row=0;row<rows;row++)for(let column=0;column<columns;column++) {
+      const a=row*(columns+1)+column,b=a+columns+1;
+      indices.push(a,b,a+1,b,b+1,a+1);
+    }
+    const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    geometry.setIndex(indices);geometry.computeVertexNormals();
+    const object=mesh(geometry,material,garment);object.name=name;return object;
+  }
+  fabricPatch(-1.045,.385,-1.70,1.70,jerseyRed,{name:'Cardinal red fitted torso'});
+  fabricPatch(-1.045,-.982,-1.70,1.70,jerseyRib,{rows:2,name:'Ribbed rear hem'});
+  fabricPatch(-1.005,-.980,-1.70,1.70,jerseyWhite,{rows:1,padding:.024,name:'White hem trim'});
+  fabricPatch(.323,.385,-1.70,1.70,jerseyWhite,{rows:2,padding:.024,name:'White neck collar'});
+  fabricPatch(.348,.362,-1.70,1.70,jerseyRed,{rows:1,padding:.029,name:'Cardinal collar stripe'});
+  for(const side of [-1,1]) {
+    const edge=side*1.68;
+    fabricPatch(-.98,.10,edge-.022,edge+.022,jerseyRib,{rows:20,columns:2,padding:.023,name:'Fine side seam'});
+    fabricPatch(.10,.325,edge-.032,edge+.032,jerseyWhite,{rows:7,columns:2,padding:.027,name:'Short white sleeve edging'});
+  }
+
+  // The block W is stitched onto the curved upper back, not a flat floating
+  // sign. Subdivision keeps each applique triangle above the convex fabric.
+  const wOutline=[[-.5,.5],[-.29,.5],[-.17,-.20],[-.065,.28],[.065,.28],[.17,-.20],[.29,.5],[.5,.5],[.30,-.5],[.11,-.5],[0,-.015],[-.11,-.5],[-.30,-.5]];
+  const contour=wOutline.map(([x,y])=>new THREE.Vector2(x*.82,-.31+y*.67));
+  const faces=THREE.ShapeUtils.triangulateShape(contour,[]),wPositions=[];
+  function stitchPoint(x,z) {
+    let low=-1.30,high=1.30;
+    for(let i=0;i<19;i++) {
+      const angle=(low+high)/2;
+      if(fabricPoint(z,angle)[0]<x)low=angle;else high=angle;
+    }
+    const p=fabricPoint(z,(low+high)/2,.029);
+    return [x,p[1]+.003,z];
+  }
+  function stitchTriangle(a,b,c) {
+    for(const p of [a,b,c])wPositions.push(...stitchPoint(p.x,p.y));
+  }
+  const subdivisions=7;
+  for(const face of faces) {
+    const [a,b,c]=face.map(index=>contour[index]);
+    const at=(i,j)=>new THREE.Vector2(a.x+(b.x-a.x)*i/subdivisions+(c.x-a.x)*j/subdivisions,a.y+(b.y-a.y)*i/subdivisions+(c.y-a.y)*j/subdivisions);
+    for(let i=0;i<subdivisions;i++)for(let j=0;j<subdivisions-i;j++) {
+      stitchTriangle(at(i,j),at(i,j+1),at(i+1,j));
+      if(i+j<subdivisions-1)stitchTriangle(at(i+1,j),at(i,j+1),at(i+1,j+1));
+    }
+  }
+  const wGeometry=new THREE.BufferGeometry();wGeometry.setAttribute('position',new THREE.Float32BufferAttribute(wPositions,3));wGeometry.computeVertexNormals();
+  const letter=mesh(wGeometry,jerseyWhite,garment);letter.name='Curved white Wisconsin W applique';
 
   badger.updateMatrixWorld(true);
   const boxBounds=new THREE.Box3().setFromObject(badger,true);

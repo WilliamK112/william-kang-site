@@ -177,7 +177,7 @@ export async function buildCampus(api) {
   for(let x=4.35;x<7.57;x+=.45)paving.push(x,.209,-3.59,x,.209,1.45);
   for(let z=-3.59;z<1.5;z+=.46)paving.push(4.35,.209,z,7.55,.209,z);
   const pavingGeo=new THREE.BufferGeometry();pavingGeo.setAttribute('position',new THREE.Float32BufferAttribute(paving,3));campusGroup.add(new THREE.LineSegments(pavingGeo,new THREE.LineBasicMaterial({color:0x737e79,transparent:true,opacity:.3})));
-  const terraceGroup=group(0,0,2.2,0,campusGroup);terraceGroup.name='Front-right Terrace courtyard';collectInto(terraceGroup,hallGroup);
+  const terraceGroup=group(0,0,3.35,0,campusGroup);terraceGroup.name='Front-right Terrace courtyard';collectInto(terraceGroup,hallGroup);
   const lake=buildLake({...api,scene:campusGroup});
   const lakeGroup=lake.group;
   // Railings protect the lake and have the light scale of a miniature model.
@@ -288,7 +288,7 @@ export async function buildCampus(api) {
     }
     seasonTrees.push({group:g,foliage,groundY:.04,scatterRadius:.9});
   }
-  campusTree(-6.78,-5.52,1.16);campusTree(-6.66,-2.68,1.00);campusTree(7.00,5.80,.94);
+  campusTree(-6.78,-5.52,1.16);campusTree(-6.66,-2.68,1.00);campusTree(7.00,6.70,.94);
 
   const windowGlow=glow(3.55,4.39,-3.99,0xffcf90,1.35,.08,hallGroup);
   animators.push(t=>{lake.update(t);windowGlow.material.opacity=(1-dayAmount)*(.065+Math.sin(t*.43)*.008);});

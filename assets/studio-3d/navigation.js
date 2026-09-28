@@ -1,9 +1,8 @@
 // Physical, raycastable navigation keys. Event handling belongs to the host scene.
-export function buildNavigation(api, {links = []} = {}) {
+export function buildNavigation(api, {links = [], parent = api.scene, scale = .26, columnPitch = .74, rowPitch = .51, enabled, onFocus} = {}) {
   const {THREE,scene,mat,panel,cyl}=api;
-  const root=new THREE.Group();root.name='Diorama navigation keycaps';root.userData.dynamic=true;scene.add(root);
+  const root=new THREE.Group();root.name='Lectern navigation keycaps';root.userData.dynamic=true;parent.add(root);
   const keys=[];
-  const positions=[-4.90,-2.00,.90,3.80];
   const palettes=[
     {top:0xe5d9ba,side:0xb5a88a,text:'#293e49',accent:0x86baaa},
     {top:0xa64b4d,side:0x743a43,text:'#fff0d6',accent:0xe3bd83},
@@ -56,7 +55,7 @@ export function buildNavigation(api, {links = []} = {}) {
 
   links.slice(0,4).forEach((link,index)=>{
     const palette=palettes[index],name=String(link.label||link.id||`Link ${index+1}`);
-    const keyGroup=new THREE.Group();keyGroup.name=`${name} navigation key`;keyGroup.position.set(positions[index],0,6.95);keyGroup.userData.dynamic=true;keyGroup.userData.navigationIndex=index;keyGroup.userData.navigationId=link.id||name;root.add(keyGroup);
+    const keyGroup=new THREE.Group();keyGroup.name=`${name} navigation key`;keyGroup.position.set((index%2-.5)*columnPitch,0,(Math.floor(index/2)-.5)*rowPitch);keyGroup.scale.setScalar(scale);keyGroup.userData.dynamic=true;keyGroup.userData.navigationIndex=index;keyGroup.userData.navigationId=link.id||name;root.add(keyGroup);
     const socket=new THREE.Mesh(socketGeometry,[socketMaterial,collarMaterial]);socket.name='Recessed mechanical socket';socket.castShadow=socket.receiveShadow=true;keyGroup.add(socket);
     for(const x of [-1.025,1.025]){
       const screw=cyl(.021,.008,x,.121,.758,screwMaterial,keyGroup,10);screw.name='Socket fixing';
@@ -88,7 +87,7 @@ export function buildNavigation(api, {links = []} = {}) {
     const trimGeo=new THREE.BufferGeometry().setFromPoints(trimPoints);
     const trim=new THREE.LineLoop(trimGeo,new THREE.LineBasicMaterial({color:palette.side,transparent:true,opacity:.43}));trim.name='Fine keycap shoulder trim';cap.add(trim);
     const hitMeshes=[body,socket,topLabel,frontLabel];hitMeshes.forEach(mesh=>{mesh.userData.navigationIndex=index;mesh.userData.navigationId=link.id||name;});
-    keys.push({group:keyGroup,cap,hitMeshes,link,homeY:cap.position.y,material:topMaterial,accentMaterial,sideMaterial,label:name,labelMesh:topLabel,frontLabel,baseColor:topMaterial.color.clone()});
+    keys.push({group:keyGroup,cap,hitMeshes,link,homeY:cap.position.y,material:topMaterial,accentMaterial,sideMaterial,label:name,labelMesh:topLabel,frontLabel,baseColor:topMaterial.color.clone(),enabled:link.enabled??enabled,onFocus:link.onFocus??onFocus});
   });
-  return {group:root,keys};
+  return {group:root,keys,dimensions:{width:columnPitch+2.40*scale,depth:rowPitch+1.72*scale}};
 }

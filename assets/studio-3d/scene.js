@@ -12,6 +12,10 @@ import { buildSeasons } from './seasons.js';
 import { buildSnow } from './snow.js';
 import { createSeasonClock } from './season-state.js';
 import { buildCampusBoard } from './campus-board.js';
+import { buildLectern } from './lectern.js';
+import { buildStudioDoor } from './studio-door.js';
+import { createStudioVisit } from './studio-visit.js';
+import { buildStudioGlazing } from './studio-glazing.js';
 
 // Original procedural artwork for William Kang's portfolio. All scene assets
 // are local. The accessible biography and navigation remain ordinary HTML.
@@ -35,7 +39,6 @@ async function initStudio(){
  controls.rotateSpeed=.4;controls.minPolarAngle=.35;controls.maxPolarAngle=1.42;controls.minDistance=15;controls.maxDistance=55;
  const coarse=matchMedia('(pointer:coarse)');controls.touches.ONE=coarse.matches?null:THREE.TOUCH.ROTATE;controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;canvas.style.touchAction='pan-y';
  let touched=false,boardOverview=null,cameraTransition=null;
- controls.addEventListener('start',()=>{touched=true;cameraTransition=null;});
  let modelParent=scene;
  const animators=[],cache=new Map(),geometries=new Map();let seed=99717;
  function rand(a=0,b=1){seed=(seed*1664525+1013904223)>>>0;return a+(b-a)*seed/4294967296;}
@@ -60,7 +63,7 @@ async function initStudio(){
  const rim=new THREE.DirectionalLight(0x889be2,.8);rim.position.set(7,5,-6);scene.add(rim);
  const studioLights=[light(-1,2.7,-1.3,0xffd19d,13,9),light(2.2,2,-1.1,0x9eeedb,6,6),light(-3.3,2.2,1.6,0xffc17b,4,5)];
 
- // Architectural cutaway: fully glazed street-side studio, open front roof.
+ // A glazed studio envelope keeps the workstation visible through its roof.
  const slate=mat(0x314753),frame=mat(0x3c7277),wood=mat(0x976f58,0xb28758,.11),cream=mat(0xc7c3a9,0xefca99,.13),metal=mat(0x78969c);
  box(16,.42,16,0,-.25,0,0x21333e);box(15.86,.085,15.86,0,-.47,0,0x0e202a,scene,false);
  box(15.93,.02,15.93,0,-.025,0,0x203846,scene,false);
@@ -69,35 +72,31 @@ async function initStudio(){
  for(let x=-3.7;x<3.5;x+=.31)box(.011,.01,4.81,x,.335,-1.05,0x694f44,studioGroup,false);
  box(7.5,3.38,.14,-.1,2.04,-3.59,cream);box(.12,2.5,4.95,-3.86,1.69,-1.07,0x45666c);
  for(let z=-3.4;z<1.3;z+=.38)box(.013,.022,.23,-3.788,1.33,z,0x9aaa9e,studioGroup,false);
- // Rear roof and slim structural beams leave the workstation visible.
+ // Rear service roof and slim structural beams support the glass canopy.
  box(7.87,.2,2.12,-.1,3.88,-2.68,slate);box(7.94,.095,2.18,-.1,4.015,-2.68,0x52707c);
  for(let x=-3.85;x<3.8;x+=.53)box(.025,.016,2.06,x,4.074,-2.68,0x233d4c,studioGroup,false);
  box(8,.18,.14,-.1,3.83,1.46,frame);box(.14,.18,5.08,-3.96,3.83,-1.08,frame);box(.14,.18,5.08,3.76,3.83,-1.08,frame);
  for(const [x,z] of [[-3.94,1.43],[3.76,1.43],[-3.94,-3.6],[3.76,-3.6]]){box(.14,3.53,.14,x,2.03,z,frame);box(.24,.21,.24,x,.42,z,0x668a86);}
  box(7.7,.042,.043,-.1,3.72,1.48,mat(0xffddb0,0xffcc88,1.8),studioGroup,false);
  box(.043,.035,4.9,3.68,3.7,-1.03,mat(0xb2f5de,0x73d5bd,.75),studioGroup,false);
- // Translucent side panes, front door with a thin mint safety stripe.
- const glass=new THREE.MeshBasicMaterial({color:0xa7e3df,transparent:true,opacity:.065,depthWrite:false,side:THREE.DoubleSide});
- box(.022,3.32,4.82,3.77,2.02,-1.04,glass,studioGroup,false);
+ // Keep the original side frame, adding visible glass in every open bay.
  for(const z of [-3.48,-1.92,-.26,1.43])box(.1,3.35,.055,3.76,2.01,z,metal);
  for(const y of [.39,3.66])box(.09,.06,4.89,3.76,y,-1.06,metal);
- box(1.13,3.25,.023,3.09,2.005,1.46,glass,studioGroup,false);
- for(const x of [2.52,3.66])box(.05,3.3,.072,x,2.005,1.46,metal);
- box(1.18,.06,.077,3.09,.38,1.46,metal);box(1.18,.06,.077,3.09,3.65,1.46,metal);rod([2.65,1.36,1.52],[2.65,1.85,1.52],.022,0xd5dacc);
- box(1.1,.033,.033,3.09,1.3,1.492,0x93cbbb,studioGroup,false);
+ const studioGlazing=buildStudioGlazing({THREE,scene:studioGroup,box,mat});
+ const studioDoor=buildStudioDoor({THREE,scene:studioGroup,box,cyl,rod,mat,panel});
  // Roof plaque, detailed rain gutter and drain chains.
  box(2.25,.65,.1,-2.47,3.28,1.48,0x183943);
  label('W.K  /  AI STUDIO',2.08,.44,-2.47,3.29,1.544,{bg:'#243f47',color:'#d7f2d1',fontSize:95});
  box(8.08,.085,.12,-.1,3.93,1.51,0x7c9f9e);
  tube([[-4.06,3.96,1.49],[-4.19,3.9,1.5],[-4.2,.21,1.52]],.045,0x507b83);
- box(2.5,.17,.53,1.9,.11,1.92,0x718b8e);box(2.5,.12,.53,1.9,.04,2.4,0x627e85);
+ // A narrow two-step entry follows the glass door's centerline.
+ box(1.35,.17,.53,3.09,.11,1.92,0x718b8e);box(1.35,.12,.53,3.09,.04,2.4,0x627e85);
  box(1.8,.019,.73,1.49,.34,1.03,0x406866);const welcome=label('MAKE SOMETHING MATTER.',1.58,.18,1.49,.353,1.04,{bg:'transparent',color:'#bad3bd'});welcome.rotation.x=-Math.PI/2;
  modelParent=scene;
  // Rain-wet paving and a quiet strip of miniature street.
  for(let x=-7.6;x<7.8;x+=.6)for(let z=-7.6;z<7.8;z+=.6){if(z<1.75&&x>-4.2&&x<4.0)continue;box(.57,.027,.57,x,-.005,z,0x36505c,scene,false);}
  const drain=group(0,.025,2.8);box(8.7,.018,.18,0,0,0,0x0d2834,drain,false);for(let x=-4.3;x<=4.3;x+=.14)box(.036,.025,.19,x,0,0,0x62818e,drain,false);
  for(let x=-4.9;x<5.4;x+=1.75)box(.73,.011,.06,x,.04,5.52,0x809aa0,scene,false);
- box(.03,.01,1.78,4.8,.04,4,0x778f99,scene,false);box(1.8,.01,.03,3.9,.04,4.87,0x778f99,scene,false);
  // Warm street lamp and a compact tree frame the courtyard.
  cyl(.15,.13,-4.85,.065,2.8,0x233e49);cyl(.052,3.75,-4.85,1.9,2.8,0x5a7d89);
  tube([[-4.85,3.6,2.8],[-4.85,4.1,2.8],[-4.6,4.2,2.8],[-4.26,4.14,2.8],[-4.19,3.97,2.8]],.042,0x688991);
@@ -112,13 +111,14 @@ async function initStudio(){
  box(1.06,.22,.78,1.78,4.17,-2.95,0x6c8991);for(let i=0;i<9;i++)box(.93,.022,.045,1.78,4.3,-3.25+i*.075,0x9cb5b3,studioGroup,false);
  cyl(.115,.47,-2.7,4.16,-3.1,0x8aa0a3);cyl(.2,.06,-2.7,4.42,-3.1,0x3e5d68);
  buildFurniture({THREE,scene:studioGroup,box,cyl,sphere,rod,tube,torus,group,mat,panel,label,glow,animators,rand});
+ const lectern=buildLectern({THREE,scene:studioGroup,box,mat});
  modelParent=scene;
  const campus=await buildCampus({THREE,scene,box,cyl,sphere,rod,tube,torus,group,mat,panel,label,glow,animators,rand});
  const campusBoard=buildCampusBoard({THREE,scene,box,cyl,sphere,rod,tube,torus,group,mat,panel,label,glow,animators});
  const mascot=buildMascot({THREE,scene,box,cyl,sphere,rod,tube,torus,group,mat,panel,label,glow,animators,rand});
  const sky=buildSky({THREE,scene});
  const roadLinks=[...host.querySelectorAll('[data-studio-road-link]')].map(anchor=>({id:anchor.dataset.studioRoadLink,label:anchor.textContent.trim(),href:anchor.href,anchor}));
- const navigation=buildNavigation({THREE,scene,box,cyl,sphere,rod,tube,torus,group,mat,panel,label,glow},{links:roadLinks});
+ const navigation=buildNavigation({THREE,scene,box,cyl,sphere,rod,tube,torus,group,mat,panel,label,glow},{links:roadLinks,parent:lectern.keyMount});
  let navigationInput=null;
  const seasons=buildSeasons({THREE,scene,mat},{trees:[{group:tree,foliage:rootFoliage,groundY:.04,scatterRadius:.9},...campus.seasonTrees]});
  const snow=buildSnow({THREE,scene,mat});
@@ -146,8 +146,22 @@ async function initStudio(){
  const trailSeeds=Array.from({length:30},()=>({z:rand(-3.4,1.3),p:rand(0,1),s:rand(.032,.083)}));animators.push(t=>{if(!trails.visible)return;trailSeeds.forEach((v,i)=>{const y=3.5-((t*v.s+v.p)%1)*3;trailsPos.set([3.794,y,v.z,3.794,y+.08,v.z+.007],i*6);});trailsGeo.attributes.position.needsUpdate=true;});
  const topGlow=glow(-.1,3.68,1.5,0xffc785,6,.08,studioGroup);animators.push(t=>topGlow.material.opacity=.08+Math.sin(t*1.13)*.006);
 
+ // Preserve the studio's exact clickable silhouette before render batching
+ // combines its walls and furniture with the rest of the courtyard.
+ scene.updateMatrixWorld(true);
+ const studioHitParts=[];
+ studioGroup.traverse(object=>{
+  if(!object.isMesh||object.isInstancedMesh)return;
+  const geometry=object.geometry.index?object.geometry.toNonIndexed():object.geometry.clone();
+  geometry.applyMatrix4(object.matrixWorld);
+  for(const name of Object.keys(geometry.attributes))if(name!=='position')geometry.deleteAttribute(name);
+  studioHitParts.push(geometry);
+ });
+ const studioEntryHit=new THREE.Mesh(mergeGeometries(studioHitParts,false),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}));
+ studioHitParts.forEach(geometry=>geometry.dispose());
+ studioEntryHit.name='Whole AI studio entry hit surface';studioEntryHit.userData.dynamic=true;scene.add(studioEntryHit);
  // Batch static geometry, keeping labeled screens and animated objects intact.
- scene.updateMatrixWorld(true);const batches=new Map(),outlines=[],toRemove=[];
+ const batches=new Map(),outlines=[],toRemove=[];
  scene.traverse(o=>{if((!o.isMesh&&!o.isLineSegments)||o.isInstancedMesh||o.isReflector)return;let p=o;while(p){if(p.userData.dynamic)return;p=p.parent;}
   if(o.isLineSegments&&o.material===ink){outlines.push(o.geometry.clone().applyMatrix4(o.matrixWorld));toRemove.push(o);return;}
   if(!o.isMesh||Array.isArray(o.material)||o.material.transparent)return;
@@ -160,7 +174,42 @@ async function initStudio(){
 
  let width=1,height=1,fit=1,inView=true,elapsed=0,previous=0,rafId=0,disposed=false,contextLost=false,viewInitialized=false,settleRemaining=0;
  const motion=matchMedia('(prefers-reduced-motion:reduce)');let userPaused=motion.matches;
+ const approachDuration=4.2;
+ let approachElapsed=0,approachRunning=!motion.matches,exteriorScale=motion.matches?closeViewScale():1;
+ function closeViewScale(){return innerWidth<=820?.92:.80;}
+ function cancelApproach(){approachRunning=false;}
+ function applyExteriorView(){
+  const angle=.63+Math.sin(elapsed*.11)*.036,radius=29.9*fit*exteriorScale;
+  camera.position.set(controls.target.x+Math.sin(angle)*radius,controls.target.y+12*fit*exteriorScale,controls.target.z+Math.cos(angle)*radius);
+ }
+ function updateApproach(seconds){
+  // Respect a changed motion preference even before its change event arrives.
+  if(motion.matches){cancelApproach();exteriorScale=closeViewScale();applyExteriorView();return;}
+  approachElapsed=Math.min(approachDuration,approachElapsed+seconds);
+  const u=approachElapsed/approachDuration,ease=u*u*u*(u*(u*6-15)+10);
+  exteriorScale=THREE.MathUtils.lerp(1,closeViewScale(),ease);applyExteriorView();
+  if(u===1)approachRunning=false;
+ }
+ controls.addEventListener('start',()=>{touched=true;cameraTransition=null;cancelApproach();});
  const hero=host.closest('.studio-hero');
+ const enterButton=hero.querySelector('[data-studio-enter]'),exitButton=hero.querySelector('[data-studio-exit]'),visitStatus=hero.querySelector('[data-studio-visit-status]');
+ const visit=createStudioVisit({THREE,camera,controls,door:studioDoor,studioGroup,reducedMotion:()=>motion.matches,wake,onChange(state){
+  touched=true;cancelApproach();cameraTransition=null;boardOverview=null;navigationInput?.cancel();
+  const inside=state!=='exterior',restoreFocus=state==='exterior'&&document.activeElement===exitButton;hero.classList.toggle('is-studio-interior',inside);hero.dataset.visit=state;
+  hero.querySelector('.studio-copy').inert=inside;enterButton.hidden=inside;exitButton.hidden=!inside;
+  enterButton.setAttribute('aria-expanded',String(inside));
+  const key=state==='interior'?'studioInsideHint':state==='exiting'?'studioLeavingHint':'studioEnteringHint';
+  visitStatus.dataset.i18n=key;visitStatus.textContent=window.__portfolioI18n?.getText(key)||({studioInsideHint:'Choose a key on the lectern.',studioLeavingHint:'Returning to the courtyard…',studioEnteringHint:'Step inside…'})[key];
+  visitStatus.hidden=!inside;
+  if(inside&&document.activeElement===enterButton)exitButton.focus({preventScroll:true});
+  if(restoreFocus)enterButton.focus({preventScroll:true});
+  if(state==='entering'&&innerWidth<=820)window.scrollTo({top:Math.max(0,hero.offsetTop-(document.querySelector('header')?.offsetHeight||0)),behavior:'instant'});
+  settleRemaining=.2;
+ }});
+ navigation.keys.forEach(key=>key.enabled=()=>visit.state==='interior');
+ exitButton.addEventListener('click',()=>{visit.exit();});
+ const escapeVisit=event=>{if(event.key==='Escape'&&visit.active){event.preventDefault();visit.exit();}};
+ document.addEventListener('keydown',escapeVisit);
  let day=document.body.dataset.theme==='light'?1:0,targetDay=day,transitionStart=day,transitionElapsed=3.2;
  const dayNightColors={skyNight:new THREE.Color(0x99c2dc),skyDay:new THREE.Color(0xddeeff),groundNight:new THREE.Color(0x423947),groundDay:new THREE.Color(0xc8bea0),moon:new THREE.Color(0xabcfe4),sun:new THREE.Color(0xffebcc)};
  function applySeason(force=false,dt=0){const state=seasonClock.state;const signature=Object.values(state).join('|');if(!force&&signature===seasonLast)return;seasonLast=signature;seasonWinter=state.winter;seasons.update(state);snow.setAmount(THREE.MathUtils.smoothstep(seasonWinter,.14,1));water.material.uniforms.winter.value=seasonWinter;campus.lake?.setWinter?.(seasonWinter);seasonShadowElapsed+=dt;if(force||seasonShadowElapsed>.25||!seasonClock.active){renderer.shadowMap.needsUpdate=true;seasonShadowElapsed=0;}}
@@ -176,7 +225,7 @@ async function initStudio(){
   lampGlows.forEach(([o,opacity])=>o.material.opacity=opacity*(1-day*.96));
   pool.material.opacity=.19*(1-day*.92);topGlow.material.opacity=(.08+Math.sin(elapsed*1.13)*.006)*(1-day*.96);
   const rainAmount=(1-day)*(1-THREE.MathUtils.smoothstep(seasonWinter,0,.58));rain.material.opacity=.3*rainAmount;rain.visible=rainAmount>.005;rings.material.opacity=.18*(1-day*.91)*(1-seasonWinter);rings.visible=seasonWinter<.995;drops.material.opacity=.54*rainAmount;drops.visible=rain.visible;trails.material.opacity=.21*rainAmount;trails.visible=rain.visible;
-  water.material.uniforms.day.value=day;campus?.setDay?.(day);campusBoard.setDay?.(day);sky.setDay(day,elapsed);
+  water.material.uniforms.day.value=day;studioGlazing.setDay(day);campus?.setDay?.(day);campusBoard.setDay?.(day);sky.setDay(day,elapsed);
  }
  const themeObserver=new MutationObserver(()=>{
   const next=document.body.dataset.theme==='light'?1:0;if(next===targetDay)return;
@@ -186,11 +235,11 @@ async function initStudio(){
  });themeObserver.observe(document.body,{attributes:true,attributeFilter:['data-theme']});
  const motionButton=document.querySelector('[data-studio-motion]');
  function updateMotionButton(){if(!motionButton)return;const paused=userPaused;motionButton.setAttribute('aria-pressed',String(paused));const key=paused?'studioResumeMotion':'studioPauseMotion';const text=window.__portfolioI18n?.getText?window.__portfolioI18n.getText(key):(paused?'Play scene':'Pause motion');motionButton.setAttribute('aria-label',text);const span=motionButton.querySelector('[data-studio-motion-label]');if(span){span.textContent=text;span.dataset.i18n=key;}else motionButton.textContent=text;}
- function updateInteraction(dt){const keyMoving=navigationInput?.update(dt,motion.matches);const boardMoving=campusBoard.update(dt,motion.matches);return keyMoving||boardMoving;}
+ function updateInteraction(dt){const keyMoving=navigationInput?.update(dt,motion.matches);const boardMoving=campusBoard.update(dt,motion.matches);studioDoor.setHovered(!visit.active&&navigationInput?.hovered?.id==='studio-door');const doorMoving=studioDoor.update(dt,motion.matches);return keyMoving||boardMoving||doorMoving;}
  function paint(t=elapsed){if(contextLost)return;animators.forEach(fn=>fn(t,0));applySeason();applyDay();if(updateInteraction(1/60))renderer.shadowMap.needsUpdate=true;renderer.render(scene,camera);}
- function resetView(){touched=false;cameraTransition=null;boardOverview=null;controls.minDistance=15*fit;controls.target.set(0,1.9,-.2);camera.position.set(17.6,13.9,24.0).sub(controls.target).multiplyScalar(fit).add(controls.target);controls.update();wake();}
+ function resetView({initial=false}={}){if(visit.active){visit.exit();return;}touched=false;cameraTransition=null;boardOverview=null;if(!initial){cancelApproach();exteriorScale=closeViewScale();}controls.minDistance=15*fit;controls.target.set(0,1.9,-.2);applyExteriorView();controls.update();wake();}
  function moveCamera(position,target,minimum=controls.minDistance){
-  touched=true;controls.minDistance=Math.min(controls.minDistance,minimum);
+  touched=true;cancelApproach();controls.minDistance=Math.min(controls.minDistance,minimum);
   cameraTransition={from:camera.position.clone(),fromTarget:controls.target.clone(),position:position.clone(),target:target.clone(),minimum,age:0};
   settleRemaining=.9;wake();
  }
@@ -215,36 +264,38 @@ async function initStudio(){
   if(progress===1){controls.minDistance=transition.minimum;cameraTransition=null;}
   return true;
  }
- function resize(){width=host.clientWidth;height=host.clientHeight;if(!width||!height)return;const oldFit=fit;camera.aspect=width/height;fit=Math.max(1,1.19/camera.aspect);controls.minDistance=controls.minDistance/oldFit*fit;controls.maxDistance=55*fit;
-  if(!viewInitialized){resetView();viewInitialized=true;}else camera.position.sub(controls.target).multiplyScalar(fit/oldFit).add(controls.target);
+ function resize(){width=host.clientWidth;height=host.clientHeight;if(!width||!height)return;const oldFit=fit;camera.aspect=width/height;
+  if(visit.active)visit.resize();else {fit=Math.max(1,1.19/camera.aspect);controls.minDistance=controls.minDistance/oldFit*fit;controls.maxDistance=55*fit;
+  if(!viewInitialized){resetView({initial:true});viewInitialized=true;}else if(approachRunning)updateApproach(0);else if(!touched){exteriorScale=closeViewScale();applyExteriorView();}else camera.position.sub(controls.target).multiplyScalar(fit/oldFit).add(controls.target);}
   controls.update();camera.updateProjectionMatrix();renderer.setSize(width,height);paint();}
  function loop(now){rafId=0;if(disposed||contextLost||document.hidden||!inView)return;const frameSeconds=previous?Math.min((now-previous)/1000,1):1/60,dt=Math.min(frameSeconds,.05);previous=now;settleRemaining=Math.max(0,settleRemaining-dt);
-  if(!userPaused){elapsed+=dt;seasonClock.advance(frameSeconds);applySeason(false,frameSeconds);if(!touched){const a=.63+Math.sin(elapsed*.11)*.036,r=29.9*fit;camera.position.set(Math.sin(a)*r,controls.target.y+12*fit,controls.target.z+Math.cos(a)*r);}animators.forEach(fn=>fn(elapsed,dt));}
+  if(!userPaused){elapsed+=dt;seasonClock.advance(frameSeconds);applySeason(false,frameSeconds);if(approachRunning)updateApproach(frameSeconds);else if(!touched)applyExteriorView();animators.forEach(fn=>fn(elapsed,dt));}
   if(transitionElapsed<3.2){transitionElapsed=Math.min(3.2,transitionElapsed+frameSeconds);const u=transitionElapsed/3.2,s=u*u*(3-2*u);day=transitionStart+(targetDay-transitionStart)*s;renderer.shadowMap.needsUpdate=true;}
-  applyDay();const cameraMoving=updateCamera(dt);controls.update();if(updateInteraction(dt)||cameraMoving){renderer.shadowMap.needsUpdate=true;settleRemaining=Math.max(settleRemaining,.12);}renderer.render(scene,camera);if(!userPaused||transitionElapsed<3.2||settleRemaining>0)rafId=requestAnimationFrame(loop);
+  applyDay();const visiting=visit.update(dt,motion.matches),cameraMoving=updateCamera(dt);controls.update();if(updateInteraction(dt)||cameraMoving||visiting){renderer.shadowMap.needsUpdate=true;settleRemaining=Math.max(settleRemaining,.12);}renderer.render(scene,camera);if(!userPaused||transitionElapsed<3.2||settleRemaining>0)rafId=requestAnimationFrame(loop);
  }
  function wake(){if(!rafId&&!contextLost&&!document.hidden&&inView&&!disposed){previous=0;rafId=requestAnimationFrame(loop);}}
  controls.addEventListener('change',()=>{if(userPaused&&!contextLost)renderer.render(scene,camera);});
  controls.addEventListener('start',()=>{settleRemaining=.8;wake();});controls.addEventListener('end',()=>{settleRemaining=.8;wake();});
  const viewButtons=[...document.querySelectorAll('[data-studio-zoom],[data-studio-reset]')];
- function zoomBy(factor){touched=true;cameraTransition=null;boardOverview=null;const delta=camera.position.clone().sub(controls.target);const distance=THREE.MathUtils.clamp(delta.length()*factor,controls.minDistance,controls.maxDistance);camera.position.copy(controls.target).add(delta.setLength(distance));controls.update();paint();wake();}
+ function zoomBy(factor){if(visit.active)return;touched=true;cancelApproach();cameraTransition=null;boardOverview=null;const delta=camera.position.clone().sub(controls.target);const distance=THREE.MathUtils.clamp(delta.length()*factor,controls.minDistance,controls.maxDistance);camera.position.copy(controls.target).add(delta.setLength(distance));controls.update();paint();wake();}
  viewButtons.forEach(button=>button.addEventListener('click',()=>{if(button.hasAttribute('data-studio-reset'))resetView();else zoomBy(button.dataset.studioZoom==='in'?.8:1.25);}));
- canvas.addEventListener('dblclick',resetView);
+ canvas.addEventListener('dblclick',()=>{if(!visit.active)resetView();});
  motionButton?.addEventListener('click',()=>{userPaused=!userPaused;updateMotionButton();wake();});
- motion.addEventListener('change',()=>{userPaused=motion.matches;seasonClock.setReducedMotion(motion.matches);applySeason(true);if(motion.matches){day=targetDay;transitionElapsed=3.2;applyDay();renderer.shadowMap.needsUpdate=true;}updateMotionButton();wake();});
+ motion.addEventListener('change',()=>{userPaused=motion.matches;seasonClock.setReducedMotion(motion.matches);applySeason(true);if(motion.matches){if(approachRunning){cancelApproach();exteriorScale=closeViewScale();applyExteriorView();controls.update();}day=targetDay;transitionElapsed=3.2;applyDay();renderer.shadowMap.needsUpdate=true;}updateMotionButton();wake();});
  window.addEventListener('portfolio-language-changed',updateMotionButton);
- function showRearBoard(){touched=true;cameraTransition=null;boardOverview=null;controls.minDistance=15*fit;controls.target.set(0,1.9,-.2);camera.position.set(17.6,12.4,-25).sub(controls.target).multiplyScalar(fit).add(controls.target);controls.update();settleRemaining=.45;wake();}
+ function showRearBoard(){if(visit.active)return;touched=true;cancelApproach();cameraTransition=null;boardOverview=null;controls.minDistance=15*fit;controls.target.set(0,1.9,-.2);camera.position.set(17.6,12.4,-25).sub(controls.target).multiplyScalar(fit).add(controls.target);controls.update();settleRemaining=.45;wake();}
  const boardToggle=host.querySelector('[data-studio-board-toggle]');
- const boardActions=[{group:campusBoard.group,hitMeshes:campusBoard.hitTargets,label:'Flip UW–Madison card',element:boardToggle,onFocus(){if(campusBoard.flipped)focusBoard();else showRearBoard();},activate:toggleBoard}];
- if(campusBoard.sourceTarget)boardActions.push({group:campusBoard.sourceTarget,hitMeshes:[campusBoard.sourceTarget],label:'UW–Madison ranking source',enabled:()=>campusBoard.flipped&&!campusBoard.moving,activate(){document.querySelector('#uw-flip-card .uw-mini-source')?.click();}});
- navigationInput=connectNavigation({THREE,scene,camera,canvas,navigation,actions:boardActions,onActivity(){touched=true;settleRemaining=.45;wake();},onGesture(){cameraTransition=null;boardOverview=null;}});
+ const boardActions=[{group:campusBoard.group,hitMeshes:campusBoard.hitTargets,label:'Flip UW–Madison card',element:boardToggle,enabled:()=>!visit.active,onFocus(){if(visit.active)return;if(campusBoard.flipped)focusBoard();else showRearBoard();},activate(){if(!visit.active)toggleBoard();}}];
+ if(campusBoard.sourceTarget)boardActions.push({group:campusBoard.sourceTarget,hitMeshes:[campusBoard.sourceTarget],label:'UW–Madison ranking source',enabled:()=>!visit.active&&campusBoard.flipped&&!campusBoard.moving,activate(){document.querySelector('#uw-flip-card .uw-mini-source')?.click();}});
+ boardActions.push({id:'studio-door',group:studioDoor.group,hitMeshes:[studioEntryHit,...studioDoor.hitMeshes],label:'Enter AI studio',element:enterButton,enabled:()=>!visit.active,activate:visit.enter});
+ navigationInput=connectNavigation({THREE,scene,camera,canvas,navigation,actions:boardActions,onActivity(){touched=true;settleRemaining=.45;wake();},onGesture(){cancelApproach();cameraTransition=null;boardOverview=null;}});
  host.addEventListener('studio-board-change',()=>{settleRemaining=.45;wake();});
  document.addEventListener('visibilitychange',()=>{previous=0;if(document.hidden&&rafId){cancelAnimationFrame(rafId);rafId=0;}else wake();});
  const observer=new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(!inView&&rafId){cancelAnimationFrame(rafId);rafId=0;}else wake();},{threshold:.01});observer.observe(host);
  const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);
- canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;day=targetDay;transitionElapsed=3.2;applyDay();host.dataset.state='fallback';host.dataset.ready='false';if(motionButton)motionButton.disabled=true;if(boardToggle)boardToggle.disabled=true;viewButtons.forEach(b=>b.disabled=true);if(rafId)cancelAnimationFrame(rafId);rafId=0;});
- canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;renderer.shadowMap.needsUpdate=true;host.dataset.state='ready';host.dataset.ready='true';if(motionButton)motionButton.disabled=false;if(boardToggle)boardToggle.disabled=false;viewButtons.forEach(b=>b.disabled=false);wake();});
- window.addEventListener('pagehide',event=>{if(event.persisted)return;disposed=true;cancelAnimationFrame(rafId);resizeObserver.disconnect();observer.disconnect();themeObserver.disconnect();navigationInput.dispose();campusBoard.dispose?.();controls.dispose();renderer.dispose();},{once:true});
- resize();updateMotionButton();paint(0);host.dataset.state='ready';host.dataset.ready='true';if(motionButton)motionButton.disabled=false;if(boardToggle)boardToggle.disabled=false;viewButtons.forEach(b=>b.disabled=false);host.dispatchEvent(new Event('studio-ready'));wake();
- window.__studio={scene,camera,renderer,controls,water,animators,host,resetView,showRearBoard,campus,campusBoard,mascot,navigation,navigationInput,seasons,snow,seasonClock,get day(){return day;},get time(){return elapsed;},get paused(){return userPaused;},get inView(){return inView;},get stats(){return {drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}};
+ canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;visit.exit({immediate:true});day=targetDay;transitionElapsed=3.2;applyDay();host.dataset.state='fallback';host.dataset.ready='false';enterButton.disabled=true;if(motionButton)motionButton.disabled=true;if(boardToggle)boardToggle.disabled=true;viewButtons.forEach(b=>b.disabled=true);if(rafId)cancelAnimationFrame(rafId);rafId=0;});
+ canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;renderer.shadowMap.needsUpdate=true;host.dataset.state='ready';host.dataset.ready='true';enterButton.disabled=false;if(motionButton)motionButton.disabled=false;if(boardToggle)boardToggle.disabled=false;viewButtons.forEach(b=>b.disabled=false);wake();});
+ window.addEventListener('pagehide',event=>{if(event.persisted)return;disposed=true;cancelAnimationFrame(rafId);resizeObserver.disconnect();observer.disconnect();themeObserver.disconnect();document.removeEventListener('keydown',escapeVisit);visit.dispose();navigationInput.dispose();campusBoard.dispose?.();controls.dispose();renderer.dispose();},{once:true});
+ resize();updateMotionButton();paint(0);host.dataset.state='ready';host.dataset.ready='true';enterButton.disabled=false;if(motionButton)motionButton.disabled=false;if(boardToggle)boardToggle.disabled=false;viewButtons.forEach(b=>b.disabled=false);host.dispatchEvent(new Event('studio-ready'));wake();
+ window.__studio={scene,camera,renderer,controls,water,animators,host,resetView,showRearBoard,campus,campusBoard,mascot,navigation,navigationInput,studioDoor,studioGlazing,studioGroup,lectern,visit,seasons,snow,seasonClock,get approach(){return {running:approachRunning,elapsed:approachElapsed,duration:approachDuration,scale:exteriorScale};},get day(){return day;},get time(){return elapsed;},get paused(){return userPaused;},get inView(){return inView;},get stats(){return {drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}};
 }

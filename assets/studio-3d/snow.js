@@ -8,13 +8,19 @@ export function buildSnow({THREE, scene, mat}) {
   group.userData.dynamic = true;
   scene.add(group);
 
+  // Keep a narrow cleared edge around the shifted terrace and front-right tree.
+  const rightClearances = [
+    {minX:4.32,maxX:7.56,minZ:-.27,maxZ:4.85},
+    {minX:6.595,maxX:7.405,minZ:6.285,maxZ:7.115}
+  ];
+
   // Each entry is [x, z, x-radius, z-radius, maximum thickness, optional rotation].
   // Overlapping, uneven perimeter banks leave the central walking routes clear.
   const layout = [
-    // The front-row keys occupy x[-6.10,5.00], z[6.09,7.81].
+    // Low front-edge banks curve around the relocated tree's cleared footprint.
     [-7.12, 7.20, .65, .60, .085],
-    [6.40, 7.22, 1.10, .62, .077, .06],
-    [7.00, 7.40, .77, .38, .099, -.04],
+    [6.23, 7.52, 1.10, .29, .077, .02],
+    [7.10, 7.60, .70, .24, .099, -.03],
     [-6.50, -7.37, 1.20, .42, .100],
     [-4.60, -7.40, 1.35, .39, .117],
     [-2.60, -7.40, 1.21, .40, .082],
@@ -37,12 +43,12 @@ export function buildSnow({THREE, scene, mat}) {
     [-7.35, 4.16, .42, 1.05, .120],
     [-7.00, 6.10, .72, 1.02, .109],
 
-    // Front-right treebed, beyond the terrace and the navigation sockets.
-    [7.36, 4.35, .42, .58, .105],
-    [7.65, 5.50, .18, .57, .116],
-    [6.35, 5.76, .19, .70, .099],
-    [6.83, 6.53, .72, .25, .081],
-    [6.50, 4.33, .80, .43, .092],
+    // Uneven connected shoulders outside the terrace and around the treebed.
+    [7.40, 5.32, .36, .36, .105, .05],
+    [7.65, 6.10, .18, .77, .116, .02],
+    [6.31, 6.34, .19, .89, .099, -.02],
+    [6.92, 7.38, .64, .17, .081, -.03],
+    [6.50, 5.45, .80, .43, .092, -.10],
 
     // Sheltered left-side remnants; the road between the drain and keys is clear.
     [-5.72, 2.18, .40, .28, .063],
@@ -56,6 +62,8 @@ export function buildSnow({THREE, scene, mat}) {
     const extentX=Math.abs(rx*cosine)+Math.abs(rz*sine);
     const extentZ=Math.abs(rx*sine)+Math.abs(rz*cosine);
     if(x+extentX>5.40&&x-extentX<7.66&&z+extentZ>-7.94&&z-extentZ<-6.06)return false;
+    if(rightClearances.some(b=>x+extentX>b.minX-.035&&x-extentX<b.maxX+.035&&
+      z+extentZ>b.minZ-.035&&z-extentZ<b.maxZ+.035))return false;
     for(let u=-4;u<=4;u++)for(let v=-4;v<=4;v++){
       if(u*u+v*v>16)continue;
       const px=rx*u/4,pz=rz*v/4;
