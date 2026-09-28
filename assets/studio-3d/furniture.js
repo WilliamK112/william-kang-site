@@ -189,11 +189,17 @@ export function buildFurniture(api) {
     rod([.38,2.92,.02],[x,y,z],.009,steel,shelf);
     const leaf=sphere(.095,x,y,z,mint,shelf);leaf.scale.set(1.24,.48,.76);leaf.rotation.z=a*.37;
   }
-  // Headphones hang fully clear of the outer shelf upright and front face.
-  const phones=torus(.20,.022,-1.505,2.15,-2.69,slate);phones.rotation.z=.13;
-  box(.082,.16,.105,-1.70,2.02,-2.68,dark);
-  box(.082,.16,.105,-1.31,2.02,-2.68,dark);
-  tube([[-1.30,1.99,-2.70],[-1.25,1.75,-2.77],[-1.38,1.61,-2.89]],.011,dark);
+  // A readable over-ear headset hangs from a short peg on the shelf side.
+  // The open semicircular band avoids the old full torus/stethoscope shape.
+  const headset=group(-1.49,2.12,-2.68);headset.name='Over-ear studio headphones';
+  tube([[-.205,-.015,0],[-.19,.105,0],[-.125,.215,0],[0,.265,0],[.125,.215,0],[.19,.105,0],[.205,-.015,0]],.026,slate,headset);
+  rod([-.205,-.015,0],[-.225,-.105,0],.018,steel,headset);
+  rod([.205,-.015,0],[.225,-.105,0],.018,steel,headset);
+  for(const side of [-1,1]){
+    const shell=sphere(.105,side*.235,-.145,.006,dark,headset);shell.scale.set(.72,1.12,.58);
+    const cushion=sphere(.082,side*.235,-.145,.064,slate,headset);cushion.scale.set(.72,1.08,.34);
+  }
+  rod([0,.265,-.035],[0,.355,-.035],.018,brass,headset);
 
   // Rear whiteboard: an actual architectural story, clearly a conceptual diagram.
   box(2.34,1.48,.070,.19,2.39,-3.405,steel);
