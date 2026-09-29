@@ -1,6 +1,15 @@
 {
   "headers": [
     {
+      "source": "/assets/Ching-Wei-Kang-Resume.pdf",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "<https://williamkang.com/assets/Ching-Wei-Kang-Resume.pdf>; rel=\"canonical\""
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
@@ -27,6 +36,11 @@
     }
   ],
   "redirects": [
+    {
+      "source": "/assets/Ching-Wei-Kang-Resume-English.pdf",
+      "destination": "/assets/Ching-Wei-Kang-Resume.pdf",
+      "permanent": true
+    },
     {
       "source": "/:path*",
       "destination": "https://williamkang.com/:path*",
