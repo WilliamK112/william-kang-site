@@ -83,7 +83,7 @@ def textline(d,label,value,size=9.35):
 def education(d,include_gwu=True,master=False,coursework=None):
     section(d,'Education',master)
     lr(d,'University of Wisconsin-Madison','Madison, WI',size=9.6)
-    lr(d,'B.S. Computer Science and Data Science | GPA: 3.91/4.0','Expected May 2027',bold_left=False,italic_right=True,size=9.25)
+    lr(d,'B.S. Computer Science and Data Science | GPA: 3.75/4.0','Expected May 2027',bold_left=False,italic_right=True,size=9.25)
     if coursework: textline(d,'Relevant coursework: ',coursework,size=9.15)
     if include_gwu:
         lr(d,'The George Washington University','Washington, DC',size=9.6,before=.5)
