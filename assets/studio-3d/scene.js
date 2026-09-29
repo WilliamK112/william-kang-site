@@ -20,6 +20,7 @@ import { createStudioExplore } from './studio-explore.js';
 import { buildContributionWall } from './contribution-wall.js';
 import { buildStreetLife } from './street-life.js';
 import { buildTerraceParasol } from './terrace-parasol.js';
+import { buildWelcomeSign } from './welcome-sign.js';
 
 // Original procedural artwork for William Kang's portfolio. All scene assets
 // are local. The accessible biography and navigation remain ordinary HTML.
@@ -108,6 +109,7 @@ async function initStudio(){
  box(.16,.018,4.66,0,0,0,0x0d2834,drain,false);
  for(let z=-2.28;z<=2.29;z+=.12)box(.17,.016,.027,0,.005,z,0x62818e,drain,false);
  for(let x=-4.9;x<5.4;x+=1.75)box(.73,.011,.06,x,.04,5.52,0x809aa0,scene,false);
+ const welcomeSign=buildWelcomeSign({THREE,scene,box,cyl,group,mat,panel,glow});
  // Warm street lamp and a compact tree frame the courtyard.
  cyl(.15,.13,-4.85,.065,2.8,0x233e49);cyl(.052,3.75,-4.85,1.9,2.8,0x5a7d89);
  tube([[-4.85,3.6,2.8],[-4.85,4.1,2.8],[-4.6,4.2,2.8],[-4.26,4.14,2.8],[-4.19,3.97,2.8]],.042,0x688991);
@@ -373,7 +375,7 @@ async function initStudio(){
  prepared=true;
  performance.mark('studio-prepared');performance.measure('studio-preparation','studio-prepare-start','studio-prepared');
  host.dataset.state='ready';host.dataset.ready='true';enterButton.disabled=false;if(motionButton)motionButton.disabled=false;if(boardToggle)boardToggle.disabled=false;viewButtons.forEach(b=>b.disabled=false);host.dispatchEvent(new Event('studio-ready'));wake();
- window.__studio={scene,camera,renderer,controls,water,animators,host,resetView,showRearBoard,showContributions,contributionWall,campus,campusBoard,mascot,navigation,navigationInput,studioDoor,studioGlazing,studioGroup,lectern,visit,exploration,seasons,snow,seasonClock,streetLife,get approach(){return {running:approachRunning,elapsed:approachElapsed,duration:approachDuration,scale:exteriorScale};},get day(){return day;},get time(){return elapsed;},get paused(){return userPaused;},get inView(){return inView;},get stats(){return {drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}};
+ window.__studio={scene,camera,renderer,controls,water,animators,host,resetView,showRearBoard,showContributions,contributionWall,campus,campusBoard,mascot,navigation,navigationInput,studioDoor,studioGlazing,studioGroup,welcomeSign,lectern,visit,exploration,seasons,snow,seasonClock,streetLife,get approach(){return {running:approachRunning,elapsed:approachElapsed,duration:approachDuration,scale:exteriorScale};},get day(){return day;},get time(){return elapsed;},get paused(){return userPaused;},get inView(){return inView;},get stats(){return {drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}};
  }
  await warmScene();
 }
