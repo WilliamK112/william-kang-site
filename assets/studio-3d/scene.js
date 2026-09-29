@@ -220,15 +220,24 @@ async function initStudio(){
  let nextPageDocked=false;
  function updateNextPagePosition(){
   const homeDistance=Math.hypot(29.9,12)*fit*closeViewScale();
-  // A small dead band prevents the button oscillating around the zoom threshold.
-  const docked=camera.position.distanceTo(controls.target)<homeDistance*(nextPageDocked?.99:.95);
+  const distance=camera.position.distanceTo(controls.target);
+  const range=Math.max(1,homeDistance-controls.minDistance);
+  const zoom=visit?.active?1:THREE.MathUtils.clamp((homeDistance-distance)/range,0,1);
+  const eased=zoom*zoom*(3-2*zoom);
+  const baseTop=Math.min(hero.clientHeight*.78,innerHeight-200);
+  const viewportReserve=innerWidth<=1120?202:154;
+  const dockTop=Math.max(baseTop,Math.min(hero.clientHeight-150,innerHeight-viewportReserve));
+  const shift=innerWidth<=820?0:Math.max(0,dockTop-baseTop)*eased;
+  hero.style.setProperty('--studio-next-page-shift',`${shift.toFixed(2)}px`);
+  // Keep a stable state hook for diagnostics without using it to drive motion.
+  const docked=nextPageDocked?zoom>.01:zoom>.03;
   if(docked!==nextPageDocked){nextPageDocked=docked;hero.classList.toggle('is-model-zoomed',docked);}
  }
  const enterButton=hero.querySelector('[data-studio-enter]'),exitButton=hero.querySelector('[data-studio-exit]'),visitStatus=hero.querySelector('[data-studio-visit-status]');
  const walkButtons=[...host.querySelectorAll('[data-studio-walk]')];
  const visit=createStudioVisit({THREE,camera,controls,door:studioDoor,studioGroup,reducedMotion:()=>motion.matches,wake,onChange(state){
   touched=true;cancelApproach();cameraTransition=null;boardOverview=null;navigationInput?.cancel();
-  const focused=document.activeElement,inside=state!=='exterior',walkFocused=walkButtons.includes(focused),restoreFocus=state==='exterior'&&(focused===exitButton||focused===canvas||walkFocused);hero.classList.toggle('is-studio-interior',inside);hero.dataset.visit=state;
+  const focused=document.activeElement,inside=state!=='exterior',walkFocused=walkButtons.includes(focused),restoreFocus=state==='exterior'&&(focused===exitButton||focused===canvas||walkFocused);hero.classList.toggle('is-studio-interior',inside);hero.dataset.visit=state;updateNextPagePosition();
   hero.querySelector('.studio-copy').inert=inside;enterButton.hidden=inside;exitButton.hidden=!inside;
   enterButton.setAttribute('aria-expanded',String(inside));
   exploration?.setState(state);
