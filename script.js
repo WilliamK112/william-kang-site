@@ -496,7 +496,7 @@
       studioSelectedWork: '精选项目',
       studioSceneNote: '扎根校园，探索无限可能。',
       studioExplore: '探索更多作品',
-      studioNextPage: '下一页',
+      studioNextPage: '探索更多',
       studioPageScrollLabel: '上下滚动页面',
       studioDragHint: '点击工作室 · 拖动旋转 · 滚轮缩放',
       studioEnter: '进入工作室',

@@ -290,7 +290,7 @@ export async function buildCampus(api) {
     }
     seasonTrees.push({group:g,foliage,groundY:.04,scatterRadius:.9});
   }
-  campusTree(-6.78,-5.52,1.16);campusTree(-6.66,-2.68,1.00);campusTree(7.00,6.70,.94);
+  campusTree(-6.78,-5.52,1.16);campusTree(-6.66,-2.68,1.00);campusTree(3.62,4.72,.94);
 
   const windowGlow=glow(3.55,4.39,-3.99,0xffcf90,1.35,.08,hallGroup);
   animators.push(t=>{lake.update(t);windowGlow.material.opacity=(1-dayAmount)*(.065+Math.sin(t*.43)*.008);});

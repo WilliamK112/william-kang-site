@@ -3,7 +3,7 @@ import { OrbitControls } from './vendor/OrbitControls.js';
 import { Reflector } from './vendor/Reflector.js';
 import { mergeGeometries } from './vendor/BufferGeometryUtils.js';
 import { buildFurniture } from './furniture.js';
-import { buildCampus } from './campus.js';
+import { buildCampus } from './campus.js?v=tree-terrace-corner-20260930';
 import { buildSky } from './sky.js';
 import { buildMascot } from './mascot.js';
 import { buildNavigation } from './navigation.js';
@@ -20,7 +20,7 @@ import { createStudioExplore } from './studio-explore.js';
 import { buildContributionWall } from './contribution-wall.js';
 import { buildStreetLife } from './street-life.js';
 import { buildTerraceParasol } from './terrace-parasol.js';
-import { buildWelcomeSign } from './welcome-sign.js';
+import { buildWelcomeSign } from './welcome-sign.js?v=billboard-car-clear-20260930';
 
 // Original procedural artwork for William Kang's portfolio. All scene assets
 // are local. The accessible biography and navigation remain ordinary HTML.
