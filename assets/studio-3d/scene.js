@@ -10,6 +10,7 @@ import { buildNavigation } from './navigation.js';
 import { connectNavigation } from './interactions.js';
 import { buildSeasons } from './seasons.js';
 import { buildSnow } from './snow.js';
+import { buildSnowfall } from './snowfall.js?v=night-snow-20260930';
 import { createSeasonClock } from './season-state.js';
 import { buildCampusBoard } from './campus-board.js';
 import { buildLectern } from './lectern.js';
@@ -140,6 +141,8 @@ async function initStudio(){
  await yieldStartup();
  const seasons=buildSeasons({THREE,scene,mat},{trees:[{group:tree,foliage:rootFoliage,groundY:.04,scatterRadius:.9},...campus.seasonTrees]});
  const snow=buildSnow({THREE,scene,mat});
+ const snowfall=buildSnowfall({THREE,scene,rand},{rainBounds:campus.rainBounds,parasol});
+ animators.push(t=>snowfall.update(t));
  const seasonClock=createSeasonClock({light:document.body.dataset.theme==='light',reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,leafEndTime:seasons.endTime});
  let seasonLast='',seasonWinter=0,seasonShadowElapsed=0;
 
@@ -272,6 +275,7 @@ async function initStudio(){
   lampGlows.forEach(([o,opacity])=>o.material.opacity=opacity*(1-day*.96));
   pool.material.opacity=.19*(1-day*.92);topGlow.material.opacity=(.08+Math.sin(elapsed*1.13)*.006)*(1-day*.96);
   const rainAmount=(1-day)*(1-THREE.MathUtils.smoothstep(seasonWinter,0,.58));rain.material.opacity=.3*rainAmount;rain.visible=rainAmount>.005;rings.material.opacity=.18*(1-day*.91)*(1-seasonWinter);rings.visible=seasonWinter<.995;drops.material.opacity=.54*rainAmount;drops.visible=rain.visible;trails.material.opacity=.21*rainAmount;trails.visible=rain.visible;
+  const snowFallIn=THREE.MathUtils.smoothstep(seasonWinter,.025,.50),snowFallOut=1-THREE.MathUtils.smoothstep(seasonWinter,.88,1);snowfall.setAmount((1-day)*snowFallIn*snowFallOut);
   water.material.uniforms.day.value=day;studioGlazing.setDay(day);campus?.setDay?.(day);campusBoard.setDay?.(day);contributionWall.setDay(day);sky.setDay(day,elapsed);
  }
  const themeObserver=new MutationObserver(()=>{
@@ -375,7 +379,7 @@ async function initStudio(){
  prepared=true;
  performance.mark('studio-prepared');performance.measure('studio-preparation','studio-prepare-start','studio-prepared');
  host.dataset.state='ready';host.dataset.ready='true';enterButton.disabled=false;if(motionButton)motionButton.disabled=false;if(boardToggle)boardToggle.disabled=false;viewButtons.forEach(b=>b.disabled=false);host.dispatchEvent(new Event('studio-ready'));wake();
- window.__studio={scene,camera,renderer,controls,water,animators,host,resetView,showRearBoard,showContributions,contributionWall,campus,campusBoard,mascot,navigation,navigationInput,studioDoor,studioGlazing,studioGroup,welcomeSign,lectern,visit,exploration,seasons,snow,seasonClock,streetLife,get approach(){return {running:approachRunning,elapsed:approachElapsed,duration:approachDuration,scale:exteriorScale};},get day(){return day;},get time(){return elapsed;},get paused(){return userPaused;},get inView(){return inView;},get stats(){return {drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}};
+ window.__studio={scene,camera,renderer,controls,water,animators,host,resetView,showRearBoard,showContributions,contributionWall,campus,campusBoard,mascot,navigation,navigationInput,studioDoor,studioGlazing,studioGroup,welcomeSign,lectern,visit,exploration,seasons,snow,snowfall,seasonClock,streetLife,get approach(){return {running:approachRunning,elapsed:approachElapsed,duration:approachDuration,scale:exteriorScale};},get day(){return day;},get time(){return elapsed;},get paused(){return userPaused;},get inView(){return inView;},get stats(){return {drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};}};
  }
  await warmScene();
 }
