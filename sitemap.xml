@@ -2,22 +2,142 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://williamkang.com/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://williamkang.com/william-kang-projects.html</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://williamkang.com/william-kang.html</loc>
+    <lastmod>2026-09-30</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://williamkang.com/william-kang-resume.html</loc>
-    <lastmod>2026-07-01</lastmod>
-    <priority>0.7</priority>
+    <loc>https://williamkang.com/ching-wei-kang.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/about-william-kang.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://williamkang.com/open-source-contributions.html</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/resume-chinese.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/resume-english.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-profile.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-uw-madison.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-ai-engineering.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-software-engineering.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-data-engineering.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-open-source.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-clearmove.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-tableus.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-badminton-ai.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-dnd-voice.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-multi-agent-openclaw.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-mario-machine-learning.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-bci-mvp.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-prompttrace.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-llm-fit.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-clawwork.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-hackathon-awards.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-certificates.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-resume.html</loc>
+    <lastmod>2026-09-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://williamkang.com/zh/kang-jing-wei-contact.html</loc>
+    <lastmod>2026-09-30</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>
