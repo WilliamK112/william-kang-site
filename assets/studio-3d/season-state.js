@@ -2,24 +2,26 @@
 // A finite sequence leaves its final geometry still; it never starts intervals.
 export function createSeasonClock({ light = true, reducedMotion = false, leafEndTime = 24 } = {}) {
   const smooth = (a,b,value) => { const t=Math.max(0,Math.min(1,(value-a)/(b-a)));return t*t*(3-2*t); };
-  const autumnStart=8,autumnColorEnd=autumnStart+18;
+  const autumnStart=8,autumnColorEnd=15,leafFallStart=autumnColorEnd;
   let mode=null,age=0,reduced=reducedMotion;
   let state={autumn:0,winter:0,fallTime:0,leafAmount:0};
   let from={...state};
   function settle() {
-    age=mode?autumnStart+leafEndTime:Math.max(22,leafEndTime);
+    age=mode?leafFallStart+leafEndTime:Math.max(22,leafEndTime);
     state={autumn:1,winter:mode?0:1,fallTime:leafEndTime,leafAmount:1};
   }
   function sample() {
     if(mode){
       state.winter=from.winter*(1-smooth(0,12,age));
       state.autumn=age<autumnStart?from.autumn*(1-smooth(0,autumnStart,age)):smooth(autumnStart,autumnColorEnd,age);
-      state.fallTime=age<autumnStart?(from.fallTime>0?Math.min(leafEndTime,from.fallTime+age):0):Math.min(leafEndTime,age-autumnStart);
-      state.leafAmount=age<autumnStart?from.leafAmount*(1-smooth(0,autumnStart,age)):1;
+      state.fallTime=age<leafFallStart?0:Math.min(leafEndTime,age-leafFallStart);
+      state.leafAmount=age<leafFallStart?0:1;
     }else{
       state.autumn=from.autumn+(1-from.autumn)*smooth(0,8,age);
       state.winter=from.winter+(1-from.winter)*smooth(0,22,age);
-      state.fallTime=Math.min(leafEndTime,from.fallTime+age);
+      // A switch into winter always starts a fresh finite fall. Otherwise a
+      // completed daytime fall leaves the canopy shrinking with no airborne leaves.
+      state.fallTime=Math.min(leafEndTime,age);
       state.leafAmount=from.leafAmount+(1-from.leafAmount)*smooth(0,2,age);
     }
   }
@@ -31,9 +33,9 @@ export function createSeasonClock({ light = true, reducedMotion = false, leafEnd
     setReducedMotion(value){reduced=Boolean(value);if(reduced)settle();},
     advance(seconds){
       if(!clock.active || !Number.isFinite(seconds) || seconds<=0)return false;
-      age=Math.min(age+seconds,mode?autumnStart+leafEndTime:Math.max(22,leafEndTime));sample();return true;
+      age=Math.min(age+seconds,mode?leafFallStart+leafEndTime:Math.max(22,leafEndTime));sample();return true;
     },
-    get active(){return !reduced && age<(mode?autumnStart+leafEndTime:Math.max(22,leafEndTime));},
+    get active(){return !reduced && age<(mode?leafFallStart+leafEndTime:Math.max(22,leafEndTime));},
     get age(){return age;},
     get state(){return {...state};}
   };
