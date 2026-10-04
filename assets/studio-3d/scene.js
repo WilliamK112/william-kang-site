@@ -11,7 +11,7 @@ import { connectNavigation } from './interactions.js';
 import { buildSeasons } from './seasons.js';
 import { buildSnow } from './snow.js';
 import { buildSnowfall } from './snowfall.js?v=night-snow-20260930';
-import { createSeasonClock } from './season-state.js';
+import { createSeasonClock } from './season-state.js?v=autumn-8s-local-20261004';
 import { buildCampusBoard } from './campus-board.js';
 import { buildLectern } from './lectern.js';
 import { buildStudioDoor } from './studio-door.js';
