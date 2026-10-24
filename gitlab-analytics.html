@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GitLab Analytics Dashboard MVP by Team 29" />
+  <title>GitLab Analytics | William Kang</title>
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #11151d;
+      --panel-2: #171c26;
+      --border: #262d39;
+      --text: #f4f7fb;
+      --muted: #9aa4b2;
+      --accent: #ff6b35;
+      --accent-2: #ff9a62;
+      --green: #4ade80;
+      --yellow: #facc15;
+      --blue: #60a5fa;
+      --radius: 18px;
+      --shadow: 0 20px 60px rgba(0,0,0,.3);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,107,53,.12), transparent 34%),
+        radial-gradient(circle at top right, rgba(96,165,250,.08), transparent 28%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(9,11,16,.78);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--accent), #ffb17f);
+      color: #101010;
+      font-weight: 900;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .navlinks a {
+      color: var(--muted);
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .navlinks a:hover { background: rgba(255,255,255,.06); color: var(--text); }
+
+    .hero {
+      padding: 72px 0 42px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 74px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      max-width: 760px;
+    }
+
+    .hero p {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 700px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); border-color: #3a4454; }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), #ff8759);
+      color: #111;
+      border-color: transparent;
+    }
+
+    .hero-card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(23,28,38,.94), rgba(17,21,29,.94));
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .window-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .dots { display: flex; gap: 7px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #46505e; }
+    .dot:nth-child(1) { background: #ff6b6b; }
+    .dot:nth-child(2) { background: #ffd166; }
+    .dot:nth-child(3) { background: #4ade80; }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.025);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      margin-top: 4px;
+      letter-spacing: -.03em;
+    }
+
+    .metric span { color: var(--muted); font-size: 12px; }
+
+    section { padding: 34px 0; }
+    .section-title {
+      font-size: 28px;
+      letter-spacing: -.03em;
+      margin: 0 0 8px;
+    }
+    .section-sub { color: var(--muted); margin: 0 0 22px; line-height: 1.6; }
+
+    .connect {
+      display: grid;
+      grid-template-columns: 1fr .8fr;
+      gap: 20px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: rgba(17,21,29,.88);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.15);
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #c6ced8;
+      font-weight: 700;
+    }
+
+    .input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #0d1118;
+      color: var(--text);
+      border-radius: 11px;
+      padding: 12px 13px;
+      outline: none;
+    }
+    .input:focus { border-color: rgba(255,107,53,.72); box-shadow: 0 0 0 3px rgba(255,107,53,.1); }
+
+    .notice {
+      border: 1px solid rgba(74,222,128,.25);
+      background: rgba(74,222,128,.07);
+      border-radius: 12px;
+      padding: 14px;
+      color: #c8f8d8;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding-bottom: 14px;
+    }
+    .step:last-child { border-bottom: 0; padding-bottom: 0; }
+    .step-num {
+      flex: 0 0 28px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,107,53,.13);
+      color: var(--accent-2);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .step h3 { margin: 1px 0 4px; font-size: 15px; }
+    .step p { margin: 0; color: var(--muted); line-height: 1.45; font-size: 13px; }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .dashboard-card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .dashboard-card .kicker { color: var(--muted); font-size: 12px; }
+    .dashboard-card .value { font-size: 31px; font-weight: 850; margin: 5px 0; }
+    .dashboard-card .trend { font-size: 12px; color: var(--green); }
+
+    .analytics {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .chart {
+      height: 260px;
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      padding-top: 22px;
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 16px;
+      border-radius: 8px 8px 3px 3px;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      opacity: .88;
+    }
+    .bar:nth-child(2n) { background: linear-gradient(180deg, #7db4ff, #4f8ef7); }
+
+    .table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .table th, .table td {
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      text-align: left;
+    }
+    .table th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .badge {
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(96,165,250,.12);
+      color: #acd0ff;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .roadmap .panel h3 { margin-top: 0; }
+    .roadmap .panel p { color: var(--muted); line-height: 1.55; }
+
+    footer {
+      margin-top: 46px;
+      padding: 28px 0 40px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .connect, .analytics { grid-template-columns: 1fr; }
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+      .roadmap { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 20px, 1180px); }
+      .nav { align-items: flex-start; padding: 16px 0; }
+      .navlinks { display: none; }
+      .hero { padding-top: 44px; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="/">
+        <span class="logo">G</span>
+        <span>GitLab Analytics</span>
+      </a>
+      <nav class="navlinks">
+        <a href="#connect">Connect</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="/">WilliamKang.com</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Team 29 · Sprint 1 MVP</div>
+        <h1>See what is happening across your GitLab project.</h1>
+        <p>
+          Connect a GitLab repository, pull project activity through the backend,
+          and turn commits, merge requests, issues, and team contributions into
+          a clear dashboard.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#connect">Connect a project</a>
+          <a class="btn" href="#dashboard">Preview dashboard</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Dashboard preview">
+        <div class="window-head">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <span style="color:var(--muted);font-size:12px;">gitlab.com/team/project</span>
+        </div>
+        <div class="mini-grid">
+          <div class="metric"><span>Open MRs</span><strong>12</strong></div>
+          <div class="metric"><span>Open Issues</span><strong>27</strong></div>
+          <div class="metric"><span>Commits · 7d</span><strong>84</strong></div>
+          <div class="metric"><span>Contributors</span><strong>9</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="connect">
+      <h2 class="section-title">Connect a GitLab project</h2>
+      <p class="section-sub">
+        Sprint 1 focuses on the full website workflow: project input → secure backend request → basic analytics dashboard.
+      </p>
+
+      <div class="connect">
+        <div class="panel">
+          <form id="connectForm">
+            <div class="field">
+              <label for="projectUrl">GitLab project URL</label>
+              <input class="input" id="projectUrl" type="url" placeholder="https://gitlab.com/group/project" required />
+            </div>
+            <div class="field">
+              <label for="token">GitLab access token</label>
+              <input class="input" id="token" type="password" placeholder="glpat-••••••••••••••••" required />
+            </div>
+            <button class="btn primary" type="submit">Load project dashboard</button>
+          </form>
+          <div id="formMessage" style="margin-top:14px; display:none;" class="notice"></div>
+        </div>
+
+        <div class="panel">
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div><h3>Enter project details</h3><p>Provide the GitLab project URL and a token with the minimum required scopes.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div><h3>Backend retrieves data</h3><p>Spring Boot will call GitLab securely. The browser should not persist raw access tokens.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div><h3>Dashboard summarizes activity</h3><p>React can display merge requests, issues, commit history, trends, and contribution metrics.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <h2 class="section-title">Basic dashboard</h2>
+      <p class="section-sub">Static Sprint 1 UI preview. The next step is wiring these components to the Spring Boot API.</p>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card"><div class="kicker">Open merge requests</div><div class="value">12</div><div class="trend">+3 this week</div></div>
+        <div class="dashboard-card"><div class="kicker">Open issues</div><div class="value">27</div><div class="trend">5 closed this week</div></div>
+        <div class="dashboard-card"><div class="kicker">Median merge time</div><div class="value">8.4h</div><div class="trend">↓ 12% vs last week</div></div>
+        <div class="dashboard-card"><div class="kicker">Active contributors</div><div class="value">9</div><div class="trend">7 active today</div></div>
+      </div>
+
+      <div class="analytics">
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+            <div>
+              <strong>Project activity</strong>
+              <div style="color:var(--muted);font-size:12px;margin-top:4px;">Commits and merge request activity</div>
+            </div>
+            <span class="badge">Last 7 days</span>
+          </div>
+          <div class="chart" aria-label="Illustrative project activity chart">
+            <div class="bar" style="height:42%"></div>
+            <div class="bar" style="height:61%"></div>
+            <div class="bar" style="height:48%"></div>
+            <div class="bar" style="height:77%"></div>
+            <div class="bar" style="height:56%"></div>
+            <div class="bar" style="height:88%"></div>
+            <div class="bar" style="height:68%"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <strong>Recent merge requests</strong>
+          <table class="table">
+            <thead><tr><th>MR</th><th>Status</th><th>Age</th></tr></thead>
+            <tbody>
+              <tr><td>#128 API cleanup</td><td><span class="badge">Review</span></td><td>2h</td></tr>
+              <tr><td>#127 Dashboard filters</td><td><span class="badge">Open</span></td><td>5h</td></tr>
+              <tr><td>#125 Tests</td><td><span class="badge">Merged</span></td><td>1d</td></tr>
+              <tr><td>#124 CI metrics</td><td><span class="badge">Open</span></td><td>2d</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <h2 class="section-title">Product roadmap</h2>
+      <p class="section-sub">Keep the website as the core product, then reuse the same backend for companion experiences.</p>
+      <div class="roadmap">
+        <div class="panel">
+          <h3>1. Website</h3>
+          <p>Full dashboard, charts, tables, filters, project settings, historical data, and secure backend token handling.</p>
+        </div>
+        <div class="panel">
+          <h3>2. Chrome extension</h3>
+          <p>Detect the current GitLab project, show a quick summary, and open the matching dashboard in one click.</p>
+        </div>
+        <div class="panel">
+          <h3>3. Mobile app</h3>
+          <p>Optional future companion using the same API and analytics logic once the core product is stable.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">
+      GitLab Analytics MVP · Team 29 · Built as a new product surface on williamkang.com
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('connectForm');
+    const message = document.getElementById('formMessage');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const projectUrl = document.getElementById('projectUrl').value.trim();
+
+      message.style.display = 'block';
+      message.textContent =
+        'UI flow is working for ' + projectUrl +
+        '. Next step: connect this form to the Spring Boot backend endpoint so the access token never needs to be stored in browser code.';
+    });
+  </script>
+</body>
+</html>
